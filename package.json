@@ -2,7 +2,7 @@
   "name": "jsonp",
   "version": "0.0.1",
   "dependencies": {
-  	"connect": "2.0.x",
+    "express": "2.5.x",
     "connect-jsonp": "0.0.3"
   }
 }
