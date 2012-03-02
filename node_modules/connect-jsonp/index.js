@@ -1,1 +1,1 @@
-lib/connect-jsonp.js
+module.exports = require('./lib/connect-jsonp');

@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "2.5.x",
-    "connect-jsonp": "0.0.3"
+    "connect-jsonp": "0.0.5"
   }
 }
