@@ -1,7 +1,23 @@
 {
+  "author": "Aidan Feldman <aidan.feldman@gmail.com> (http://aidanfeldman.com)",
   "name": "jsonp",
-  "version": "0.0.1",
+  "homepage": "http://jsonp.jit.su",
+  "description": "A simple JSONP proxy",
+  "version": "0.0.0-1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afeld/jsonp.git"
+  },
   "dependencies": {
     "request": "2.9.x"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.6.x"
+  },
+  "subdomain": "jsonp",
+  "scripts": {
+    "start": "server.js"
   }
 }
