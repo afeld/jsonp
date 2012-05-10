@@ -26,7 +26,16 @@ app.get('/', function(req, res) {
 
 // requested after the script tag is rendered, result is evaluated
 app.get('/script-tag', function(req, res) {
-  res.writeHead(200, {'Content-Type': 'application/json'});
+  var url = req.param('url');
+
+  if (url){
+    // proxy the request
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    var r = request({url: url});
+    r.pipe(res);
+  } else {
+    
+  }
   res.end(JSON.stringify(response));
 });
 
