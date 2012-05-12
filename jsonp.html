@@ -1,6 +1,6 @@
 <script>
   function myCallback(data){
-    alert("here's the JSON data:", data);
+    alert("it works! ", JSON.parse(data).awesome);
   }
 </script>
 <script src="http://jsonp.jit.su/?callback=myCallback&url=http://jsonview.com/example.json"></script>
