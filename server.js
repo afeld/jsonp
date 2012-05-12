@@ -25,11 +25,20 @@ http.createServer(function(req, res) {
         res.writeHead(502); // bad gateway
         json = JSON.stringify({ error: error.message || body });
       } else {
+        res.writeHead(200, {
+          'Access-Control-Allow-Origin': '*' // allow cross-domain AJAX (CORS)
+        });
+
         json = body;
       }
 
-      var callbackName = params.jsonp || params.callback || 'jsonp';
-      res.end( callbackName + '(' + json + ');');
+      var callbackName = params.callback || params.jsonp;
+      if (callbackName) {
+        res.end(callbackName + '(' + json + ');');
+      } else {
+        // treat as an AJAX request
+        res.end(json);
+      }
     });
   }
 
