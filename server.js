@@ -5,6 +5,18 @@ var http = require('http'),
 
 var apiPort = process.argv[2] || 8000;
 
+function except(obj /*, properties */){
+  var result = u.extend({}, obj),
+    properties = u.rest(arguments);
+
+  properties.forEach(function(prop){
+    delete result[prop];
+  });
+
+  return result;
+}
+
+
 http.createServer(function(req, res) {
   var params = url.parse(req.url, true).query,
     apiUrl = params.url || params.src;
@@ -12,14 +24,21 @@ http.createServer(function(req, res) {
   if (!apiUrl){
     res.end('welcome');
   } else {
+    var externalReqHeaders = except(req.headers, 'accept-encoding', 'connection', 'cookie', 'host', 'user-agent');
+    externalReqHeaders.accept = 'application/json';
+
     request({
       uri: apiUrl,
       strictSSL: false,
-      headers: {
-        Accept: 'application/json'
-      }
+      headers: externalReqHeaders
     }, function(error, response, body){
-      var status, json;
+      // copy headers from the external request, but remove those that node should generate
+      var finalHeaders = except(response.headers, 'content-length', 'connection', 'server'),
+        callbackName = params.callback || params.jsonp,
+        status, json, finalBody;
+
+      finalHeaders['access-control-allow-origin'] = '*'; // allow cross-domain AJAX (CORS)
+
       if (error){
         status = 502; // bad gateway
         json = JSON.stringify({ error: error.message || body });
@@ -27,18 +46,6 @@ http.createServer(function(req, res) {
         status = response.statusCode;
         json = body;
       }
-
-      // copy headers from the external request
-      var finalHeaders = u.extend({}, response.headers, {
-        'access-control-allow-origin': '*' // allow cross-domain AJAX (CORS)
-      });
-      // remove headers that node should generate
-      delete finalHeaders['content-length'];
-      delete finalHeaders.connection;
-      delete finalHeaders.server;
-
-      var callbackName = params.callback || params.jsonp,
-        finalBody;
 
       if (callbackName) {
         finalHeaders['content-type'] = 'text/javascript';
