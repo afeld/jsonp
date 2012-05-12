@@ -49,7 +49,7 @@
     <h2>Easy: JSONP</h2>
     <script src="https://gist.github.com/2664597.js?file=jsonp.html"></script>
     <form class="urlEntry" action="" method="get">
-      http://<%= host %>/?url=<span><label for="url">API URL</label><input type="text" name="url"/></span>&amp;callback=<span><label for="callback">functionName</label><input type="text" name="callback"/></span>
+      http://<%= host %>/?callback=<span><label for="callback">functionName</label><input type="text" name="callback"/>&amp;</span>url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
       <input type="submit" value="Go"/>
     </form>
     <h2><em>Easier:</em> Cross-domain AJAX</h2>
