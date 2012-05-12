@@ -1,9 +1,12 @@
-var http = require('http'),
+var express = require('express'),
   url = require('url'),
   request = require('request'),
   u = require('underscore');
 
-var apiPort = process.argv[2] || 8000;
+var app = express.createServer(
+  express.logger()
+);
+
 
 function except(obj /*, properties */){
   var result = u.extend({}, obj),
@@ -17,7 +20,7 @@ function except(obj /*, properties */){
 }
 
 
-http.createServer(function(req, res) {
+app.get('/', function(req, res) {
   var params = url.parse(req.url, true).query,
     apiUrl = params.url || params.src;
 
@@ -61,6 +64,9 @@ http.createServer(function(req, res) {
     });
   }
 
-}).listen(apiPort);
+});
 
+
+var apiPort = process.argv[2] || 8000;
+app.listen(apiPort);
 console.log('Server running at http://127.0.0.1:' + apiPort);
