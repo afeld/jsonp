@@ -1,9 +1,36 @@
 <html>
   <head>
     <title>JSONP</title>
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+      #urlEntry span {
+        position: relative;
+      }
+      #urlEntry label {
+        position: absolute;
+        top: 0;
+        left: 0.5em;
+      }
+      #urlEntry input {
+        padding: 0.5em;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="jquery.infieldlabel.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(function(){
+        $('#urlEntry label').inFieldLabels();
+      });
+    </script>
   </head>
   <body>
     <h1>JSONP</h1>
     <h2>Simple JSONP proxy</h2>
+    <form id="urlEntry" action="" method="get">
+      http://<%= host %>/?url=<span><label for="url">API/url</label><input type="text" name="url" id="url"/></span>&amp;callback=<span><label for="callback">functionName</label><input type="text" name="callback" id="callback"/></span>
+      <input type="submit" value="Go"/>
+    </form>
   </body>
 </html>

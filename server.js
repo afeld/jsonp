@@ -4,7 +4,8 @@ var express = require('express'),
   u = require('underscore');
 
 var app = express.createServer(
-  express.logger()
+  express.logger(),
+  express.static(__dirname + '/public')
 );
 
 
@@ -25,7 +26,10 @@ app.get('/', function(req, res) {
     apiUrl = params.url || params.src;
 
   if (!apiUrl){
-    res.render('index.ejs', { layout: false });
+    res.render('index.ejs', {
+      layout: false,
+      host: req.headers.host
+    });
   } else {
     var externalReqHeaders = except(req.headers, 'accept-encoding', 'connection', 'cookie', 'host', 'user-agent');
     externalReqHeaders.accept = 'application/json';
