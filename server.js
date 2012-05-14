@@ -40,31 +40,30 @@ app.get('/', function(req, res) {
       headers: externalReqHeaders
     }, function(error, response, body){
       // copy headers from the external request, but remove those that node should generate
-      var finalHeaders = except(response.headers, 'content-length', 'connection', 'server'),
-        callbackName = params.callback || params.jsonp,
-        status, json, finalBody;
-
-      finalHeaders['access-control-allow-origin'] = '*'; // allow cross-domain AJAX (CORS)
+      var callbackName = params.callback || params.jsonp,
+        finalHeaders, status;
 
       if (error){
         status = 502; // bad gateway
-        json = JSON.stringify({ error: error.message || body });
+        finalHeaders = {};
+        body = JSON.stringify({ error: error.message || body });
       } else {
         status = response.statusCode;
-        json = body;
+        finalHeaders = except(response.headers, 'content-length', 'connection', 'server');
       }
+
+      finalHeaders['access-control-allow-origin'] = '*'; // allow cross-domain AJAX (CORS)
 
       if (callbackName) {
         finalHeaders['content-type'] = 'text/javascript';
-        finalBody = callbackName + '(' + json + ');';
+        body = callbackName + '(' + body + ');';
       } else {
         // treat as an AJAX request
         finalHeaders['content-type'] = 'application/json';
-        finalBody = json;
       }
 
       res.writeHead(status, finalHeaders);
-      res.end(finalBody);
+      res.end(body);
     });
   }
 
