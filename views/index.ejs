@@ -6,6 +6,9 @@
         padding: 2em 3em;
         font-family: Helvetica, sans-serif;
       }
+      .finePrint {
+        font-size: 0.8em;
+      }
       .gist {
         margin-bottom: 1em;
       }
@@ -62,6 +65,9 @@
       <input type="submit" value="Go"/>
     </form>
     <h2><em>Easier:</em> Cross-domain AJAX</h2>
+    <p class="finePrint">
+      (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 8)
+    </p>
     <script src="https://gist.github.com/2664597.js?file=ajax.html"></script>
     <form class="urlEntry" action="" method="get">
       http://<%= host %>/?url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
