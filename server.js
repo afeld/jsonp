@@ -52,7 +52,9 @@ app.get('/', function(req, res) {
         finalHeaders = except(response.headers, 'content-length', 'connection', 'server');
       }
 
-      finalHeaders['access-control-allow-origin'] = '*'; // allow cross-domain AJAX (CORS)
+      // enable cross-domain-ness
+      delete finalHeaders['x-frame-options'];
+      finalHeaders['access-control-allow-origin'] = '*'; // CORS
 
       if (callbackName) {
         finalHeaders['content-type'] = 'text/javascript';
