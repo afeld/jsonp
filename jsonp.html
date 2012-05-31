@@ -4,3 +4,11 @@
   }
 </script>
 <script src="http://jsonp.jit.su/?callback=myCallback&url=http://jsonview.com/example.json"></script>
+
+<!-- or the jQuery convenience method -->
+
+<script>
+  $.getJSON('http://jsonp.jit.su/?callback=?&url=http://jsonview.com/example.json', function(data){
+    alert("pretty awesome, eh? " + data.awesome);
+  });
+</script>
