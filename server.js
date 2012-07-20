@@ -29,6 +29,15 @@ function except(obj /*, properties */){
   return result;
 }
 
+function isValidJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 
 app.get('/', function(req, res) {
   var params = url.parse(req.url, true).query,
@@ -52,10 +61,12 @@ app.get('/', function(req, res) {
       var callbackName = params.callback || params.jsonp,
         finalHeaders, status;
 
-      if (error){
+      if (error || !isValidJson(body)){
         status = 502; // bad gateway
         finalHeaders = {};
-        body = JSON.stringify({ error: error.message || body });
+
+        var message = (error && error.message) || body;
+        body = JSON.stringify({ error: message });
       } else {
         status = response.statusCode;
         finalHeaders = except(response.headers, 'content-length', 'connection', 'server');
