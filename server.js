@@ -8,6 +8,15 @@ var app = express.createServer(
   express.static(__dirname + '/public')
 );
 
+app.configure('production', function(){
+  var airbrakeKey = process.env.JSONP_AIRBRAKE_KEY;
+  if (airbrakeKey){
+    var airbrake = require('airbrake').createClient(airbrakeKey);
+    airbrake.handleExceptions();
+    console.log('Aibrake enabled');
+  }
+});
+
 
 function except(obj /*, properties */){
   var result = u.extend({}, obj),

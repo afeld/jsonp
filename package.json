@@ -9,6 +9,7 @@
     "url": "https://github.com/afeld/jsonp.git"
   },
   "dependencies": {
+    "airbrake": "0.2.x",
     "ejs": "0.7.x",
     "express": "2.5.x",
     "request": "2.9.x",
