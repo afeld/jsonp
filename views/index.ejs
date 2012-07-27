@@ -64,7 +64,7 @@
       http://<%= host %>/?callback=<span><label for="callback">functionName</label><input type="text" name="callback"/>&amp;</span>url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
       <input type="submit" value="Go"/>
     </form>
-    <h2><em>Easier:</em> Cross-domain AJAX</h2>
+    <h2><em>Easier:</em> Cross-domain AJAX (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>)</h2>
     <p class="finePrint">
       (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 8)
     </p>
@@ -73,6 +73,9 @@
       http://<%= host %>/?url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
       <input type="submit" value="Go"/>
     </form>
+    <p>
+      The other advantage of CORS is that detection of response errors with JSONP is difficult, whereas CORS is just normal AJAX.  jQuery's JSONP implementation won't call an error callback unless an explicit timeout is specified - see <a href="http://stackoverflow.com/questions/5247295/jquery-ajax-request-using-jsonp-error">here</a> for more info and options.
+    </p>
     <p id="footer">
       <a href="https://twitter.com/aidanfeldman" class="twitter-follow-button" data-show-count="false">Follow @aidanfeldman</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
