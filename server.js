@@ -18,6 +18,7 @@ app.configure('production', function(){
 });
 
 
+// returns a copy of the object without the specified properties
 function except(obj /*, properties */){
   var result = u.extend({}, obj),
     properties = u.rest(arguments);
@@ -44,20 +45,23 @@ app.get('/', function(req, res) {
     apiUrl = params.url || params.src;
 
   if (!apiUrl){
+    // serve landing page
     res.render('index.ejs', {
       layout: false,
       host: req.headers.host
     });
   } else {
+    // do proxy
+
+    // copy headers from the external request, but remove those that node should generate
     var externalReqHeaders = except(req.headers, 'accept-encoding', 'connection', 'cookie', 'host', 'user-agent');
     externalReqHeaders.accept = 'application/json';
 
     request({
       uri: apiUrl,
-      strictSSL: false,
+      strictSSL: false, // node(jitsu?) has some SSL problems
       headers: externalReqHeaders
     }, function(error, response, body){
-      // copy headers from the external request, but remove those that node should generate
       var callbackName = params.callback || params.jsonp,
         finalHeaders, status;
 
@@ -68,7 +72,9 @@ app.get('/', function(req, res) {
         var message = (error && error.message) || body;
         body = JSON.stringify({ error: message });
       } else {
+        // proxy successful
         status = response.statusCode;
+        // copy headers from the external response, but remove those that node should generate
         finalHeaders = except(response.headers, 'content-length', 'connection', 'server');
       }
 
@@ -77,6 +83,7 @@ app.get('/', function(req, res) {
       finalHeaders['access-control-allow-origin'] = '*'; // CORS
 
       if (callbackName) {
+        // JSONP
         finalHeaders['content-type'] = 'text/javascript';
         body = callbackName + '(' + body + ');';
       } else {
@@ -88,7 +95,6 @@ app.get('/', function(req, res) {
       res.end(body);
     });
   }
-
 });
 
 
