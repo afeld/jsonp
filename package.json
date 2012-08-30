@@ -25,6 +25,7 @@
   },
   "subdomain": "jsonp",
   "scripts": {
-    "start": "server.js"
+    "start": "server.js",
+    "test": "mocha"
   }
 }
