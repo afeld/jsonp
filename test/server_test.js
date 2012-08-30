@@ -18,14 +18,16 @@ describe('app', function(){
     destApp.get('/', function(req, res){
       res.end(json);
     });
-    destApp.on('close', done);
     destApp.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({url: 'http://localhost:8001'})
         .expect('access-control-allow-origin', '*')
-        .expect(json, function(){
+        .expect(json, function(err){
+          destApp.on('close', function(){
+            done(err);
+          });
           destApp.close();
         });
 
@@ -39,13 +41,15 @@ describe('app', function(){
     destApp.get('/', function(req, res){
       res.end(json);
     });
-    destApp.on('close', done);
     destApp.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({callback: 'foo', url: 'http://localhost:8001'})
-        .expect('foo(' + json + ');', function(){
+        .expect('foo(' + json + ');', function(err){
+          destApp.on('close', function(){
+            done(err);
+          });
           destApp.close();
         });
 
