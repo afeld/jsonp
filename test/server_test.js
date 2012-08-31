@@ -1,3 +1,5 @@
+/*jshint node:true */
+/*global describe, it, expect*/
 var assert = require('assert'),
   supertest = require('supertest'),
   express = require('express'),

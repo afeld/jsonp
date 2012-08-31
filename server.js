@@ -1,3 +1,4 @@
+/*jshint node:true */
 var app = require('./lib/app.js');
 
 var apiPort = process.argv[2] || 8000;
