@@ -55,4 +55,48 @@ describe('app', function(){
 
     });
   });
+
+  it('should not allow "raw" requests for JSONP', function(done){
+    var body = 'test';
+
+    var destApp = express.createServer();
+    destApp.get('/', function(req, res){
+      res.end(body);
+    });
+    destApp.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .query({callback: 'foo', url: 'http://localhost:8001', raw: true})
+        .expect(403)
+        .end(function(err){
+          destApp.on('close', function(){
+            done(err);
+          });
+          destApp.close();
+        });
+    });
+  });
+
+  it('should pass the raw body, if requested', function(done){
+    var body = 'test " \' escaping';
+
+    var destApp = express.createServer();
+    destApp.get('/', function(req, res){
+      res.end(body);
+    });
+    destApp.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .query({url: 'http://localhost:8001', raw: true})
+        .expect('"test \\" \' escaping"', function(err){
+          destApp.on('close', function(){
+            done(err);
+          });
+          destApp.close();
+        });
+
+    });
+  });
 });
