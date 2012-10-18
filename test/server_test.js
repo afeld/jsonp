@@ -95,7 +95,7 @@ describe('app', function(){
       supertest(app)
         .get('/')
         .query({url: 'http://localhost:8001', raw: true})
-        .expect('"test \\" \' \\" escaping"', function(err){
+        .expect(body, function(err){
           server.on('close', function(){
             done(err);
           });
