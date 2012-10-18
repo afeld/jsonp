@@ -79,7 +79,7 @@ describe('app', function(){
   });
 
   it('should pass the raw body, if requested', function(done){
-    var body = 'test " \' escaping';
+    var body = 'test " \' " escaping';
 
     var destApp = express.createServer();
     destApp.get('/', function(req, res){
@@ -90,7 +90,7 @@ describe('app', function(){
       supertest(app)
         .get('/')
         .query({url: 'http://localhost:8001', raw: true})
-        .expect('"test \\" \' escaping"', function(err){
+        .expect('"test \\" \' \\" escaping"', function(err){
           destApp.on('close', function(){
             done(err);
           });
