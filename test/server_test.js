@@ -1,5 +1,6 @@
 var assert = require('assert'),
   supertest = require('supertest'),
+  http = require('http'),
   express = require('express'),
   app = require('../lib/app.js');
 
@@ -14,21 +15,22 @@ describe('app', function(){
   it('should pass the JSON and set the CORS headers', function(done){
     var json = JSON.stringify({ message: 'test' });
 
-    var destApp = express.createServer();
+    var destApp = express();
     destApp.get('/', function(req, res){
-      res.end(json);
+      res.send(json);
     });
-    destApp.listen(8001, function(){
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({url: 'http://localhost:8001'})
         .expect('access-control-allow-origin', '*')
         .expect(json, function(err){
-          destApp.on('close', function(){
+          server.on('close', function(){
             done(err);
           });
-          destApp.close();
+          server.close();
         });
 
     });
@@ -37,20 +39,21 @@ describe('app', function(){
   it('should wrap with callback name, if provided', function(done){
     var json = JSON.stringify({ message: 'test' });
 
-    var destApp = express.createServer();
+    var destApp = express();
     destApp.get('/', function(req, res){
-      res.end(json);
+      res.send(json);
     });
-    destApp.listen(8001, function(){
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({callback: 'foo', url: 'http://localhost:8001'})
         .expect('foo(' + json + ');', function(err){
-          destApp.on('close', function(){
+          server.on('close', function(){
             done(err);
           });
-          destApp.close();
+          server.close();
         });
 
     });
@@ -59,21 +62,22 @@ describe('app', function(){
   it('should not allow "raw" requests for JSONP', function(done){
     var body = 'test';
 
-    var destApp = express.createServer();
+    var destApp = express();
     destApp.get('/', function(req, res){
-      res.end(body);
+      res.send(body);
     });
-    destApp.listen(8001, function(){
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({callback: 'foo', url: 'http://localhost:8001', raw: true})
         .expect(403)
         .end(function(err){
-          destApp.on('close', function(){
+          server.on('close', function(){
             done(err);
           });
-          destApp.close();
+          server.close();
         });
     });
   });
@@ -81,20 +85,21 @@ describe('app', function(){
   it('should pass the raw body, if requested', function(done){
     var body = 'test " \' " escaping';
 
-    var destApp = express.createServer();
+    var destApp = express();
     destApp.get('/', function(req, res){
-      res.end(body);
+      res.send(body);
     });
-    destApp.listen(8001, function(){
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
 
       supertest(app)
         .get('/')
         .query({url: 'http://localhost:8001', raw: true})
         .expect('"test \\" \' \\" escaping"', function(err){
-          destApp.on('close', function(){
+          server.on('close', function(){
             done(err);
           });
-          destApp.close();
+          server.close();
         });
 
     });
