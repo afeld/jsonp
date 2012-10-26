@@ -12,7 +12,9 @@
   <script src="client_test.js"></script>
   <script>
     $(function(){
-      mocha.run();
+      mocha
+        .globals([ 'script*' ]) // see http://stackoverflow.com/a/11166354/358804
+        .run();
     });
   </script>
 </head>
