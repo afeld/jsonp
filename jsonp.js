@@ -1,5 +1,5 @@
 /*
-JSONProxy Client Library
+JSONProxy Client Library - WORK IN PROGRESS
 http://jsonp.jit.su
 
 by Aidan Feldman
