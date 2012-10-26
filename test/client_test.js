@@ -67,6 +67,17 @@ describe('$.jsonp()', function(){
         url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url)
       });
     });
+
+    it('should use the URL directly if it supports CORS', function(){
+      var url = 'http://foo.com/bar';
+
+      $.jsonp({
+        url: url,
+        cors: true
+      });
+
+      expect(getAjaxArgs()).to.eql({url: url});
+    });
   });
 
 

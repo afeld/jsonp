@@ -11,6 +11,9 @@ MIT license
   // groups: protocol, slashes, host, path
   var regex = /^(?:(?:(?:((?:file|https?):))?(\/\/))?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
+  // Accepts all jQuery.ajax() options, plus:
+  //   cors {Boolean} Set to true if the URL is known to support CORS for this domain.
+  //   jsonp {Boolean} Set to true if the URL is known to support JSONP.
   $.jsonp = function(opts){
     // make a copy
     opts = $.extend({}, opts);
@@ -22,7 +25,7 @@ MIT license
       loc = window.location;
 
     if (host && host !== loc.host){
-      // requesting to a different domain - needs proxying
+      // requesting to a different domain
 
       if (!protocol){
         if (match[2]){
@@ -33,9 +36,13 @@ MIT license
         }
       }
 
-      // construct absolute URL
-      url = protocol + '//' + host + match[4];
-      url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+      if (!(opts.cors && $.support.cors) || !opts.jsonp){
+        // server doesn't cross-domain support - needs proxying
+
+        // construct absolute URL
+        url = protocol + '//' + host + match[4];
+        url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+      }
 
       if (!$.support.cors){
         // proxy via JSONP
