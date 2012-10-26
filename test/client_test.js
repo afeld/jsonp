@@ -1,5 +1,5 @@
 /*jshint browser:true*/
-/*global describe, $, it, sinon, assert, expect */
+/*global describe, before, after, $, it, sinon, assert, expect */
 describe('$.jsonp()', function(){
   function getOrigin(){
     var loc = window.location;
@@ -58,6 +58,7 @@ describe('$.jsonp()', function(){
       })).to.be.ok();
     });
   });
+
 
   describe('without CORS support', function(){
     var origCors;

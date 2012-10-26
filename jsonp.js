@@ -5,10 +5,11 @@ http://jsonp.jit.su
 by Aidan Feldman
 MIT license
 */
-/*global jQuery:true*/
+/*jshint browser:true */
+/*global jQuery */
 (function($){
   // groups: protocol, slashes, host, path
-  var regex = /^(?:(?:(?:(https?:))?(\/\/))?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
+  var regex = /^(?:(?:(?:((?:file|https?):))?(\/\/))?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
   $.jsonp = function(opts){
     // make a copy
@@ -20,23 +21,17 @@ MIT license
       host = match[3],
       loc = window.location;
 
-    if (!protocol){
-      if (match[2]){
-        // protocol-relative
-        protocol = loc.protocol;
-      } else {
-        protocol = 'http:';
+    if (host && host !== loc.host){
+      // requesting to a different domain - needs proxying
+
+      if (!protocol){
+        if (match[2]){
+          // protocol-relative
+          protocol = loc.protocol;
+        } else {
+          protocol = 'http:';
+        }
       }
-    }
-
-    if (!host){
-      host = loc.host;
-    }
-
-    if (protocol === loc.protocol && host === loc.host){
-      // same domain
-    } else {
-      // needs proxying
 
       // construct absolute URL
       url = protocol + '//' + host + match[4];
