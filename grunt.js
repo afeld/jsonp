@@ -4,16 +4,16 @@ module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
       options: {
+        boss: true,
         curly: true,
         eqeqeq: true,
+        eqnull: true,
         immed: true,
         latedef: true,
         newcap: true,
         noarg: true,
         sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true
+        undef: true
       }
     },
     lint: {

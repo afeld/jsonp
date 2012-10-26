@@ -1,4 +1,4 @@
-/*jshint node:true */
+/*jshint node:true, strict:false */
 /*global describe, it, expect*/
 var assert = require('assert'),
   supertest = require('supertest'),
