@@ -3,7 +3,7 @@
   "name": "jsonp",
   "homepage": "http://jsonp.jit.su",
   "description": "A simple JSONP proxy",
-  "version": "0.0.0-13",
+  "version": "0.0.0-14",
   "repository": {
     "type": "git",
     "url": "https://github.com/afeld/jsonp.git"
@@ -21,7 +21,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "0.6.x"
+    "node": ">=0.6 <0.9"
   },
   "subdomain": "jsonp",
   "scripts": {
