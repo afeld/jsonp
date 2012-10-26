@@ -1,5 +1,7 @@
 /*global module:false*/
 module.exports = function(grunt) {
+  var defaults = 'lint mocha mochaTest';
+
   // Project configuration.
   grunt.initConfig({
     jshint: {
@@ -22,14 +24,20 @@ module.exports = function(grunt) {
     mocha: {
       index: ['public/test.html']
     },
+    mochaTest: {
+      files: ['test/server_test.js']
+    },
     watch: {
       files: '<config:lint.files>',
-      tasks: 'lint mocha'
+      tasks: defaults
     }
   });
 
-  // Default task.
-  grunt.registerTask('default', 'lint mocha');
+  // default tasks
+  grunt.registerTask('default', defaults);
 
+  // client tests
   grunt.loadNpmTasks('grunt-mocha');
+  // server tests
+  grunt.loadNpmTasks('grunt-mocha-test');
 };

@@ -21,6 +21,7 @@
   "devDependencies": {
     "grunt": "0.3.x",
     "grunt-mocha": "0.1.x",
+    "grunt-mocha-test": "0.0.1",
     "supertest": "0.2.x"
   },
   "optionalDependencies": {},
