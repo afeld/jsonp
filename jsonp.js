@@ -15,7 +15,7 @@ MIT license
     // make a copy
     opts = $.extend({}, opts);
 
-    var url = opts.url,
+    var url = opts.url || window.location.href, // jQuery.ajax() defaults to this
       match = url.match(regex), // not a valid URL unless matched
       protocol = match[1],
       host = match[3],

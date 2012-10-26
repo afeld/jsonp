@@ -1,13 +1,23 @@
 /*jshint browser:true*/
-/*global describe, before, after, $, it, sinon, assert, expect */
+/*global describe, before, beforeEach, after, $, it, sinon, assert, expect */
 describe('$.jsonp()', function(){
   function getOrigin(){
     var loc = window.location;
     return loc.origin || (loc.protocol + '//' + loc.host);
   }
 
+  function getAjaxArgs(){
+    return $.ajax.getCall(0).args[0];
+  }
+
+
+  var ajaxStub;
   before(function(){
-    sinon.stub($, 'ajax');  
+    ajaxStub = sinon.stub($, 'ajax');
+  });
+
+  beforeEach(function(){
+    ajaxStub.reset();
   });
 
 
@@ -17,7 +27,7 @@ describe('$.jsonp()', function(){
         url: '/foo'
       });
 
-      expect($.ajax.calledWithMatch({url: '/foo'})).to.be.ok();
+      expect(getAjaxArgs()).to.eql({url: '/foo'});
     });
 
     it('should do standard ajax for the same domain', function(){
@@ -27,12 +37,12 @@ describe('$.jsonp()', function(){
         url: url
       });
 
-      expect($.ajax.calledWithMatch({url: url})).to.be.ok();
+      expect(getAjaxArgs()).to.eql({url: url});
     });
   }
 
 
-  describe('with CORS support', function(){
+  describe('with browser CORS support', function(){
     var origCors;
     before(function(){
       origCors = $.support.cors;
@@ -53,14 +63,14 @@ describe('$.jsonp()', function(){
         url: url
       });
 
-      expect($.ajax.calledWithMatch({
+      expect(getAjaxArgs()).to.eql({
         url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url)
-      })).to.be.ok();
+      });
     });
   });
 
 
-  describe('without CORS support', function(){
+  describe('without browser CORS support', function(){
     var origCors;
     before(function(){
       origCors = $.support.cors;
@@ -81,9 +91,9 @@ describe('$.jsonp()', function(){
         url: url
       });
 
-      expect($.ajax.calledWithMatch({
+      expect(getAjaxArgs()).to.eql({
         url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url) + '&callback=?'
-      })).to.be.ok();
+      });
     });
   });
 });
