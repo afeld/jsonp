@@ -1,7 +1,6 @@
 /*jshint node:true, strict:false */
 /*global describe, it, expect*/
-var assert = require('assert'),
-  supertest = require('supertest'),
+var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   app = require('../lib/app.js');

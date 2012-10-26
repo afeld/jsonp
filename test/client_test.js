@@ -1,7 +1,13 @@
 /*jshint browser:true*/
-/*global describe, it, expect*/
-describe('app', function(){
-  it('should be ok', function(){
-    expect(true).to.be.ok();
+/*global describe, $, it, sinon, assert, expect */
+describe('$.jsonp()', function(){
+  it('should do standard ajax for relative domains', function(){
+    sinon.stub($, 'ajax');
+
+    $.jsonp({
+      url: '/foo'
+    });
+
+    expect($.ajax.calledWithMatch({url: '/foo'})).to.be.ok();
   });
 });
