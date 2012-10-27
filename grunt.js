@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       files: ['*.js', 'lib/**/*.js', 'test/**/*.js']
     },
     mocha: {
-      index: ['public/test.html']
+      index: ['test.html']
     },
     mochaTest: {
       files: ['test/server_test.js']
