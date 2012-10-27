@@ -36,19 +36,22 @@ MIT license
         }
       }
 
-      if (!(opts.cors && $.support.cors) || !opts.jsonp){
-        // server doesn't cross-domain support - needs proxying
+      if (!(opts.cors && $.support.cors) && !opts.jsonp){
+        // server doesn't have cross-domain support
 
         // construct absolute URL
         url = protocol + '//' + host + match[4];
+        // proxy the request
         url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
       }
 
       if (!$.support.cors){
         // proxy via JSONP
-        url += '&callback=?';
+        opts.dataType = 'jsonp';
       }
 
+      delete opts.cors;
+      delete opts.jsonp;
       opts.url = url;
     }
 

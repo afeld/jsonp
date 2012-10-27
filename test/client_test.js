@@ -103,7 +103,22 @@ describe('$.jsonp()', function(){
       });
 
       expect(getAjaxArgs()).to.eql({
-        url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url) + '&callback=?'
+        url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url),
+        dataType: 'jsonp'
+      });
+    });
+
+    it('should use the URL directly if it supports JSONP', function(){
+      var url = 'http://foo.com/bar';
+
+      $.jsonp({
+        url: url,
+        jsonp: true
+      });
+
+      expect(getAjaxArgs()).to.eql({
+        url: url,
+        dataType: 'jsonp'
       });
     });
   });
