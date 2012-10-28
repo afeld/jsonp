@@ -1,50 +1,45 @@
 /*jshint browser:true*/
 /*global describe, before, beforeEach, after, $, it, sinon, assert, expect */
 describe('$.jsonp()', function(){
-  var protocol, origin, proxy;
-  before(function(){
-    var loc = window.location;
-    protocol = loc.protocol;
-    origin = loc.origin || (loc.protocol + '//' + loc.host);
-    proxy = protocol + '//jsonp.nodejitsu.com/';
-  });
+  var loc = window.location,
+    protocol = loc.protocol,
+    origin = loc.origin || (loc.protocol + '//' + loc.host),
+    proxy = protocol + '//jsonp.nodejitsu.com/',
+    packagePath = loc.pathname.replace(/test.html/, 'package.json');
 
 
   function sharedTests(){
     it('should do standard ajax for relative domains', function(done){
-      var url = '/foo';
-
       $.jsonp({
-        url: url,
+        url: packagePath,
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.be(url);
-
-          done();
-          return false;
+          expect(settings.url).to.be(packagePath);
         }
+      }).done(function(data){
+        expect(data.name).to.equal('jsonp');
+        done();
       });
     });
 
     it('should do standard ajax for the same domain', function(done){
-      var url = origin + '/foo';
+      var url = origin + packagePath;
 
       $.jsonp({
         url: url,
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(url);
-
-          done();
-          return false;
         }
+      }).done(function(data){
+        expect(data.name).to.equal('jsonp');
+        done();
       });
     });
 
     it('should use the proxy for a mismatched protocol', function(done){
-      var loc = window.location,
-        protocol = loc.protocol === 'https:' ? 'http:' : 'https:',
-        url = protocol + '//' + loc.host + '/bar';
+      var otherProtocol = protocol === 'https:' ? 'http:' : 'https:',
+        url = otherProtocol + '//' + loc.host + '/bar';
 
       $.jsonp({
         url: url,

@@ -23,7 +23,8 @@ MIT license
       url = opts.url || loc.href, // jQuery.ajax() defaults to this
       match = url.match(regex), // not a valid URL unless matched
       protocol = match[1] || loc.protocol,
-      host = match[2] || loc.host;
+      host = match[2] || loc.host,
+      dataType = opts.dataType;
 
     // make a copy
     opts = $.extend({}, opts);
@@ -32,26 +33,30 @@ MIT license
       // requesting to a different domain
 
       // construct absolute URL
-      url = protocol + '//' + host + match[3];
+      var path = match[3] || '';
+      url = protocol + '//' + host + path;
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
         if (!opts.cors){
           // proxy CORS
-          opts.url = proxyUrl(url);
+          url = proxyUrl(url);
         } // else direct CORS
       } else {
-        opts.dataType = 'jsonp';
+        dataType = 'jsonp';
         if (!opts.jsonp){
           // proxy JSONP
-          opts.url = proxyUrl(url);
+          url = proxyUrl(url);
         } // else direct JSONP
       }
     }
 
-    if (opts.dataType === 'jsonp'){
+    if (dataType === 'jsonp'){
       opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
     }
+
+    opts.dataType = dataType || 'json';
+    opts.url = url;
 
     delete opts.cors;
     delete opts.jsonp;
