@@ -11,6 +11,10 @@ MIT license
   // groups: protocol, slashes, host, path
   var regex = /^(?:(?:(?:((?:file|https?):))?(\/\/))?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
+  function proxyUrl(url){
+    return '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+  }
+
   // Accepts all jQuery.ajax() options, plus:
   //   cors {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonp {Boolean} Set to true if the URL is known to support JSONP.
@@ -23,32 +27,33 @@ MIT license
     // make a copy
     opts = $.extend({}, opts);
 
+    var protocol = match[1];
+    if (!protocol){
+      if (match[2]){
+        // protocol-relative
+        protocol = loc.protocol;
+      } else {
+        protocol = 'http:';
+      }
+    }
+
+    // construct absolute URL
+    url = protocol + '//' + host + match[4];
+
     if (host && host !== loc.host){
       // requesting to a different domain
 
-      if (!(opts.cors && $.support.cors) && !opts.jsonp){
-        // server doesn't have cross-domain support
-
-        // construct absolute URL
-        var protocol = match[1];
-        if (!protocol){
-          if (match[2]){
-            // protocol-relative
-            protocol = loc.protocol;
-          } else {
-            protocol = 'http:';
-          }
-        }
-        url = protocol + '//' + host + match[4];
-
-        // proxy the request
-        url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
-        opts.url = url;
-      }
-
-      if (!$.support.cors){
-        // proxy via JSONP
+      if ($.support.cors){
+        if (!opts.cors){
+          // proxy CORS
+          opts.url = proxyUrl(url);
+        } // else direct CORS
+      } else {
         opts.dataType = 'jsonp';
+        if (!opts.jsonp){
+          // proxy JSONP
+          opts.url = proxyUrl(url);
+        } // else direct JSONP
       }
     }
 

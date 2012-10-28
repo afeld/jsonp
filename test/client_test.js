@@ -87,6 +87,39 @@ describe('$.jsonp()', function(){
         }
       });
     });
+
+    it('should favor CORS to JSONP on the URL directly', function(done){
+      var url = 'http://foo.com/bar';
+
+      $.jsonp({
+        url: url,
+        cors: true,
+        jsonp: true,
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(url);
+
+          done();
+          return false;
+        }
+      });
+    });
+
+    it('should use CORS proxy even if the URL supports JSONP', function(done){
+      var url = 'http://foo.com/bar';
+
+      $.jsonp({
+        url: url,
+        jsonp: true,
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
+
+          done();
+          return false;
+        }
+      });
+    });
   });
 
 
