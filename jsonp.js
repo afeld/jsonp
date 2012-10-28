@@ -34,6 +34,7 @@ MIT license
       // construct absolute URL
       url = protocol + '//' + host + match[3];
 
+      // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
         if (!opts.cors){
           // proxy CORS
@@ -46,6 +47,10 @@ MIT license
           opts.url = proxyUrl(url);
         } // else direct JSONP
       }
+    }
+
+    if (opts.dataType === 'jsonp'){
+      opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
     }
 
     delete opts.cors;

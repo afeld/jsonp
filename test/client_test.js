@@ -162,6 +162,8 @@ describe('$.jsonp()', function(){
 
         beforeSend: function(_, settings){
           expect(settings.url).to.match(new RegExp(proxy + '\\?url=' + encodeURIComponent(url) + '&callback=jQuery.*'));
+          // should set default timeout
+          expect(settings.timeout).to.be.a('number');
 
           done();
           return false;
@@ -178,6 +180,8 @@ describe('$.jsonp()', function(){
 
         beforeSend: function(_, settings){
           expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
+          // should set default timeout
+          expect(settings.timeout).to.be.a('number');
 
           done();
           return false;
