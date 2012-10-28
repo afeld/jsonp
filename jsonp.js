@@ -11,8 +11,12 @@ MIT license
   // groups: protocol, host, path
   var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
-  function proxyUrl(url){
-    return '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+  function proxyUrl(url, dataType){
+    url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+    if (dataType === 'text'){
+      url += '&raw=true';
+    }
+    return url;
   }
 
   // Accepts all jQuery.ajax() options, plus:
@@ -40,14 +44,14 @@ MIT license
       if ($.support.cors){
         if (!opts.cors){
           // proxy CORS
-          url = proxyUrl(url);
+          opts.url = proxyUrl(url, dataType);
         } // else direct CORS
       } else {
-        dataType = 'jsonp';
         if (!opts.jsonp){
           // proxy JSONP
-          url = proxyUrl(url);
+          opts.url = proxyUrl(url, dataType);
         } // else direct JSONP
+        dataType = 'jsonp';
       }
     }
 
@@ -56,7 +60,6 @@ MIT license
     }
 
     opts.dataType = dataType || 'json';
-    opts.url = url;
 
     delete opts.cors;
     delete opts.jsonp;

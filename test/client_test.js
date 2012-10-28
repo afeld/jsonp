@@ -134,6 +134,39 @@ describe('$.jsonp()', function(){
         }
       });
     });
+
+    it('should handle requests for text to relative path', function(done){
+      var url = loc.pathname.replace(/test.html/, 'test/data.txt');
+
+      $.jsonp({
+        url: url,
+        dataType: 'text',
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(url);
+        }
+      }).done(function(text){
+        expect(text).to.equal('hello world');
+        done();
+      });
+    });
+
+    it('should handle requests for text across domains', function(done){
+      var url = 'http://foo.com/data.txt';
+
+      $.jsonp({
+        url: url,
+        dataType: 'text',
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url) + '&raw=true');
+          expect(settings.dataType).to.be('text');
+
+          done();
+          return false;
+        }
+      });
+    });
   });
 
 
@@ -179,6 +212,23 @@ describe('$.jsonp()', function(){
           expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
           // should set default timeout
           expect(settings.timeout).to.be.a('number');
+
+          done();
+          return false;
+        }
+      });
+    });
+
+    it('should handle requests for text across domains', function(done){
+      var url = 'http://foo.com/data.txt';
+
+      $.jsonp({
+        url: url,
+        dataType: 'text',
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.match(/&raw=true&/);
+          expect(settings.dataType).to.be('jsonp');
 
           done();
           return false;
