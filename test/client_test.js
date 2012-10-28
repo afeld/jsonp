@@ -1,43 +1,44 @@
 /*jshint browser:true*/
 /*global describe, before, beforeEach, after, $, it, sinon, assert, expect */
 describe('$.jsonp()', function(){
-  function getOrigin(){
-    var loc = window.location;
-    return loc.origin || (loc.protocol + '//' + loc.host);
-  }
-
-  function getAjaxArgs(){
-    return $.ajax.getCall(0).args[0];
-  }
-
-
-  var ajaxStub;
+  var protocol, origin, proxy;
   before(function(){
-    ajaxStub = sinon.stub($, 'ajax');
-  });
-
-  beforeEach(function(){
-    ajaxStub.reset();
+    var loc = window.location;
+    protocol = loc.protocol;
+    origin = loc.origin || (loc.protocol + '//' + loc.host);
+    proxy = protocol + '//jsonp.nodejitsu.com/';
   });
 
 
   function sharedTests(){
-    it('should do standard ajax for relative domains', function(){
-      $.jsonp({
-        url: '/foo'
-      });
+    it('should do standard ajax for relative domains', function(done){
+      var url = '/foo';
 
-      expect(getAjaxArgs()).to.eql({url: '/foo'});
+      $.jsonp({
+        url: url,
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(url);
+
+          done();
+          return false;
+        }
+      });
     });
 
-    it('should do standard ajax for the same domain', function(){
-      var url = getOrigin() + '/foo';
+    it('should do standard ajax for the same domain', function(done){
+      var url = origin + '/foo';
 
       $.jsonp({
-        url: url
-      });
+        url: url,
 
-      expect(getAjaxArgs()).to.eql({url: url});
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(url);
+
+          done();
+          return false;
+        }
+      });
     });
   }
 
@@ -56,27 +57,35 @@ describe('$.jsonp()', function(){
 
     sharedTests();
 
-    it('should use the CORS proxy', function(){
-      var url = 'http://foo.com/bar';
-
-      $.jsonp({
-        url: url
-      });
-
-      expect(getAjaxArgs()).to.eql({
-        url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url)
-      });
-    });
-
-    it('should use the URL directly if it supports CORS', function(){
+    it('should use the CORS proxy', function(done){
       var url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
-        cors: true
-      });
 
-      expect(getAjaxArgs()).to.eql({url: url});
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
+
+          done();
+          return false;
+        }
+      });
+    });
+
+    it('should use the URL directly if it supports CORS', function(done){
+      var url = 'http://foo.com/bar';
+
+      $.jsonp({
+        url: url,
+        cors: true,
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(url);
+
+          done();
+          return false;
+        }
+      });
     });
   });
 
@@ -95,30 +104,34 @@ describe('$.jsonp()', function(){
 
     sharedTests();
 
-    it('should use the JSONP proxy', function(){
+    it('should use the JSONP proxy', function(done){
       var url = 'http://foo.com/bar';
 
       $.jsonp({
-        url: url
-      });
+        url: url,
 
-      expect(getAjaxArgs()).to.eql({
-        url: '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url),
-        dataType: 'jsonp'
+        beforeSend: function(_, settings){
+          expect(settings.url).to.match(new RegExp(proxy + '\\?url=' + encodeURIComponent(url) + '&callback=jQuery.*'));
+
+          done();
+          return false;
+        }
       });
     });
 
-    it('should use the URL directly if it supports JSONP', function(){
+    it('should use the URL directly if it supports JSONP', function(done){
       var url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
-        jsonp: true
-      });
+        jsonp: true,
 
-      expect(getAjaxArgs()).to.eql({
-        url: url,
-        dataType: 'jsonp'
+        beforeSend: function(_, settings){
+          expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
+
+          done();
+          return false;
+        }
       });
     });
   });

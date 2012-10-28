@@ -15,7 +15,10 @@
   <script>
     $(function(){
       mocha
-        .globals([ 'script*' ]) // see http://stackoverflow.com/a/11166354/358804
+        .globals([
+          'jQuery*', // for JSONP
+          'script*' // see http://stackoverflow.com/a/11166354/358804
+        ])
         .run();
     });
   </script>
