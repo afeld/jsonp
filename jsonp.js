@@ -8,8 +8,8 @@ MIT license
 /*jshint browser:true */
 /*global jQuery */
 (function($){
-  // groups: protocol, slashes, host, path
-  var regex = /^(?:(?:(?:((?:file|https?):))?(\/\/))?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
+  // groups: protocol, host, path
+  var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
   function proxyUrl(url){
     return '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
@@ -22,26 +22,17 @@ MIT license
     var loc = window.location,
       url = opts.url || loc.href, // jQuery.ajax() defaults to this
       match = url.match(regex), // not a valid URL unless matched
-      host = match[3];
+      protocol = match[1] || loc.protocol,
+      host = match[2] || loc.host;
 
     // make a copy
     opts = $.extend({}, opts);
 
-    var protocol = match[1];
-    if (!protocol){
-      if (match[2]){
-        // protocol-relative
-        protocol = loc.protocol;
-      } else {
-        protocol = 'http:';
-      }
-    }
-
-    // construct absolute URL
-    url = protocol + '//' + host + match[4];
-
-    if (host && host !== loc.host){
+    if (protocol !== loc.protocol || host !== loc.host){
       // requesting to a different domain
+
+      // construct absolute URL
+      url = protocol + '//' + host + match[3];
 
       if ($.support.cors){
         if (!opts.cors){

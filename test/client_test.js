@@ -72,6 +72,23 @@ describe('$.jsonp()', function(){
       });
     });
 
+    it('should use the CORS proxy for a mismatched protocol', function(done){
+      var loc = window.location,
+        protocol = loc.protocol === 'https:' ? 'http:' : 'https:',
+        url = protocol + '//' + loc.host + '/bar';
+
+      $.jsonp({
+        url: url,
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
+
+          done();
+          return false;
+        }
+      });
+    });
+
     it('should use the URL directly if it supports CORS', function(done){
       var url = 'http://foo.com/bar';
 
