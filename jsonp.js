@@ -60,6 +60,6 @@ MIT license
     delete opts.cors;
     delete opts.jsonp;
 
-    $.ajax(opts);
+    return $.ajax(opts);
   };
 }(jQuery));
