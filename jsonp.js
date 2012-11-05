@@ -50,6 +50,16 @@ MIT license
         if (!opts.jsonp){
           // proxy JSONP
           opts.url = proxyUrl(url, dataType);
+
+          var success = opts.success;
+          if (success){
+            // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
+            // Mask this to the library user by simply returning the underlying string.
+            opts.success = function(json){
+              // jQuery will take care of setting the proper context
+              success(json.data);
+            };
+          }
         } // else direct JSONP
         dataType = 'jsonp';
       }
