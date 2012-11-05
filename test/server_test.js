@@ -61,20 +61,17 @@ describe('app', function(){
   });
 
   it('should escape "raw" requests for JSONP', function(done){
-    var body = 'test " \' " escaping';
-
     var destApp = express();
     destApp.get('/', function(req, res){
-      res.send(body);
+      res.send('test " \' " </script> escaping');
     });
     var server = http.createServer(destApp);
     server.listen(8001, function(){
-      var json = JSON.stringify({ data: body });
 
       supertest(app)
         .get('/')
         .query({callback: 'foo', url: 'http://localhost:8001', raw: true})
-        .expect('foo(' + json + ');', function(err){
+        .expect('foo({"data":"test \\" \' \\" <\\/script> escaping"});', function(err){
           server.on('close', function(){
             done(err);
           });
