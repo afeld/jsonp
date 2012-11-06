@@ -11,9 +11,9 @@ MIT license
   // groups: protocol, host, path
   var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
-  function proxyUrl(url, dataType){
+  function proxyUrl(url, raw){
     url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
-    if (dataType === 'text'){
+    if (raw){
       url += '&raw=true';
     }
     return url;
@@ -28,7 +28,8 @@ MIT license
       match = url.match(regex), // not a valid URL unless matched
       protocol = match[1] || loc.protocol,
       host = match[2] || loc.host,
-      dataType = opts.dataType;
+      dataType = opts.dataType,
+      raw = dataType === 'text';
 
     // make a copy
     opts = $.extend({}, opts);
@@ -44,20 +45,20 @@ MIT license
       if ($.support.cors){
         if (!opts.cors){
           // proxy CORS
-          opts.url = proxyUrl(url, dataType);
+          opts.url = proxyUrl(url, raw);
         } // else direct CORS
       } else {
         if (!opts.jsonp){
           // proxy JSONP
-          opts.url = proxyUrl(url, dataType);
+          opts.url = proxyUrl(url, raw);
 
           var success = opts.success;
-          if (success){
+          if (raw && success){
             // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
             // Mask this to the library user by simply returning the underlying string.
             opts.success = function(json){
               // jQuery will take care of setting the proper context
-              success(json.data);
+              success.call(opts.context || this, json.data);
             };
           }
         } // else direct JSONP
