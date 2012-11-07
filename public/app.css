@@ -6,7 +6,12 @@ p {
   max-width: 650px;
 }
 hr {
-  margin: 3em 0 1.5em;
+  margin: 2em 0 1.5em;
+}
+code {
+  padding: 0.04em 0.35em;
+  background-color: #EAEAEA;
+  border: 1px solid #C2C2C2;
 }
 .finePrint {
   font-size: 0.8em;

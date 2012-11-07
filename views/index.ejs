@@ -59,9 +59,12 @@
       <li>JSONP via proxy</li>
     </ol>
     <p>
-      In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>, to specify if the target API is known to have CORS or JSONP (via the <code>callback</code> query param) support, respectively.
+      In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
     </p>
     <script src="https://gist.github.com/2664597.js?file=client.html"></script>
+    <p>
+      <a href="test.html">Tested</a> against jQuery 1.8.2, though it should be compatible with jQuery 1.5+.
+    </p>
 
     <hr/>
 
@@ -70,9 +73,6 @@
     </p>
     <p>
       CORS, however, is just normal AJAX!  There is also a security advantage, in that it's not possible for a malicious service (including this one) to run arbirtrary JavaScript on your page.
-    </p>
-    <p>
-      There is also a <a href="https://github.com/afeld/jsonp/blob/master/jsonp.js">client library</a> under development, which acts as a wrapper of <code>jQuery.ajax()</code> to automatically handle CORS with a fallback to JSONP.  Please let me know if <a href="test.html">the tests</a> fail in your browser.
     </p>
 
     <hr/>
