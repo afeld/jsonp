@@ -91,7 +91,7 @@ describe('$.jsonp()', function(){
 
       $.jsonp({
         url: url,
-        cors: true,
+        corsSupport: true,
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(url);
@@ -107,8 +107,8 @@ describe('$.jsonp()', function(){
 
       $.jsonp({
         url: url,
-        cors: true,
-        jsonp: true,
+        corsSupport: true,
+        jsonpSupport: true,
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(url);
@@ -124,7 +124,7 @@ describe('$.jsonp()', function(){
 
       $.jsonp({
         url: url,
-        jsonp: true,
+        jsonpSupport: true,
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
@@ -206,7 +206,7 @@ describe('$.jsonp()', function(){
 
       $.jsonp({
         url: url,
-        jsonp: true,
+        jsonpSupport: true,
 
         beforeSend: function(_, settings){
           expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));

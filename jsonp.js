@@ -1,5 +1,5 @@
 /*
-JSONProxy Client Library - WORK IN PROGRESS
+JSONProxy Client Library
 http://jsonp.jit.su
 
 by Aidan Feldman
@@ -43,12 +43,12 @@ MIT license
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
-        if (!opts.cors){
+        if (!opts.corsSupport){
           // proxy CORS
           opts.url = proxyUrl(url, raw);
         } // else direct CORS
       } else {
-        if (!opts.jsonp){
+        if (!opts.jsonpSupport){
           // proxy JSONP
           opts.url = proxyUrl(url, raw);
 
@@ -69,11 +69,7 @@ MIT license
     if (dataType === 'jsonp'){
       opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
     }
-
     opts.dataType = dataType || 'json';
-
-    delete opts.cors;
-    delete opts.jsonp;
 
     return $.ajax(opts);
   };
