@@ -1,6 +1,6 @@
 <script>
   function myCallback(data){
-    alert("it works! ", JSON.parse(data).awesome);
+    alert('it works! ', JSON.parse(data).awesome);
   }
 </script>
 <script src="http://jsonp.jit.su/?callback=myCallback&url=http://jsonview.com/example.json"></script>
@@ -9,6 +9,6 @@
 
 <script>
   $.getJSON('http://jsonp.jit.su/?callback=?&url=http://jsonview.com/example.json', function(data){
-    alert("fake AJAX! " + data.awesome);
+    alert('fake AJAX! ' + data.awesome);
   });
 </script>
