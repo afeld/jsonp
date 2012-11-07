@@ -5,6 +5,9 @@ body {
 p {
   max-width: 650px;
 }
+hr {
+  margin: 3em 0 1.5em;
+}
 .finePrint {
   font-size: 0.8em;
 }
@@ -32,8 +35,6 @@ p {
   padding: 0.5em;
 }
 #footer {
-  margin-top: 5em;
   padding: 1em;
   text-align: center;
-  border-top: 1px solid #666;
 }
