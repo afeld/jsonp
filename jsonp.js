@@ -1,5 +1,5 @@
 /*
-JSONProxy Client Library
+JSONProxy jQuery Plugin, v0.1.0
 http://jsonp.jit.su
 
 by Aidan Feldman
