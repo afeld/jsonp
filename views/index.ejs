@@ -31,6 +31,7 @@
       Very useful for mashup sites - since API calls can be done client-side, no server code is needed.  Note that exposing API secret keys in client code is discouraged.  The site is also available for secure domains using <a href="https://jsonp.nodejitsu.com">https://jsonp.nodejitsu.com</a> as the origin.  Examples in jQuery, though it is not required.
     </p>
 
+    <a name="jsonp"></a>
     <h2>Easy: JSONP</h2>
     <script src="https://gist.github.com/2664597.js?file=jsonp.html"></script>
     <form class="urlEntry" action="" method="get">
@@ -38,6 +39,7 @@
       <input type="submit" value="Go"/>
     </form>
 
+    <a name="cors"></a>
     <h2>Easier: Cross-domain AJAX (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>)</h2>
     <p class="finePrint">
       (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
@@ -48,6 +50,7 @@
       <input type="submit" value="Go"/>
     </form>
 
+    <a name="client"></a>
     <h2><em>Easiest:</em> jQuery Plugin - <a href="https://github.com/afeld/jsonp/blob/master/jsonp.js">download</a></h2>
     <p>
       Wrapper function of <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, which detects browser support and picks the best available transport:
