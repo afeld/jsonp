@@ -86,39 +86,6 @@ describe('$.jsonp()', function(){
       });
     });
 
-    it('should use the URL directly if it supports CORS', function(done){
-      var url = 'http://foo.com/bar';
-
-      $.jsonp({
-        url: url,
-        corsSupport: true,
-
-        beforeSend: function(_, settings){
-          expect(settings.url).to.be(url);
-
-          done();
-          return false;
-        }
-      });
-    });
-
-    it('should favor CORS to JSONP on the URL directly', function(done){
-      var url = 'http://foo.com/bar';
-
-      $.jsonp({
-        url: url,
-        corsSupport: true,
-        jsonpSupport: true,
-
-        beforeSend: function(_, settings){
-          expect(settings.url).to.be(url);
-
-          done();
-          return false;
-        }
-      });
-    });
-
     it('should use CORS proxy even if the URL supports JSONP', function(done){
       var url = 'http://foo.com/bar';
 
@@ -167,6 +134,41 @@ describe('$.jsonp()', function(){
         }
       });
     });
+
+    describe('when API has corsSupport', function(){
+      it('should use the URL directly', function(done){
+        var url = 'http://foo.com/bar';
+
+        $.jsonp({
+          url: url,
+          corsSupport: true,
+
+          beforeSend: function(_, settings){
+            expect(settings.url).to.be(url);
+
+            done();
+            return false;
+          }
+        });
+      });
+
+      it('should favor CORS to JSONP on the URL directly', function(done){
+        var url = 'http://foo.com/bar';
+
+        $.jsonp({
+          url: url,
+          corsSupport: true,
+          jsonpSupport: true,
+
+          beforeSend: function(_, settings){
+            expect(settings.url).to.be(url);
+
+            done();
+            return false;
+          }
+        });
+      });
+    });
   });
 
 
@@ -201,24 +203,6 @@ describe('$.jsonp()', function(){
       });
     });
 
-    it('should use the URL directly if it supports JSONP', function(done){
-      var url = 'http://foo.com/bar';
-
-      $.jsonp({
-        url: url,
-        jsonpSupport: true,
-
-        beforeSend: function(_, settings){
-          expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
-          // should set default timeout
-          expect(settings.timeout).to.be.a('number');
-
-          done();
-          return false;
-        }
-      });
-    });
-
     it('should handle requests for text across domains', function(done){
       var url = 'http://foo.com/data.txt';
 
@@ -233,6 +217,26 @@ describe('$.jsonp()', function(){
           done();
           return false;
         }
+      });
+    });
+
+    describe('when API has jsonpSupport', function(){
+      it('should use the URL directly', function(done){
+        var url = 'http://foo.com/bar';
+
+        $.jsonp({
+          url: url,
+          jsonpSupport: true,
+
+          beforeSend: function(_, settings){
+            expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
+            // should set default timeout
+            expect(settings.timeout).to.be.a('number');
+
+            done();
+            return false;
+          }
+        });
       });
     });
   });
