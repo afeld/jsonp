@@ -2,6 +2,10 @@ body {
   padding: 2em 3em;
   font-family: Helvetica, sans-serif;
 }
+h1 {
+  display: inline;
+  margin-right: 10px;
+}
 p {
   max-width: 650px;
 }
@@ -12,6 +16,10 @@ code {
   padding: 0.04em 0.35em;
   background-color: #EAEAEA;
   border: 1px solid #C2C2C2;
+}
+#subtitle {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 .finePrint {
   font-size: 0.8em;
