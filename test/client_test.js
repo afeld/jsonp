@@ -45,9 +45,7 @@ describe('$.jsonp()', function(){
         url: url,
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.match(
-            new RegExp('^' + proxy + '\\?url=' + encodeURIComponent(url)) // + '&callback=jQuery...' for JSONP
-          );
+          expect(settings.url).to.contain(proxy + '?url=' + encodeURIComponent(url)); // + '&callback=jQuery...' for JSONP
 
           done();
           return false;
@@ -193,7 +191,7 @@ describe('$.jsonp()', function(){
         url: url,
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.match(new RegExp(proxy + '\\?url=' + encodeURIComponent(url) + '&callback=jQuery.*'));
+          expect(settings.url).to.contain(proxy + '?url=' + encodeURIComponent(url) + '&callback=jQuery');
           // should set default timeout
           expect(settings.timeout).to.be.a('number');
 
@@ -211,7 +209,7 @@ describe('$.jsonp()', function(){
         dataType: 'text',
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.match(/&raw=true&/);
+          expect(settings.url).to.contain('&raw=true&');
           expect(settings.dataType).to.be('jsonp');
 
           done();
@@ -229,7 +227,7 @@ describe('$.jsonp()', function(){
           jsonpSupport: true,
 
           beforeSend: function(_, settings){
-            expect(settings.url).to.match(new RegExp(url + '\\?callback=jQuery.*'));
+            expect(settings.url).to.contain(url + '?callback=jQuery');
             // should set default timeout
             expect(settings.timeout).to.be.a('number');
 
