@@ -4,7 +4,7 @@
   $.jsonp({
     url: 'http://jsonview.com/example.json', // any JSON endpoint
     corsSupport: true, // if URL above supports CORS (optional)
-    jsonpSupport: true, // if URL above supports JSONP with a 'callback' param (optional)
+    jsonpSupport: true, // if URL above supports JSONP (optional)
 
     success: function(data){
       alert('CORS or JSONP! ' + data.awesome);
