@@ -2,12 +2,13 @@
 <script src="jsonp.js"></script>
 <script>
   $.jsonp({
-    url: 'http://jsonview.com/example.json',
+    url: 'http://jsonview.com/example.json', // any JSON endpoint
     corsSupport: true, // if URL above supports CORS (optional)
     jsonpSupport: true, // if URL above supports JSONP with a 'callback' param (optional)
 
     success: function(data){
       alert('CORS or JSONP! ' + data.awesome);
     }
+    // error, etc.
   });
 </script>
