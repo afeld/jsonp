@@ -3,7 +3,7 @@
   "name": "jsonp",
   "homepage": "http://jsonp.jit.su",
   "description": "A simple JSONP proxy",
-  "version": "0.0.0-32",
+  "version": "0.0.0-33",
   "repository": {
     "type": "git",
     "url": "https://github.com/afeld/jsonp.git"

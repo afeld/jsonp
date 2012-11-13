@@ -27,75 +27,78 @@
   </head>
   <body>
     <a href="https://github.com/afeld/jsonp"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-    <h1>JSONProxy</h1>
-    <a href="https://travis-ci.org/#!/afeld/jsonp">
-      <img src="https://secure.travis-ci.org/afeld/jsonp.png?branch=master" alt="Travis CI build status"/>
-    </a>
-    <p id="subtitle">
-      Enables cross-domain requests to <em>any</em> JSON API.
-    </p>
-    <p>
-      Very useful for mashup sites - since API calls can be done client-side, no server code is needed.  Note that exposing API secret keys in client code is discouraged.  The site is also available for secure domains using <a href="https://jsonp.nodejitsu.com">https://jsonp.nodejitsu.com</a> as the origin.  Examples in jQuery, though it is not required.
-    </p>
 
-    <section>
-      <h2 id="jsonp">Easy: JSONP</h2>
-      <script src="https://gist.github.com/2664597.js?file=jsonp.html"></script>
-      <form class="urlEntry" action="" method="get">
-        http://<%= host %>/?callback=<span><label for="callback">functionName</label><input type="text" name="callback"/>&amp;</span>url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
-        <input type="submit" value="Go"/>
-      </form>
-    </section>
-
-    <section>
-      <h2 id="cors">Easier: Cross-domain AJAX (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>)</h2>
-      <p class="finePrint">
-        (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
-      </p>
-      <script src="https://gist.github.com/2664597.js?file=ajax.html"></script>
-      <form class="urlEntry" action="" method="get">
-        http://<%= host %>/?url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
-        <input type="submit" value="Go"/>
-      </form>
-    </section>
-
-    <section>
-      <h2 id="plugin"><em>Easiest:</em> jQuery Plugin - <a href="https://raw.github.com/afeld/jsonp/v0.1.0/jsonp.js">download</a></h2>
-      <p>
-        Wrapper function of <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, which detects browser support and picks the best available transport:
-      </p>
-      <ol>
-        <li>CORS directly</li>
-        <li>CORS via proxy</li>
-        <li>JSONP directly</li>
-        <li>JSONP via proxy</li>
-      </ol>
-      <p>
-        In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
-      </p>
-      <script src="https://gist.github.com/2664597.js?file=client.html"></script>
-      <p>
-        <a href="test.html">Tested</a> against jQuery 1.8.2, though it should be compatible with jQuery 1.5+.
-      </p>
-    </section>
-
-    <hr/>
-
-    <section>
-      <h2>CORS vs. JSONP</h2>
-      <p>
-        Unfortunately, detection of response errors with JSONP is difficult, at best. jQuery's JSONP implementation won't call an error callback unless an explicit timeout is specified (which the <a href="#client">plugin</a> takes care of) - see <a href="http://stackoverflow.com/questions/5247295/jquery-ajax-request-using-jsonp-error">here</a> for more info and options.
+    <div id="wrapper">
+      <h1>JSONProxy</h1>
+      <a href="https://travis-ci.org/#!/afeld/jsonp">
+        <img src="https://secure.travis-ci.org/afeld/jsonp.png?branch=master" alt="Travis CI build status"/>
+      </a>
+      <p id="subtitle">
+        Enables cross-domain requests to <em>any</em> JSON API.
       </p>
       <p>
-        CORS, however, is just normal AJAX!  There is also a security advantage, in that it's not possible for a malicious service (including this one) to run arbirtrary JavaScript on your page.
+        Very useful for mashup sites - since API calls can be done client-side, no server code is needed.  Note that exposing API secret keys in client code is discouraged.  The site is also available for secure domains using <a href="https://jsonp.nodejitsu.com">https://jsonp.nodejitsu.com</a> as the origin.  Examples in jQuery, though it is not required.
       </p>
+
+      <section>
+        <h2 id="jsonp">Easy: JSONP</h2>
+        <script src="https://gist.github.com/2664597.js?file=jsonp.html"></script>
+        <form class="urlEntry" action="" method="get">
+          http://<%= host %>/?callback=<span><label for="callback">functionName</label><input type="text" name="callback"/>&amp;</span>url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
+          <input type="submit" value="Go"/>
+        </form>
+      </section>
+
+      <section>
+        <h2 id="cors">Easier: Cross-domain AJAX (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>)</h2>
+        <p class="finePrint">
+          (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
+        </p>
+        <script src="https://gist.github.com/2664597.js?file=ajax.html"></script>
+        <form class="urlEntry" action="" method="get">
+          http://<%= host %>/?url=<span><label for="url">API URL</label><input type="text" name="url"/></span>
+          <input type="submit" value="Go"/>
+        </form>
+      </section>
+
+      <section>
+        <h2 id="plugin"><em>Easiest:</em> jQuery Plugin - <a href="https://raw.github.com/afeld/jsonp/v0.1.0/jsonp.js">download</a></h2>
+        <p>
+          Wrapper function of <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, which detects browser support and picks the best available transport:
+        </p>
+        <ol>
+          <li>CORS directly</li>
+          <li>CORS via proxy</li>
+          <li>JSONP directly</li>
+          <li>JSONP via proxy</li>
+        </ol>
+        <p>
+          In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
+        </p>
+        <script src="https://gist.github.com/2664597.js?file=client.html"></script>
+        <p>
+          <a href="test.html">Tested</a> against jQuery 1.8.2, though it should be compatible with jQuery 1.5+.
+        </p>
+      </section>
 
       <hr/>
-    </section>
 
-    <footer>
-      <a href="https://twitter.com/aidanfeldman" class="twitter-follow-button" data-show-count="false">Follow @aidanfeldman</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    </footer>
+      <section>
+        <h2>CORS vs. JSONP</h2>
+        <p>
+          Unfortunately, detection of response errors with JSONP is difficult, at best. jQuery's JSONP implementation won't call an error callback unless an explicit timeout is specified (which the <a href="#client">plugin</a> takes care of) - see <a href="http://stackoverflow.com/questions/5247295/jquery-ajax-request-using-jsonp-error">here</a> for more info and options.
+        </p>
+        <p>
+          CORS, however, is just normal AJAX!  There is also a security advantage, in that it's not possible for a malicious service (including this one) to run arbirtrary JavaScript on your page.
+        </p>
+
+        <hr/>
+      </section>
+
+      <footer>
+        <a href="https://twitter.com/aidanfeldman" class="twitter-follow-button" data-show-count="false">Follow @aidanfeldman</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </footer>
+    </div>
   </body>
 </html>

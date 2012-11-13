@@ -6,11 +6,15 @@ h1 {
   display: inline;
   margin-right: 10px;
 }
-p {
+h2 {
+  margin-top: 1.5em;
+}
+#wrapper {
   max-width: 650px;
+  margin: auto;
 }
 hr {
-  margin: 2em 0 1.5em;
+  margin-top: 2.5em;
 }
 code {
   padding: 0.04em 0.35em;
@@ -26,6 +30,15 @@ code {
 }
 .gist {
   margin-bottom: 1em;
+  font-size: 0.9em;
+  width: 100%;
+  -webkit-transition: width .3s ease-out;
+  -moz-transition: width .3s ease-out;
+  -o-transition: width .3s ease-out;
+  transition: width .3s ease-out;
+}
+.gist:hover {
+  width: 128%;
 }
 .urlEntry {
   display: inline-block;
