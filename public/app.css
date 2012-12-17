@@ -38,7 +38,7 @@ code {
   transition: width .3s ease-out;
 }
 .gist:hover {
-  width: 128%;
+  width: 135%;
 }
 .urlEntry {
   display: inline-block;
