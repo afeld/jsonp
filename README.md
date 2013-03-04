@@ -10,12 +10,3 @@ node server.js
 ```
 
 and do requests to `http://localhost:8000/?url=...`
-
-## Contributing
-
-To run tests, install Node 0.8 and [PhantomJS](http://phantomjs.org/) and run:
-
-```
-npm install
-grunt
-```
