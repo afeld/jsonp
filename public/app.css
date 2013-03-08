@@ -62,4 +62,9 @@ code {
 }
 footer {
   text-align: center;
+  font-family: monospace;
+}
+.nodejitsu-logo {
+  height: 34px;
+  vertical-align: middle;
 }
