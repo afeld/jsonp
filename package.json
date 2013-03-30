@@ -26,8 +26,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "0.6.x",
-    "npm": "1.1.x"
+    "node": "0.6.x"
   },
   "subdomain": "jsonp",
   "scripts": {
