@@ -1,10 +1,12 @@
 /*global module:false*/
 module.exports = function(grunt) {
-  var defaults = 'lint mocha mochaTest';
+  var defaults = ['jshint', 'mocha', 'mochaTest'],
+    jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
 
   // Project configuration.
   grunt.initConfig({
     jshint: {
+      all: jsFiles,
       options: {
         boss: true,
         curly: true,
@@ -18,9 +20,6 @@ module.exports = function(grunt) {
         undef: true
       }
     },
-    lint: {
-      files: ['*.js', 'lib/**/*.js', 'test/**/*.js']
-    },
     mocha: {
       index: ['test.html']
     },
@@ -28,7 +27,7 @@ module.exports = function(grunt) {
       files: ['test/server_test.js']
     },
     watch: {
-      files: '<config:lint.files>',
+      files: jsFiles,
       tasks: defaults
     }
   });
@@ -36,6 +35,10 @@ module.exports = function(grunt) {
   // default tasks
   grunt.registerTask('default', defaults);
 
+  // JSHint
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  // watch
+  grunt.loadNpmTasks('grunt-contrib-watch');
   // client tests
   grunt.loadNpmTasks('grunt-mocha');
   // server tests
