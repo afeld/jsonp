@@ -1,5 +1,5 @@
 /*jshint node:true, strict:false */
-/*global describe, it*/
+/*global describe, it */
 var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
@@ -38,7 +38,7 @@ describe('app', function(){
     });
   });
 
-  it('should remove particular headers from the server', function(done){
+  it('should exclude particular headers from the server', function(done){
     var json = JSON.stringify({ message: 'test' });
 
     var destApp = express();
@@ -47,7 +47,9 @@ describe('app', function(){
         'Content-Length': 123,
         'Connection': 'close',
         'Server': 'CERN/3.0 libwww/2.17',
-        'X-Frame-Options': 'SAMEORIGIN'
+        'X-Frame-Options': 'SAMEORIGIN',
+        // an arbitrary header, just to ensure they're getting passed
+        'X-Foo': 'bar'
       });
       res.send(json);
     });
@@ -58,11 +60,15 @@ describe('app', function(){
         .get('/')
         .query({url: 'http://localhost:8001'})
         .expect('access-control-allow-origin', '*')
-        .expect('Content-Length', '18')
-        .expect('Connection', 'keep-alive')
+        .expect('content-length', '18')
+        .expect('connection', 'keep-alive')
+        .expect('x-foo', 'bar')
         .expect(json, function(err, res){
-          expect(res.headers.Server).to.be(undefined);
-          expect(res.headers['X-Frame-Options']).to.be(undefined);
+          if (!err){
+            expect(res.headers['x-foo']).to.be('bar'); // double-check
+            expect(res.headers.server).to.be(undefined);
+            expect(res.headers['x-frame-options']).to.be(undefined);
+          }
 
           server.on('close', function(){
             done(err);
