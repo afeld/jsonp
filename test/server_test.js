@@ -1,8 +1,9 @@
 /*jshint node:true, strict:false */
-/*global describe, it, expect*/
+/*global describe, it*/
 var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
+  expect = require('expect.js'),
   app = require('../lib/app.js');
 
 describe('app', function(){
@@ -28,6 +29,41 @@ describe('app', function(){
         .query({url: 'http://localhost:8001'})
         .expect('access-control-allow-origin', '*')
         .expect(json, function(err){
+          server.on('close', function(){
+            done(err);
+          });
+          server.close();
+        });
+
+    });
+  });
+
+  it('should remove particular headers from the server', function(done){
+    var json = JSON.stringify({ message: 'test' });
+
+    var destApp = express();
+    destApp.get('/', function(req, res){
+      res.set({
+        'Content-Length': 123,
+        'Connection': 'close',
+        'Server': 'CERN/3.0 libwww/2.17',
+        'X-Frame-Options': 'SAMEORIGIN'
+      });
+      res.send(json);
+    });
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .query({url: 'http://localhost:8001'})
+        .expect('access-control-allow-origin', '*')
+        .expect('Content-Length', '18')
+        .expect('Connection', 'keep-alive')
+        .expect(json, function(err, res){
+          expect(res.headers.Server).to.be(undefined);
+          expect(res.headers['X-Frame-Options']).to.be(undefined);
+
           server.on('close', function(){
             done(err);
           });
