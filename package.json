@@ -23,7 +23,8 @@
     "grunt-contrib-jshint": "0.3.x",
     "grunt-mocha": "0.3.x",
     "grunt-mocha-test": "0.2.x",
-    "supertest": "0.5.x"
+    "supertest": "0.5.x",
+    "grunt-contrib-watch": "~0.3.1"
   },
   "optionalDependencies": {},
   "engines": {
