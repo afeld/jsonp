@@ -16,7 +16,7 @@
     "request": "2.16.x",
     "underscore": "1.4.x",
     "expect.js": "0.2.x",
-    "mocha": "1.8.x"
+    "mocha": "~1.9.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",
