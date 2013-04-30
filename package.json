@@ -11,19 +11,19 @@
   "dependencies": {
     "airbrake": "0.2.x",
     "ejs": "0.8.x",
-    "express": "3.1.x",
+    "express": "~3.2.1",
     "json3": "3.2.x",
-    "request": "2.16.x",
+    "request": "~2.20.0",
     "underscore": "1.4.x",
     "expect.js": "0.2.x",
     "mocha": "~1.9.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",
-    "grunt-contrib-jshint": "0.3.x",
+    "grunt-contrib-jshint": "~0.4.3",
     "grunt-mocha": "0.3.x",
     "grunt-mocha-test": "0.2.x",
-    "supertest": "0.5.x",
+    "supertest": "~0.6.0",
     "grunt-contrib-watch": "~0.3.1"
   },
   "optionalDependencies": {},
