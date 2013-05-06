@@ -44,6 +44,7 @@ MIT license
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
+        // use the proxy if the endpoint doesn't support CORS, or if it would be an insecure request from a secure page
         if (!opts.corsSupport || (windowProtocol === 'https:' && protocol !== windowProtocol)){
           // proxy CORS
           opts.url = proxyUrl(url, raw);
@@ -75,7 +76,7 @@ MIT license
     return $.ajax(opts);
   };
 
-  // make this available easier testing
+  // make this available for easier testing
   $.jsonp.getLocation = function(){
     return window.location;
   };
