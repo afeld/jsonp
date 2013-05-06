@@ -20,8 +20,8 @@ MIT license
   }
 
   // Accepts all jQuery.ajax() options, plus:
-  //   cors {Boolean} Set to true if the URL is known to support CORS for this domain.
-  //   jsonp {Boolean} Set to true if the URL is known to support JSONP.
+  //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
+  //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.jsonp = function(opts){
     var loc = $.jsonp.getLocation(),
       url = opts.url || loc.href, // jQuery.ajax() defaults to this
