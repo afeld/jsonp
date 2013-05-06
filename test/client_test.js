@@ -1,5 +1,5 @@
 /*jshint browser:true*/
-/*global describe, before, beforeEach, after, $, it, sinon, assert, expect */
+/*global describe, before, beforeEach, after, afterEach, $, it, sinon, assert, expect */
 describe('$.jsonp()', function(){
   var loc = window.location,
     protocol = loc.protocol,
@@ -161,6 +161,36 @@ describe('$.jsonp()', function(){
           beforeSend: function(_, settings){
             expect(settings.url).to.be(url);
 
+            done();
+            return false;
+          }
+        });
+      });
+
+      it("should use the proxy if protocols don't match", function(done){
+        var url = 'http://foo.com/bar';
+
+        var stub = sinon.stub($.jsonp, 'getLocation', function(){
+          return {
+            hash: '',
+            host: 'foo.com',
+            hostname: 'foo.com',
+            href: 'https://foo.com/other/path',
+            origin: 'https://foo.com',
+            pathname: '/other/path',
+            port: '',
+            protocol: 'https:'
+          };
+        });
+
+        $.jsonp({
+          url: url,
+          corsSupport: true,
+
+          beforeSend: function(_, settings){
+            expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
+
+            stub.restore();
             done();
             return false;
           }

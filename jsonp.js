@@ -23,10 +23,11 @@ MIT license
   //   cors {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonp {Boolean} Set to true if the URL is known to support JSONP.
   $.jsonp = function(opts){
-    var loc = window.location,
+    var loc = $.jsonp.getLocation(),
       url = opts.url || loc.href, // jQuery.ajax() defaults to this
       match = url.match(regex), // not a valid URL unless matched
-      protocol = match[1] || loc.protocol,
+      windowProtocol = loc.protocol,
+      protocol = match[1] || windowProtocol,
       host = match[2] || loc.host,
       dataType = opts.dataType,
       raw = dataType === 'text';
@@ -43,7 +44,7 @@ MIT license
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
-        if (!opts.corsSupport){
+        if (!opts.corsSupport || (windowProtocol === 'https:' && protocol !== windowProtocol)){
           // proxy CORS
           opts.url = proxyUrl(url, raw);
         } // else direct CORS
@@ -72,5 +73,10 @@ MIT license
     opts.dataType = dataType || 'json';
 
     return $.ajax(opts);
+  };
+
+  // make this available easier testing
+  $.jsonp.getLocation = function(){
+    return window.location;
   };
 }(jQuery));
