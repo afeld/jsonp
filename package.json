@@ -24,7 +24,8 @@
     "grunt-mocha": "0.3.x",
     "grunt-mocha-test": "0.2.x",
     "supertest": "~0.6.0",
-    "grunt-contrib-watch": "~0.3.1"
+    "grunt-contrib-watch": "~0.3.1",
+    "sinon": "~1.6.0"
   },
   "optionalDependencies": {},
   "engines": {
