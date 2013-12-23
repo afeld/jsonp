@@ -145,4 +145,20 @@ describe('app', function(){
 
     });
   });
+
+  it('should set the Accept header to "*/*" for "raw" requests', function(done){
+    var destApp = express();
+    destApp.get('/', function(req, res){
+      expect(req.headers.accept).to.eql('*/*');
+      res.send('');
+    });
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .query({url: 'http://localhost:8001', raw: true})
+        .expect(200, done);
+    });
+  });
 });
