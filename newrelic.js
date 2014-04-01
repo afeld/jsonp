@@ -8,8 +8,11 @@
  */
 /*jshint node:true, strict:false */
 exports.config = {
-  app_name : ['JSONP'],
-  logging : {
+  app_name: ['JSONP'],
+  error_collector: {
+    ignore_status_codes: [502]
+  },
+  logging: {
     filepath : 'stdout'
   }
 };
