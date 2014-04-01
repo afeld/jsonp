@@ -6,6 +6,7 @@
  *
  * https://docs.newrelic.com/docs/nodejs/configuring-nodejs-with-environment-variables
  */
+/*jshint node:true, strict:false */
 exports.config = {
   app_name : ['JSONP'],
   logging : {
