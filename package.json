@@ -9,7 +9,6 @@
     "url": "https://github.com/afeld/jsonp.git"
   },
   "dependencies": {
-    "airbrake": "0.2.x",
     "ejs": "0.8.x",
     "express": "~3.2.1",
     "json3": "3.2.x",
@@ -17,6 +16,7 @@
     "underscore": "1.4.x",
     "expect.js": "0.2.x",
     "mocha": "~1.9.0",
+    "newrelic": "~1.4.0",
     "sinon": "~1.6.0"
   },
   "devDependencies": {
