@@ -44,8 +44,7 @@ describe('app', function(){
     var destApp = express();
     destApp.get('/', function(req, res){
       res.set({
-        'Content-Length': 123,
-        'Connection': 'close',
+        'Connection': 'blabla',
         'Server': 'CERN/3.0 libwww/2.17',
         'X-Frame-Options': 'SAMEORIGIN',
         // an arbitrary header, just to ensure they're getting passed
@@ -61,7 +60,7 @@ describe('app', function(){
         .query({url: 'http://localhost:8001'})
         .expect('access-control-allow-origin', '*')
         .expect('content-length', '18')
-        .expect('connection', 'keep-alive')
+        .expect('connection', 'close')
         .expect('x-foo', 'bar')
         .expect(json, function(err, res){
           if (!err){
