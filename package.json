@@ -9,22 +9,24 @@
     "url": "https://github.com/afeld/jsonp.git"
   },
   "dependencies": {
+    "compression": "^1.0.2",
     "ejs": "~1.0.0",
-    "express": "~3.5.1",
-    "json3": "~3.3.0",
-    "request": "~2.34.0",
-    "underscore": "~1.6.0",
     "expect.js": "~0.3.1",
+    "express": "~4.1.2",
+    "json3": "~3.3.0",
     "mocha": "~1.18.2",
-    "newrelic": "~1.4.0",
-    "sinon": "~1.9.0"
+    "morgan": "^1.0.1",
+    "newrelic": "~1.5.4",
+    "request": "~2.34.0",
+    "sinon": "~1.9.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
-    "grunt-contrib-jshint": "~0.9.2",
+    "grunt-contrib-jshint": "~0.10.0",
     "grunt-mocha": "~0.4.10",
     "grunt-mocha-test": "~0.10.0",
-    "supertest": "~0.10.0",
+    "supertest": "~0.12.0",
     "grunt-contrib-watch": "~0.6.1"
   },
   "optionalDependencies": {},
@@ -33,7 +35,7 @@
   },
   "subdomain": "jsonp",
   "scripts": {
-    "start": "server.js",
+    "start": "node server.js",
     "test": "grunt"
   }
 }
