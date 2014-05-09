@@ -9,13 +9,13 @@
     "url": "https://github.com/afeld/jsonp.git"
   },
   "dependencies": {
-    "compression": "^1.0.2",
+    "compression": "~1.0.2",
     "ejs": "~1.0.0",
     "expect.js": "~0.3.1",
     "express": "~4.1.2",
     "json3": "~3.3.0",
     "mocha": "~1.18.2",
-    "morgan": "^1.0.1",
+    "morgan": "~1.0.1",
     "newrelic": "~1.5.4",
     "request": "~2.34.0",
     "sinon": "~1.9.0",
