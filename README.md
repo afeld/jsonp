@@ -10,3 +10,9 @@ node server.js
 ```
 
 and do requests to `http://localhost:8000/?url=...`
+
+## See Also
+
+* https://github.com/jpillora/xdomain
+* https://github.com/mapbox/corslite
+* http://enable-cors.org
