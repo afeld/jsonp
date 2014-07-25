@@ -1,4 +1,4 @@
-/*jshint node:true, strict:false */
+/*jshint node:true */
 /*global describe, it */
 var supertest = require('supertest'),
   http = require('http'),
