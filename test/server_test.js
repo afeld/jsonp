@@ -19,6 +19,28 @@ describe('app', function(){
       .expect(502, done);
   });
 
+  it('should give a status of 502 for invalid JSON', function(done){
+    var destApp = express();
+    destApp.get('/', function(req, res){
+      res.send('not JSON');
+    });
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .query({url: 'http://localhost:8001'})
+        .expect(502)
+        .expect('{"error":"not JSON"}', function(err){
+          server.on('close', function(){
+            done(err);
+          });
+          server.close();
+        });
+
+    });
+  });
+
   it('should pass the JSON and set the CORS headers', function(done){
     var json = JSON.stringify({ message: 'test' });
 
