@@ -1,6 +1,6 @@
 # JSONProxy [![Build Status](https://travis-ci.org/afeld/jsonp.png?branch=master)](https://travis-ci.org/afeld/jsonp)
 
-Simple HTTP proxy that enables cross-domain requests to any JSON API.  See [jsonp.jit.su](http://jsonp.jit.su/) for documentation.
+Simple HTTP proxy that enables cross-domain requests to any JSON API.  See [jsonp.nodejitsu.com](http://jsonp.nodejitsu.com/) for documentation.
 
 ## Running Locally
 

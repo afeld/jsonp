@@ -1,6 +1,6 @@
 /*
 JSONProxy jQuery Plugin, v0.2.0
-http://jsonp.jit.su
+http://jsonp.nodejitsu.com
 
 by Aidan Feldman
 MIT license
