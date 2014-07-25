@@ -1,5 +1,10 @@
 /*jshint node:true */
 /*global describe, it */
+require('blanket')({
+  pattern: 'lib',
+  'data-cover-never': 'node_modules'
+});
+
 var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),

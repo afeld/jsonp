@@ -13,6 +13,6 @@ grunt
 ## Code coverage
 
 ```bash
-NODE_ENV=test --reporter html-cov --require blanket mocha test/server_test.js > coverage.html
+NODE_ENV=test mocha --reporter html-cov test/server_test.js > coverage.html
 open coverage.html
 ```

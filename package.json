@@ -39,11 +39,5 @@
   "scripts": {
     "start": "node server.js",
     "test": "grunt"
-  },
-  "config": {
-    "blanket": {
-      "pattern": "lib",
-      "data-cover-never": "node_modules"
-    }
   }
 }
