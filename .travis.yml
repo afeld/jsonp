@@ -1,9 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
-  - "0.8"
 notifications:
-  webhooks: 
+  webhooks:
     urls:
       - http://webhooks.nodejitsu.com/1/deploy
     on_success: always
