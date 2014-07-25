@@ -1,7 +1,6 @@
 /*global module:false*/
 module.exports = function(grunt) {
-  var defaults = ['jshint', 'mocha', 'mochaTest'],
-    jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
+  var jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
 
   // Project configuration.
   grunt.initConfig({
@@ -28,12 +27,12 @@ module.exports = function(grunt) {
     },
     watch: {
       files: jsFiles,
-      tasks: defaults
+      tasks: 'default'
     }
   });
 
   // default tasks
-  grunt.registerTask('default', defaults);
+  grunt.registerTask('default', ['jshint', 'mocha', 'mochaTest']);
 
   // JSHint
   grunt.loadNpmTasks('grunt-contrib-jshint');
