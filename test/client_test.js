@@ -4,7 +4,7 @@ describe('$.jsonp()', function(){
   var loc = window.location,
     protocol = loc.protocol,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
-    proxy = protocol + '//jsonp.nodejitsu.com/',
+    proxy = 'https://jsonp.nodejitsu.com/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json');
 
 

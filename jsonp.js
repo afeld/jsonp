@@ -1,6 +1,6 @@
 /*
 JSONProxy jQuery Plugin, v0.2.0
-http://jsonp.nodejitsu.com
+https://jsonp.nodejitsu.com
 
 by Aidan Feldman
 MIT license
@@ -12,7 +12,7 @@ MIT license
   var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
 
   function proxyUrl(url, raw){
-    url = '//jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
+    url = 'https://jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
     if (raw){
       url += '&raw=true';
     }
