@@ -1,10 +1,14 @@
 /*global module:false*/
 module.exports = function(grunt) {
-  var defaults = ['jshint', 'mocha', 'mochaTest'],
-    jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
+  var jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
 
   // Project configuration.
   grunt.initConfig({
+    env: {
+      dev: {
+        NODE_ENV: 'test'
+      }
+    },
     jshint: {
       all: jsFiles,
       options: {
@@ -28,17 +32,17 @@ module.exports = function(grunt) {
     },
     watch: {
       files: jsFiles,
-      tasks: defaults
+      tasks: 'default'
     }
   });
 
   // default tasks
-  grunt.registerTask('default', defaults);
+  grunt.registerTask('default', ['env', 'jshint', 'mocha', 'mochaTest']);
 
-  // JSHint
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  // watch
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-env');
+
   // client tests
   grunt.loadNpmTasks('grunt-mocha');
   // server tests
