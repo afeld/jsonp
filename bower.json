@@ -9,5 +9,8 @@
     "url": "git://github.com/afeld/jsonp.git"
   },
   "ignore": ["**/*", "!jsonp.js", "!bower.json"],
+  "dependencies": {
+    "jquery": "~1.9.1"
+  },
   "license": "MIT"
 }
