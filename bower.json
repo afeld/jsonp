@@ -1,0 +1,16 @@
+{
+  "name": "jsonproxy",
+  "description": "Simple HTTP proxy that enables cross-domain requests to any JSON API.",
+  "keywords": ["json", "jsonp", "proxy", "jquery", "json-api", "http", "cross-domain"],
+
+  "main": "jsonp.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/afeld/jsonp.git"
+  },
+  "ignore": ["**/*", "!jsonp.js", "!bower.json"],
+  "dependencies": {
+    "jquery": "~1.9.1"
+  },
+  "license": "MIT"
+}
