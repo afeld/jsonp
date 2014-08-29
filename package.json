@@ -1,6 +1,7 @@
 {
   "author": "Aidan Feldman <aidan.feldman@gmail.com> (http://aidanfeldman.com)",
   "name": "jsonp",
+  "private": "true",
   "homepage": "https://jsonp.nodejitsu.com",
   "description": "A simple JSONP proxy",
   "version": "0.0.0-58",
