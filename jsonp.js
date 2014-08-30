@@ -88,6 +88,9 @@ MIT license
       opts.dataType = 'json';
     }
 
+    // weird workaround needed to have request handled properly
+    // https://github.com/jquery/jquery/blob/995f70777ac6c0f988a44807ef1399e73937b2ee/src/ajax/jsonp.js#L55-L56
+    opts.dataTypes[0] = opts.dataType;
     // delegate to the respective handler
     return opts.dataType;
   });
