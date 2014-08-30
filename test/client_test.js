@@ -111,7 +111,7 @@ describe('jsonproxy', function(){
 
       $.ajax({
         url: url,
-        dataType: 'jsonproxy',
+        dataType: 'jsonproxy text',
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(url);

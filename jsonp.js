@@ -56,6 +56,10 @@ MIT license
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.ajaxPrefilter('jsonproxy', function(opts){
+    var defaultDataType;
+    // TODO don't assume 'jsonproxy' is first?
+    opts.dataTypes.shift();
+
     if (opts.crossDomain){
       var apiUrl = new Url(opts.url, opts.data),
         doProxy = false;
@@ -67,14 +71,14 @@ MIT license
           // proxy CORS
           doProxy = true;
         } // else direct CORS
-        opts.dataType = 'json';
+        defaultDataType = 'json';
       } else {
         if (!opts.jsonpSupport){
           // proxy JSONP
           doProxy = true;
         } // else direct JSONP
 
-        opts.dataType = 'jsonp';
+        defaultDataType = 'jsonp';
         opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
       }
 
@@ -85,14 +89,15 @@ MIT license
         });
       }
     } else {
-      opts.dataType = 'json';
+      defaultDataType = 'json';
     }
 
-    // weird workaround needed to have request handled properly
-    // https://github.com/jquery/jquery/blob/995f70777ac6c0f988a44807ef1399e73937b2ee/src/ajax/jsonp.js#L55-L56
-    opts.dataTypes[0] = opts.dataType;
-    // delegate to the respective handler
-    return opts.dataType;
+    // workaround needed to have request handled properly
+    if (!opts.dataTypes.length){
+      opts.dataTypes.push(defaultDataType);
+    }
+    // delegate to the subsequent handler
+    return opts.dataTypes[0];
   });
 
   $.jsonp = {
