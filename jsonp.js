@@ -12,27 +12,58 @@ MIT license
   var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i,
     PROXY = 'https://jsonp.nodejitsu.com/';
 
+
+  var Url = function(str, paramStr){
+    var loc = $.jsonp.getLocation(),
+      match = str.match(regex); // not a valid URL unless matched
+
+    this.href = str;
+    this.protocol = match[1] || loc.protocol;
+    this.host = match[2] || loc.host;
+    this.path = match[3] || '';
+    this.paramStr = paramStr;
+  };
+
+  // returns absolute URL
+  Url.prototype.toString = function(){
+    var urlStr = this.protocol + '//' + this.host + this.path;
+    if (this.paramStr){
+      // add params to URL being passed
+      if (/\?/.test(this.path)){
+        urlStr += '&';
+      } else {
+        // no existing query params
+        if (!this.path) {
+          urlStr += '/';
+        }
+        urlStr += '?';
+      }
+      urlStr += this.paramStr;
+    }
+    return urlStr;
+  };
+
+
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.ajaxPrefilter('jsonproxy', function(opts){
-    var loc = $.jsonp.getLocation(),
-      url = opts.url || loc.href, // jQuery.ajax() defaults to this
-      match = url.match(regex), // not a valid URL unless matched
-      windowProtocol = loc.protocol,
-      protocol = match[1] || windowProtocol,
-      host = match[2] || loc.host;
+    var windowUrl = $.jsonp.getLocation(),
+      apiUrl;
+
+    if (opts.url){
+      apiUrl = new Url(opts.url, opts.data);
+    } else {
+      // jQuery.ajax() defaults to this
+      apiUrl = windowUrl;
+    }
 
     if (opts.crossDomain){
-      // construct absolute URL
-      var path = match[3] || '';
-      url = protocol + '//' + host + path;
-
       var doProxy = false;
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
         // use the proxy if the endpoint doesn't support CORS, or if it would be an insecure request from a secure page
-        if (!opts.corsSupport || (windowProtocol === 'https:' && protocol !== windowProtocol)){
+        if (!opts.corsSupport || (windowUrl.protocol === 'https:' && apiUrl.protocol !== windowUrl.protocol)){
           // proxy CORS
           doProxy = true;
         } // else direct CORS
@@ -50,22 +81,8 @@ MIT license
       if (doProxy){
         opts.url = PROXY;
 
-        if (opts.data){
-          // add params to URL being passed
-          if (/\?/.test(url)){
-            url += '&';
-          } else {
-            // no existing query params
-            if (!path) {
-              url += '/';
-            }
-            url += '?';
-          }
-          url += opts.data;
-        }
-
         opts.data = $.param({
-          url: url
+          url: apiUrl.toString()
         });
       }
     } else {
