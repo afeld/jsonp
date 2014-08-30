@@ -14,12 +14,14 @@ MIT license
 
 
   var Url = function(str, paramStr){
-    var loc = $.jsonp.getLocation(),
-      match = str.match(regex); // not a valid URL unless matched
+    this.windowUrl = $.jsonp.getLocation();
+    str = str || this.windowUrl.toString(); // jQuery.ajax() defaults to this
+
+    var match = str.match(regex); // not a valid URL unless matched
 
     this.href = str;
-    this.protocol = match[1] || loc.protocol;
-    this.host = match[2] || loc.host;
+    this.protocol = match[1] || this.windowUrl.protocol;
+    this.host = match[2] || this.windowUrl.host;
     this.path = match[3] || '';
     this.paramStr = paramStr;
   };
@@ -43,27 +45,23 @@ MIT license
     return urlStr;
   };
 
+  Url.prototype.isInsecureRequest = function(){
+    return this.windowUrl.protocol === 'https:' && this.protocol !== this.windowUrl.protocol;
+  };
+
 
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.ajaxPrefilter('jsonproxy', function(opts){
-    var windowUrl = $.jsonp.getLocation(),
-      apiUrl;
-
-    if (opts.url){
-      apiUrl = new Url(opts.url, opts.data);
-    } else {
-      // jQuery.ajax() defaults to this
-      apiUrl = windowUrl;
-    }
-
     if (opts.crossDomain){
-      var doProxy = false;
+      var apiUrl = new Url(opts.url, opts.data),
+        doProxy = false;
+
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
         // use the proxy if the endpoint doesn't support CORS, or if it would be an insecure request from a secure page
-        if (!opts.corsSupport || (windowUrl.protocol === 'https:' && apiUrl.protocol !== windowUrl.protocol)){
+        if (!opts.corsSupport || apiUrl.isInsecureRequest()){
           // proxy CORS
           doProxy = true;
         } // else direct CORS
@@ -80,7 +78,6 @@ MIT license
 
       if (doProxy){
         opts.url = PROXY;
-
         opts.data = $.param({
           url: apiUrl.toString()
         });
