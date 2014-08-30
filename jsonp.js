@@ -16,14 +16,16 @@ MIT license
   var Url = function(str, paramStr){
     this.windowUrl = $.jsonp.getLocation();
     str = str || this.windowUrl.toString(); // jQuery.ajax() defaults to this
-
-    var match = str.match(regex); // not a valid URL unless matched
-
     this.href = str;
+    this.paramStr = paramStr;
+    this._parse();
+  };
+
+  Url.prototype._parse = function(){
+    var match = this.href.match(regex); // not a valid URL unless matched
     this.protocol = match[1] || this.windowUrl.protocol;
     this.host = match[2] || this.windowUrl.host;
     this.path = match[3] || '';
-    this.paramStr = paramStr;
   };
 
   // returns absolute URL
