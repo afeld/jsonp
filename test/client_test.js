@@ -1,5 +1,5 @@
 /*jshint browser:true*/
-/*global describe, before, beforeEach, after, afterEach, $, it, sinon, assert, expect */
+/*global describe, before, after, $, it, sinon, expect */
 describe('jsonproxy', function(){
   var loc = window.location,
     protocol = loc.protocol,

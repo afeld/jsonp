@@ -21,7 +21,8 @@ module.exports = function(grunt) {
         newcap: true,
         noarg: true,
         sub: true,
-        undef: true
+        undef: true,
+        unused: true
       }
     },
     mocha: {

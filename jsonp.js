@@ -51,6 +51,7 @@ MIT license
         opts.url = PROXY;
 
         if (opts.data){
+          // add params to URL being passed
           if (/\?/.test(url)){
             url += '&';
           } else {
