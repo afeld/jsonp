@@ -5,9 +5,16 @@
     <meta name="description" content="Enables cross-domain requests to any JSON API"/>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <link rel="canonical" href="https://jsonp.nodejitsu.com"/>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet" type="text/css"/>
     <link href="public/app.css" rel="stylesheet" type="text/css"/>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js" type="text/javascript"></script>
+
     <script type="text/javascript">
+      hljs.initHighlightingOnLoad();
+
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-19048260-7']);
       _gaq.push(['_trackPageview']);
@@ -36,7 +43,7 @@
 
       <section>
         <h2 id="jsonp">Easy: JSONP</h2>
-        <script src="https://gist.github.com/2664597.js?file=jsonp.html"></script>
+        <pre><code class="language-html"><%= snippets.jsonp %></code></pre>
         <form class="urlEntry" action="" method="get">
           http://<%= host %>/?callback=<input type="text" name="callback" placeholder="functionName" />&amp;</span>url=<span><input type="text" name="url" placeholder="API URL"/>
           <input type="submit" value="Go"/>
@@ -48,7 +55,7 @@
         <p class="finePrint">
           (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
         </p>
-        <script src="https://gist.github.com/2664597.js?file=ajax.html"></script>
+        <pre><code class="language-html"><%= snippets.ajax %></code></pre>
         <form class="urlEntry" action="" method="get">
           http://<%= host %>/?url=<input type="text" name="url" placeholder="API URL" />
           <input type="submit" value="Go"/>
@@ -69,7 +76,7 @@
         <p>
           In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
         </p>
-        <script src="https://gist.github.com/2664597.js?file=client.html"></script>
+        <pre><code class="language-html"><%= snippets.client %></code></pre>
         <p>
           <a href="test.html">Tested</a> against jQuery 1.8.2, though it should be compatible with jQuery 1.5+.
         </p>
