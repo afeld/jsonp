@@ -14,12 +14,11 @@ MIT license
   $.jsonp = function(opts){
     var windowUrl = $.jsonp.getLocation(),
       apiUri = URI(opts.url).absoluteTo(windowUrl.href),
+      doProxy = false,
       defaultDataType;
 
     if ($.jsonp.isCrossDomain(URI(windowUrl), apiUri)){
-      var doProxy = false,
-        params;
-
+      var params;
       if (typeof opts.data === 'string'){
         params = URI.parseQuery(opts.data);
       } else {
@@ -44,18 +43,32 @@ MIT license
         defaultDataType = 'jsonp';
         opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
       }
-
-      if (doProxy){
-        opts.url = $.jsonp.PROXY;
-        opts.data = $.param({
-          url: apiUri.toString()
-        });
-      }
     } else {
       defaultDataType = 'json';
     }
 
-    opts.dataType = defaultDataType;
+    if (doProxy){
+      var newParams = {
+        url: apiUri.toString()
+      };
+
+      if (opts.dataType === 'text'){
+        // 'raw' request
+
+        // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
+        // Mask this to the library user by simply returning the underlying string.
+        opts.dataFilter = function(json){
+          return json.data;
+        };
+        newParams.raw = true;
+      }
+
+      opts.url = $.jsonp.PROXY;
+      opts.data = $.param(newParams);
+      opts.dataType = defaultDataType;
+    } else {
+      opts.dataType = opts.dataType || defaultDataType;
+    }
 
     return $.ajax(opts);
   };

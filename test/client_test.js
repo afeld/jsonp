@@ -121,7 +121,7 @@ describe('jsonproxy', function(){
       });
     });
 
-    it.skip('should handle requests for text to relative path', function(done){
+    it('should handle requests for text to relative path', function(done){
       var url = loc.pathname.replace(/test.html/, 'test/data.txt');
 
       $.jsonp({
@@ -137,15 +137,15 @@ describe('jsonproxy', function(){
       });
     });
 
-    it.skip('should handle requests for text across domains', function(done){
+    it('should handle requests for text across domains', function(done){
       var url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
+        dataType: 'text',
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url) + '&raw=true');
-          expect(settings.dataType).to.be('text');
 
           done();
           return false;
@@ -268,11 +268,12 @@ describe('jsonproxy', function(){
       });
     });
 
-    it.skip('should handle requests for text across domains', function(done){
+    it('should handle requests for text across domains', function(done){
       var url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
+        dataType: 'text',
 
         beforeSend: function(_, settings){
           expect(settings.url).to.contain('&raw=true&');
