@@ -14,17 +14,10 @@ MIT license
   $.jsonp = function(opts){
     var windowUrl = $.jsonp.getLocation(),
       apiUri = URI(opts.url).absoluteTo(windowUrl.href),
-      doProxy = false,
       defaultDataType;
 
     if ($.jsonp.isCrossDomain(URI(windowUrl), apiUri)){
-      var params;
-      if (typeof opts.data === 'string'){
-        params = URI.parseQuery(opts.data);
-      } else {
-        params = opts.data || {};
-      }
-      apiUri.addSearch(params);
+      var doProxy;
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
@@ -43,32 +36,39 @@ MIT license
         defaultDataType = 'jsonp';
         opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
       }
+
+      if (doProxy){
+        var params;
+        if (typeof opts.data === 'string'){
+          params = URI.parseQuery(opts.data);
+        } else {
+          params = opts.data || {};
+        }
+        apiUri.addSearch(params);
+
+        opts.data = {
+          url: apiUri.toString()
+        };
+
+        if (opts.dataType === 'text'){
+          // 'raw' request
+
+          // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
+          // Mask this to the library user by simply returning the underlying string.
+          opts.dataFilter = function(json){
+            return json.data;
+          };
+          opts.data.raw = true;
+        }
+
+        opts.url = $.jsonp.PROXY;
+        opts.dataType = defaultDataType;
+      }
     } else {
       defaultDataType = 'json';
     }
 
-    if (doProxy){
-      var newParams = {
-        url: apiUri.toString()
-      };
-
-      if (opts.dataType === 'text'){
-        // 'raw' request
-
-        // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
-        // Mask this to the library user by simply returning the underlying string.
-        opts.dataFilter = function(json){
-          return json.data;
-        };
-        newParams.raw = true;
-      }
-
-      opts.url = $.jsonp.PROXY;
-      opts.data = $.param(newParams);
-      opts.dataType = defaultDataType;
-    } else {
-      opts.dataType = opts.dataType || defaultDataType;
-    }
+    opts.dataType = opts.dataType || defaultDataType;
 
     return $.ajax(opts);
   };
