@@ -16,7 +16,7 @@ h2 {
 hr {
   margin-top: 2.5em;
 }
-code {
+p code {
   padding: 0.04em 0.35em;
   background-color: #EAEAEA;
   border: 1px solid #C2C2C2;
@@ -28,34 +28,22 @@ code {
 .finePrint {
   font-size: 0.8em;
 }
-.gist {
-  margin-bottom: 1em;
-  font-size: 0.9em;
-  width: 100%;
-  -webkit-transition: width .3s ease-out;
-  -moz-transition: width .3s ease-out;
-  -o-transition: width .3s ease-out;
-  transition: width .3s ease-out;
+
+pre {
+  font-size: 1.2em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
-.gist:hover {
+pre:hover {
   width: 135%;
 }
+
 .urlEntry {
   display: inline-block;
   padding: 5px 10px;
   background-color: #C9C9C9;
   border: 1px solid #818181;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
-}
-.urlEntry span {
-  position: relative;
-}
-.urlEntry label {
-  position: absolute;
-  top: 0;
-  left: 0.5em;
 }
 .urlEntry input {
   padding: 0.5em;
