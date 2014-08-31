@@ -2,7 +2,6 @@
 /*global describe, before, after, $, it, sinon, expect */
 describe('jsonproxy', function(){
   var loc = window.location,
-    protocol = loc.protocol,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
     proxy = 'https://jsonp.nodejitsu.com/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json');
@@ -40,8 +39,20 @@ describe('jsonproxy', function(){
     });
 
     it('should use the proxy for a mismatched protocol', function(done){
-      var otherProtocol = protocol === 'https:' ? 'http:' : 'https:',
-        url = otherProtocol + '//' + loc.host + '/bar';
+      var stub = sinon.stub($.jsonp, 'getLocation', function(){
+        return {
+          hash: '',
+          host: 'foo.com',
+          hostname: 'foo.com',
+          href: 'https://foo.com/other/path',
+          origin: 'https://foo.com',
+          pathname: '/other/path',
+          port: '',
+          protocol: 'https:'
+        };
+      });
+
+      var url = 'http://foo.com/other/path';
 
       $.ajax({
         url: url,
@@ -51,6 +62,7 @@ describe('jsonproxy', function(){
           expect(settings.url).to.contain(proxy + '?');
           expect(settings.url).to.contain('url=' + encodeURIComponent(url));
 
+          stub.restore();
           done();
           return false;
         }
