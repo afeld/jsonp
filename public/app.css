@@ -49,14 +49,6 @@ code {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-.urlEntry span {
-  position: relative;
-}
-.urlEntry label {
-  position: absolute;
-  top: 0;
-  left: 0.5em;
-}
 .urlEntry input {
   padding: 0.5em;
 }
