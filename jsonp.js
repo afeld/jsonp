@@ -13,7 +13,7 @@ MIT license
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.jsonp = function(opts){
     var windowUrl = $.jsonp.getLocation(),
-      apiUri = URI(opts.url).absoluteTo(windowUrl.href),
+      apiUri = $.jsonp.getApiUri(opts),
       defaultDataType;
 
     if ($.jsonp.isCrossDomain(URI(windowUrl), apiUri)){
@@ -38,14 +38,6 @@ MIT license
       }
 
       if (doProxy){
-        var params;
-        if (typeof opts.data === 'string'){
-          params = URI.parseQuery(opts.data);
-        } else {
-          params = opts.data || {};
-        }
-        apiUri.addSearch(params);
-
         opts.data = {
           url: apiUri.toString()
         };
@@ -79,6 +71,21 @@ MIT license
     // make this available for easier testing
     getLocation: function(){
       return window.location;
+    },
+
+    getApiUri: function(ajaxOpts){
+      var windowUrl = $.jsonp.getLocation(),
+        uri = URI(ajaxOpts.url).absoluteTo(windowUrl.href),
+        params;
+
+      if (typeof ajaxOpts.data === 'string'){
+        params = URI.parseQuery(ajaxOpts.data);
+      } else {
+        params = ajaxOpts.data || {};
+      }
+      uri.addSearch(params);
+
+      return uri;
     },
 
     // http://stackoverflow.com/a/1084027/358804
