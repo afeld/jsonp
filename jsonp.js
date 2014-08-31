@@ -11,18 +11,21 @@ MIT license
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
-  $.ajaxPrefilter('jsonproxy', function(opts){
-    var defaultDataType;
-    // TODO don't assume 'jsonproxy' is first?
-    opts.dataTypes.shift();
+  $.jsonp = function(opts){
+    var windowUrl = $.jsonp.getLocation(),
+      apiUri = URI(opts.url).absoluteTo(windowUrl.href),
+      defaultDataType;
 
-    if (opts.crossDomain){
+    if ($.jsonp.isCrossDomain(URI(windowUrl), apiUri)){
       var doProxy = false,
-        windowUrl = $.jsonp.getLocation(),
-        params = URI.parseQuery(opts.data),
-        apiUri = URI(opts.url).
-          absoluteTo(windowUrl.href).
-          addSearch(params);
+        params;
+
+      if (typeof opts.data === 'string'){
+        params = URI.parseQuery(opts.data);
+      } else {
+        params = opts.data || {};
+      }
+      apiUri.addSearch(params);
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
@@ -52,15 +55,12 @@ MIT license
       defaultDataType = 'json';
     }
 
-    // workaround needed to have request handled properly
-    if (!opts.dataTypes.length){
-      opts.dataTypes.push(defaultDataType);
-    }
-    // delegate to the subsequent handler
-    return opts.dataTypes[0];
-  });
+    opts.dataType = defaultDataType;
 
-  $.jsonp = {
+    return $.ajax(opts);
+  };
+
+  $.extend($.jsonp, {
     PROXY: 'https://jsonp.nodejitsu.com/',
 
     // make this available for easier testing
@@ -68,9 +68,18 @@ MIT license
       return window.location;
     },
 
+    // http://stackoverflow.com/a/1084027/358804
+    isCrossDomain: function(uri1, uri2){
+      return (
+        uri1.protocol() !== uri2.protocol() ||
+        uri1.host() !== uri2.host() ||
+        uri1.port() !== uri2.port()
+      );
+    },
+
     isInsecureRequest: function(uri){
       var windowUrl = this.getLocation();
       return windowUrl.protocol === 'https:' && uri.protocol() !== windowUrl.protocol;
     }
-  };
+  });
 }(jQuery));
