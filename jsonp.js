@@ -19,15 +19,10 @@ MIT license
     if (opts.crossDomain){
       var doProxy = false,
         windowUrl = $.jsonp.getLocation(),
-        apiUri = URI(opts.url).absoluteTo(windowUrl.href),
-        params;
-
-      if (typeof opts.data === 'string'){
-        params = URI.parseQuery(opts.data);
-      } else {
-        params = opts.data || {};
-      }
-      apiUri.addSearch(params);
+        params = URI.parseQuery(opts.data),
+        apiUri = URI(opts.url).
+          absoluteTo(windowUrl.href).
+          addSearch(params);
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
