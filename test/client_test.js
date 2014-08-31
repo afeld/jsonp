@@ -1,10 +1,19 @@
 /*jshint browser:true*/
-/*global describe, before, after, $, it, sinon, expect */
+/*global describe, before, beforeEach, after, afterEach, $, it, sinon, expect */
 describe('jsonproxy', function(){
   var loc = window.location,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
     proxy = 'https://jsonp.nodejitsu.com/',
-    packagePath = loc.pathname.replace(/test.html/, 'package.json');
+    packagePath = loc.pathname.replace(/test.html/, 'package.json'),
+    sandbox;
+
+  beforeEach(function(){
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(function() {
+    sandbox.restore();
+  });
 
 
   function sharedTests(){
@@ -39,7 +48,7 @@ describe('jsonproxy', function(){
     });
 
     it('should use the proxy for a mismatched protocol', function(done){
-      var stub = sinon.stub($.jsonp, 'getLocation', function(){
+      sandbox.stub($.jsonp, 'getLocation', function(){
         return {
           hash: '',
           host: 'foo.com',
@@ -62,7 +71,6 @@ describe('jsonproxy', function(){
           expect(settings.url).to.contain(proxy + '?');
           expect(settings.url).to.contain('url=' + encodeURIComponent(url));
 
-          stub.restore();
           done();
           return false;
         }
@@ -207,7 +215,7 @@ describe('jsonproxy', function(){
       it("should use the proxy if protocols don't match", function(done){
         var url = 'http://foo.com/bar';
 
-        var stub = sinon.stub($.jsonp, 'getLocation', function(){
+        sandbox.stub($.jsonp, 'getLocation', function(){
           return {
             hash: '',
             host: 'foo.com',
@@ -228,7 +236,6 @@ describe('jsonproxy', function(){
           beforeSend: function(_, settings){
             expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
 
-            stub.restore();
             done();
             return false;
           }
