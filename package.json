@@ -35,7 +35,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "~0.8.0"
   },
   "subdomain": "jsonp",
   "scripts": {
