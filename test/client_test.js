@@ -1,11 +1,19 @@
 /*jshint browser:true*/
-/*global describe, before, beforeEach, after, afterEach, $, it, sinon, assert, expect */
-describe('$.jsonp()', function(){
+/*global describe, before, beforeEach, after, afterEach, $, it, sinon, expect */
+describe('jsonproxy', function(){
   var loc = window.location,
-    protocol = loc.protocol,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
     proxy = 'https://jsonp.nodejitsu.com/',
-    packagePath = loc.pathname.replace(/test.html/, 'package.json');
+    packagePath = loc.pathname.replace(/test.html/, 'package.json'),
+    sandbox;
+
+  beforeEach(function(){
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(function() {
+    sandbox.restore();
+  });
 
 
   function sharedTests(){
@@ -38,14 +46,27 @@ describe('$.jsonp()', function(){
     });
 
     it('should use the proxy for a mismatched protocol', function(done){
-      var otherProtocol = protocol === 'https:' ? 'http:' : 'https:',
-        url = otherProtocol + '//' + loc.host + '/bar';
+      sandbox.stub($.jsonp, 'getLocation', function(){
+        return {
+          hash: '',
+          host: 'foo.com',
+          hostname: 'foo.com',
+          href: 'https://foo.com/other/path',
+          origin: 'https://foo.com',
+          pathname: '/other/path',
+          port: '',
+          protocol: 'https:'
+        };
+      });
+
+      var url = 'http://foo.com/other/path';
 
       $.jsonp({
         url: url,
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.contain(proxy + '?url=' + encodeURIComponent(url)); // + '&callback=jQuery...' for JSONP
+          expect(settings.url).to.contain(proxy + '?');
+          expect(settings.url).to.contain('url=' + encodeURIComponent(url));
 
           done();
           return false;
@@ -125,7 +146,22 @@ describe('$.jsonp()', function(){
 
         beforeSend: function(_, settings){
           expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url) + '&raw=true');
-          expect(settings.dataType).to.be('text');
+
+          done();
+          return false;
+        }
+      });
+    });
+
+    it("should handle the 'data' option", function(done){
+      $.jsonp({
+        url: 'http://foo.com',
+        data: {
+          bar: 'baz'
+        },
+
+        beforeSend: function(_, settings){
+          expect(settings.url).to.be(proxy + '?url=http%3A%2F%2Ffoo.com%2F%3Fbar%3Dbaz');
 
           done();
           return false;
@@ -170,7 +206,7 @@ describe('$.jsonp()', function(){
       it("should use the proxy if protocols don't match", function(done){
         var url = 'http://foo.com/bar';
 
-        var stub = sinon.stub($.jsonp, 'getLocation', function(){
+        sandbox.stub($.jsonp, 'getLocation', function(){
           return {
             hash: '',
             host: 'foo.com',
@@ -190,7 +226,6 @@ describe('$.jsonp()', function(){
           beforeSend: function(_, settings){
             expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
 
-            stub.restore();
             done();
             return false;
           }
@@ -221,7 +256,9 @@ describe('$.jsonp()', function(){
         url: url,
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.contain(proxy + '?url=' + encodeURIComponent(url) + '&callback=jQuery');
+          expect(settings.url).to.contain(proxy + '?');
+          expect(settings.url).to.contain('url=' + encodeURIComponent(url));
+          expect(settings.url).to.contain('callback=jQuery');
           // should set default timeout
           expect(settings.timeout).to.be.a('number');
 

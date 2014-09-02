@@ -6,78 +6,100 @@ by Aidan Feldman
 MIT license
 */
 /*jshint browser:true */
-/*global jQuery */
+/*global jQuery, URI */
 (function($){
-  // groups: protocol, host, path
-  var regex = /^(?:(?:(?:((?:file|https?):))?\/\/)?((?:[\w\-]\.?)+(?::\d+)?)?(\/\S*)?)$/i;
-
-  function proxyUrl(url, raw){
-    url = 'https://jsonp.nodejitsu.com/?url=' + encodeURIComponent(url);
-    if (raw){
-      url += '&raw=true';
-    }
-    return url;
-  }
-
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
   $.jsonp = function(opts){
-    var loc = $.jsonp.getLocation(),
-      url = opts.url || loc.href, // jQuery.ajax() defaults to this
-      match = url.match(regex), // not a valid URL unless matched
-      windowProtocol = loc.protocol,
-      protocol = match[1] || windowProtocol,
-      host = match[2] || loc.host,
-      dataType = opts.dataType,
-      raw = dataType === 'text';
+    var windowUrl = $.jsonp.getLocation(),
+      apiUri = $.jsonp.getApiUri(opts),
+      defaultDataType;
 
-    // make a copy
-    opts = $.extend({}, opts);
-
-    if (protocol !== loc.protocol || host !== loc.host){
-      // requesting to a different domain
-
-      // construct absolute URL
-      var path = match[3] || '';
-      url = protocol + '//' + host + path;
+    if ($.jsonp.isCrossDomain(URI(windowUrl), apiUri)){
+      var doProxy;
 
       // favor CORS because it can provide error messages from server to callbacks
       if ($.support.cors){
         // use the proxy if the endpoint doesn't support CORS, or if it would be an insecure request from a secure page
-        if (!opts.corsSupport || (windowProtocol === 'https:' && protocol !== windowProtocol)){
+        if (!opts.corsSupport || $.jsonp.isInsecureRequest(apiUri)){
           // proxy CORS
-          opts.url = proxyUrl(url, raw);
+          doProxy = true;
         } // else direct CORS
+        defaultDataType = 'json';
       } else {
         if (!opts.jsonpSupport){
           // proxy JSONP
-          opts.url = proxyUrl(url, raw);
-
-          var success = opts.success;
-          if (raw && success){
-            // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
-            // Mask this to the library user by simply returning the underlying string.
-            opts.success = function(json){
-              // jQuery will take care of setting the proper context
-              success.call(opts.context || this, json.data);
-            };
-          }
+          doProxy = true;
         } // else direct JSONP
-        dataType = 'jsonp';
+
+        defaultDataType = 'jsonp';
+        opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
       }
+
+      if (doProxy){
+        opts.data = {
+          url: apiUri.toString()
+        };
+
+        if (opts.dataType === 'text'){
+          // 'raw' request
+
+          // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
+          // Mask this to the library user by simply returning the underlying string.
+          opts.dataFilter = function(json){
+            return json.data;
+          };
+          opts.data.raw = true;
+        }
+
+        opts.url = $.jsonp.PROXY;
+        opts.dataType = defaultDataType;
+      }
+    } else {
+      defaultDataType = 'json';
     }
 
-    if (dataType === 'jsonp'){
-      opts.timeout = opts.timeout || 10000; // ensures error callbacks are fired
-    }
-    opts.dataType = dataType || 'json';
+    opts.dataType = opts.dataType || defaultDataType;
 
     return $.ajax(opts);
   };
 
-  // make this available for easier testing
-  $.jsonp.getLocation = function(){
-    return window.location;
-  };
+  $.extend($.jsonp, {
+    PROXY: 'https://jsonp.nodejitsu.com/',
+
+    // make this available for easier testing
+    getLocation: function(){
+      return window.location;
+    },
+
+    getApiUri: function(ajaxOpts){
+      var windowUrl = $.jsonp.getLocation(),
+        uri = URI(ajaxOpts.url).absoluteTo(windowUrl.href),
+        params;
+
+      if (typeof ajaxOpts.data === 'string'){
+        params = URI.parseQuery(ajaxOpts.data);
+      } else {
+        params = ajaxOpts.data || {};
+      }
+      uri.addSearch(params);
+
+      return uri;
+    },
+
+    // http://stackoverflow.com/a/1084027/358804
+    isCrossDomain: function(uri1, uri2){
+      return (
+        uri1.protocol() !== uri2.protocol() ||
+        uri1.host() !== uri2.host() ||
+        uri1.port() !== uri2.port()
+      );
+    },
+
+    isInsecureRequest: function(uri){
+      var windowUrl = this.getLocation();
+      return windowUrl.protocol === 'https:' && uri.protocol() !== windowUrl.protocol;
+    }
+  });
 }(jQuery));
