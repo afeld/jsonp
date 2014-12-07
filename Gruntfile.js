@@ -1,6 +1,6 @@
 /*global module:false*/
 module.exports = function(grunt) {
-  var jsFiles = ['*.js', 'lib/**/*.js', 'test/**/*.js'];
+  var jsFiles = ['*.js', 'server/**/*.js', 'test/**/*.js'];
 
   // Project configuration.
   grunt.initConfig({

@@ -9,7 +9,7 @@ var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   expect = require('expect.js'),
-  app = require('../lib/app.js');
+  app = require('../server/app.js');
 
 describe('app', function(){
   it('should give a status of 502 for a non-existent page', function(done){
