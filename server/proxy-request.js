@@ -5,6 +5,10 @@ var u = require('underscore');
 var JSON3 = require('json3');
 
 
+var shouldGarbageCollect = function() {
+  return process.env.NODE_ENV === 'production' || typeof gc === 'function';
+};
+
 var passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
   var externalReqHeaders = u.omit(incomingHeaders, 'accept-encoding', 'connection', 'cookie', 'host', 'user-agent');
@@ -45,10 +49,9 @@ module.exports = function(url, headers, raw) {
     }
   );
 
-  if (process.env.NODE_ENV === 'production' || typeof gc === 'function') {
-    // run garbage collection
+  if (shouldGarbageCollect()) {
     // https://github.com/afeld/jsonp/issues/18#issuecomment-54732166
-    promise = promise.finally(gc);
+    process.nextTick(gc);
   }
 
   return promise;
