@@ -41,7 +41,7 @@
   },
   "subdomain": "jsonp",
   "scripts": {
-    "start": "node server.js",
+    "start": "node lib/server.js",
     "test": "grunt"
   }
 }

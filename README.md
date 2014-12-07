@@ -6,7 +6,7 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API.  See https
 
 ```
 npm install
-node server.js
+npm start
 ```
 
 and do requests to `http://localhost:8000/?url=...`
