@@ -22,6 +22,7 @@
     "q": "^1.1.2",
     "request": "^2.49.0",
     "sinon": "^1.12.1",
+    "type-is": "^1.5.3",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
