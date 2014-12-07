@@ -9,6 +9,7 @@
 /*jshint node:true, strict:false */
 exports.config = {
   app_name: ['JSONP'],
+  capture_params: true,
   error_collector: {
     ignore_status_codes: [404, 502]
   },
