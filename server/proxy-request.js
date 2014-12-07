@@ -1,4 +1,5 @@
-/*jshint node:true */
+/* jshint node:true */
+/* global gc */
 var requestp = require('./requestp');
 var u = require('underscore');
 var JSON3 = require('json3');
@@ -43,6 +44,12 @@ module.exports = function(url, headers, raw) {
       }
     }
   );
+
+  if (process.env.NODE_ENV === 'production' || typeof gc === 'function') {
+    // run garbage collection
+    // https://github.com/afeld/jsonp/issues/18#issuecomment-54732166
+    promise = promise.finally(gc);
+  }
 
   return promise;
 };

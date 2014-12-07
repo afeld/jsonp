@@ -41,7 +41,7 @@
   },
   "subdomain": "jsonp",
   "scripts": {
-    "start": "node server/run.js",
+    "start": "node --expose-gc server/run.js",
     "test": "grunt"
   }
 }
