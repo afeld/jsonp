@@ -16,13 +16,13 @@
     "expect.js": "^0.3.1",
     "express": "^4.10.4",
     "json3": "^3.3.2",
+    "media-typer": "^0.3.0",
     "mocha": "^2.0.1",
     "morgan": "^1.5.0",
     "newrelic": "^1.14.1",
     "q": "^1.1.2",
     "request": "^2.49.0",
     "sinon": "^1.12.1",
-    "type-is": "^1.5.3",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
