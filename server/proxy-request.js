@@ -6,6 +6,7 @@ var JSON3 = require('json3');
 
 
 var shouldGarbageCollect = function() {
+  console.log('NODE_ENV: ' + process.env.NODE_ENV + '; GC: ' + (typeof gc));
   return process.env.NODE_ENV === 'production' || typeof gc === 'function';
 };
 
@@ -51,7 +52,10 @@ module.exports = function(url, headers, raw) {
 
   if (shouldGarbageCollect()) {
     // https://github.com/afeld/jsonp/issues/18#issuecomment-54732166
-    process.nextTick(gc);
+    process.nextTick(function() {
+      console.log('collecting garbage');
+      gc();
+    });
   }
 
   return promise;
