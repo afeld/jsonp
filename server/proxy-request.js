@@ -3,6 +3,7 @@
 var requestp = require('./requestp');
 var u = require('underscore');
 var JSON3 = require('json3');
+var util = require('util');
 
 
 var shouldGarbageCollect = function() {
@@ -55,6 +56,7 @@ module.exports = function(url, headers, raw) {
     process.nextTick(function() {
       console.log('collecting garbage');
       gc();
+      console.log(util.inspect(process.memoryUsage()));
     });
   }
 
