@@ -2,6 +2,10 @@
 
 Simple HTTP proxy that enables cross-domain requests to any JSON API.  See https://jsonp.herokuapp.com for documentation.  See the [releases](https://github.com/ft-interactive/jsonp/releases) page for the [client library](jsonp.js) changelog.
 
+## Running on Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Running Locally
 
 ```
