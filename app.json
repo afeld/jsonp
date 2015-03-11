@@ -1,0 +1,6 @@
+{
+  "name": "jsonp",
+  "description": "A simple JSON proxy",
+  "repository": "https://github.com/ft-interactive/jsonp",
+  "keywords": ["json", "jsonp", "proxy", "cors"]
+}

@@ -3,12 +3,12 @@
     alert('it works! ', JSON.parse(data).awesome);
   }
 </script>
-<script src="https://jsonp.nodejitsu.com/?callback=myCallback&url=http://jsonview.com/example.json"></script>
+<script src="https://jsonp.herokuapp.com/?callback=myCallback&url=http://jsonview.com/example.json"></script>
 
 <!-- or the jQuery convenience method -->
 
 <script>
-  $.getJSON('https://jsonp.nodejitsu.com/?callback=?&url=http://jsonview.com/example.json', function(data){
+  $.getJSON('https://jsonp.herokuapp.com/?callback=?&url=http://jsonview.com/example.json', function(data){
     alert('fake AJAX! ' + data.awesome);
   });
 </script>
