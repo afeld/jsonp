@@ -1,14 +1,6 @@
 {
-  "author": "Aidan Feldman <aidan.feldman@gmail.com> (http://aidanfeldman.com)",
   "name": "jsonp",
   "private": "true",
-  "homepage": "https://jsonp.afeld.me",
-  "description": "A simple JSONP proxy",
-  "version": "0.0.0-58",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/afeld/jsonp.git"
-  },
   "dependencies": {
     "compression": "^1.4.1",
     "cors": "^2.5.3",
@@ -40,7 +32,6 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "subdomain": "jsonp",
   "scripts": {
     "start": "node --expose-gc server/run.js",
     "test": "grunt"
