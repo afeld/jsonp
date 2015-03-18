@@ -171,4 +171,19 @@ describe('app', function(){
 
     });
   });
+
+  it('should redirect if the REDIRECT_ORIGIN is set', function(done){
+    var originalRedirect = process.env.REDIRECT_ORIGIN;
+    process.env.REDIRECT_ORIGIN = 'http://redirected.com';
+
+    supertest(app)
+      .get('/')
+      .query({url: 'http://localhost:8001', raw: true})
+      .expect('location', 'http://redirected.com/?url=http%3A%2F%2Flocalhost%3A8001&raw=true')
+      .expect(302, function() {
+        // TODO cleanup even if the test fails
+        process.env.REDIRECT_ORIGIN = originalRedirect;
+        done();
+      });
+  });
 });
