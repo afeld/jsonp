@@ -1,6 +1,6 @@
 /*
 JSONProxy jQuery Plugin, v0.2.2
-https://jsonp.nodejitsu.com
+https://jsonp.afeld.me
 
 by Aidan Feldman
 MIT license
@@ -66,7 +66,7 @@ MIT license
   };
 
   $.extend($.jsonp, {
-    PROXY: 'https://jsonp.nodejitsu.com/',
+    PROXY: 'https://jsonp.afeld.me/',
 
     // make this available for easier testing
     getLocation: function(){

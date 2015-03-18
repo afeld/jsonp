@@ -3,7 +3,7 @@
 describe('jsonproxy', function(){
   var loc = window.location,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
-    proxy = 'https://jsonp.nodejitsu.com/',
+    proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
     sandbox;
 
