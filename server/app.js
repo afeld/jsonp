@@ -8,6 +8,7 @@ var express = require('express'),
   compress = require('compression'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
+  redirector = require('./redirector'),
   router = require('./router');
 
 var app = express();
@@ -23,6 +24,7 @@ app.use(cors({
   maxAge: 60 * 60 * 24, // one day
   methods: ['GET']
 }));
+app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express['static'](__dirname + '/..'));
 app.use('/', router);

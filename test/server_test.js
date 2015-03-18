@@ -9,7 +9,11 @@ var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   expect = require('expect.js'),
-  app = require('../server/app.js');
+  sinon = require('sinon'),
+  app = require('../server/app.js'),
+  redirector = require('../server/redirector.js');
+
+require('sinon-mocha').enhance(sinon);
 
 describe('app', function(){
   it('should give a status of 502 for a non-existent page', function(done){
@@ -170,5 +174,15 @@ describe('app', function(){
         });
 
     });
+  });
+
+  it('should redirect if the REDIRECT_ORIGIN is set', function(done){
+    sinon.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
+
+    supertest(app)
+      .get('/')
+      .query({url: 'http://localhost:8001', raw: true})
+      .expect('location', 'http://redirected.com/?url=http%3A%2F%2Flocalhost%3A8001&raw=true')
+      .expect(302, done);
   });
 });

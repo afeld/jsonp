@@ -33,6 +33,7 @@
     "grunt-env": "^0.4.4",
     "grunt-mocha": "^0.4.12",
     "grunt-mocha-test": "^0.12.7",
+    "sinon-mocha": "0.0.3",
     "supertest": "^0.15.0"
   },
   "optionalDependencies": {},
