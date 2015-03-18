@@ -24,7 +24,7 @@ app.use(cors({
   maxAge: 60 * 60 * 24, // one day
   methods: ['GET']
 }));
-app.use(redirector);
+app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express['static'](__dirname + '/..'));
 app.use('/', router);
