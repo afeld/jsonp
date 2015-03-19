@@ -2,7 +2,7 @@
 
 ## Running tests
 
-Install Node 0.10 and [PhantomJS](http://phantomjs.org/), then run:
+Install [PhantomJS](http://phantomjs.org/), then run:
 
 ```
 npm install -g grunt-cli

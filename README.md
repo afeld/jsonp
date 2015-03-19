@@ -4,6 +4,8 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API.  See https
 
 ## Running Locally
 
+Requires Node 0.8 (not 0.10 – see [#18](https://github.com/afeld/jsonp/issues/18#issuecomment-54216994)).
+
 ```
 npm install
 npm start
