@@ -1,5 +1,5 @@
 /*
-JSONProxy jQuery Plugin, v0.3.0
+JSONProxy jQuery Plugin, v0.3.1
 https://jsonp.afeld.me
 
 by Aidan Feldman
