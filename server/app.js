@@ -1,6 +1,8 @@
 /*jshint node:true */
-if (process.env.NODE_ENV === 'production' || process.env.NEW_RELIC_LICENSE_KEY) {
+if (process.env.NEW_RELIC_LICENSE_KEY) {
   require('newrelic');
+} else {
+  console.warn("New Relic agent not being started because NEW_RELIC_LICENSE_KEY is missing.");
 }
 
 var express = require('express'),
