@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "jquery": "~1.9.1",
-    "uri.js": "~1.13.2"
+    "URIjs": ">=1.13 <2"
   },
   "license": "MIT"
 }

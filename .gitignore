@@ -4,5 +4,5 @@ coverage.html
 public/bower_components/jquery/*
 !public/bower_components/jquery/jquery.js
 
-public/bower_components/uri.js/*
-!public/bower_components/uri.js/src/URI.js
+public/bower_components/URIjs/*
+!public/bower_components/URIjs/src/URI.min.js
