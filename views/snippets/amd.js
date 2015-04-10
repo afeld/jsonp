@@ -1,0 +1,6 @@
+require(['jquery', 'jsonp'], function($) {
+  // ...
+  $.jsonp({
+    // ...
+  });
+});

@@ -22,7 +22,7 @@
     "LICENSE.txt"
   ],
   "dependencies": {
-    "jquery": ">=1.9 <3.0",
+    "jquery": ">=1.5 <3.0",
     "URIjs": ">=1.13 <2"
   },
   "license": "MIT",
