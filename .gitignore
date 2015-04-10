@@ -2,7 +2,4 @@ node_modules/
 coverage.html
 
 public/bower_components/jquery/*
-!public/bower_components/jquery/jquery.js
-
-public/bower_components/uri.js/*
-!public/bower_components/uri.js/src/URI.js
+!public/bower_components/jquery/dist/jquery.js

@@ -18,11 +18,15 @@
   "ignore": [
     "**/*",
     "!jsonp.js",
-    "!bower.json"
+    "!bower.json",
+    "LICENSE.txt"
   ],
   "dependencies": {
-    "jquery": "~1.9.1",
-    "uri.js": "~1.13.2"
+    "jquery": ">=1.5 <3.0",
+    "URIjs": ">=1.13 <2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "requirejs": "~2.1.17"
+  }
 }

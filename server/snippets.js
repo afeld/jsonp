@@ -8,6 +8,7 @@ var dir = 'views/snippets/',
 var obj = {};
 files.forEach(function(file){
   var base = path.basename(file, '.html');
+  base = path.basename(base, '.js');
   obj[base] = fs.readFileSync(dir + file);
 });
 

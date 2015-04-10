@@ -1,7 +1,7 @@
 /*!
  * URI.js - Mutating URLs
  *
- * Version: 1.13.2
+ * Version: 1.15.0
  *
  * Author: Rodney Rehm
  * Web: http://medialize.github.io/URI.js/
@@ -40,6 +40,10 @@
     }
 
     if (url === undefined) {
+      if (arguments.length) {
+        throw new TypeError('undefined is not a valid argument for URI');
+      }
+
       if (typeof location !== 'undefined') {
         url = location.href + '';
       } else {
@@ -57,7 +61,7 @@
     return this;
   }
 
-  URI.version = '1.13.2';
+  URI.version = '1.15.0';
 
   var p = URI.prototype;
   var hasOwn = Object.prototype.hasOwnProperty;
@@ -225,7 +229,9 @@
     'embed': 'src',
     'source': 'src',
     'track': 'src',
-    'input': 'src' // but only if type="image"
+    'input': 'src', // but only if type="image"
+    'audio': 'src',
+    'video': 'src'
   };
   URI.getDomAttribute = function(node) {
     if (!node || !node.nodeName) {
@@ -318,6 +324,42 @@
           '%3D': '='
         }
       }
+    },
+    urnpath: {
+      // The characters under `encode` are the characters called out by RFC 2141 as being acceptable
+      // for usage in a URN. RFC2141 also calls out "-", ".", and "_" as acceptable characters, but
+      // these aren't encoded by encodeURIComponent, so we don't have to call them out here. Also
+      // note that the colon character is not featured in the encoding map; this is because URI.js
+      // gives the colons in URNs semantic meaning as the delimiters of path segements, and so it
+      // should not appear unencoded in a segment itself.
+      // See also the note above about RFC3986 and capitalalized hex digits.
+      encode: {
+        expression: /%(21|24|27|28|29|2A|2B|2C|3B|3D|40)/ig,
+        map: {
+          '%21': '!',
+          '%24': '$',
+          '%27': '\'',
+          '%28': '(',
+          '%29': ')',
+          '%2A': '*',
+          '%2B': '+',
+          '%2C': ',',
+          '%3B': ';',
+          '%3D': '=',
+          '%40': '@'
+        }
+      },
+      // These characters are the characters called out by RFC2141 as "reserved" characters that
+      // should never appear in a URN, plus the colon character (see note above).
+      decode: {
+        expression: /[\/\?#:]/g,
+        map: {
+          '/': '%2F',
+          '?': '%3F',
+          '#': '%23',
+          ':': '%3A'
+        }
+      }
     }
   };
   URI.encodeQuery = function(string, escapeQuerySpace) {
@@ -344,36 +386,60 @@
       return string;
     }
   };
-  URI.recodePath = function(string) {
-    var segments = (string + '').split('/');
-    for (var i = 0, length = segments.length; i < length; i++) {
-      segments[i] = URI.encodePathSegment(URI.decode(segments[i]));
-    }
-
-    return segments.join('/');
-  };
-  URI.decodePath = function(string) {
-    var segments = (string + '').split('/');
-    for (var i = 0, length = segments.length; i < length; i++) {
-      segments[i] = URI.decodePathSegment(segments[i]);
-    }
-
-    return segments.join('/');
-  };
   // generate encode/decode path functions
   var _parts = {'encode':'encode', 'decode':'decode'};
   var _part;
   var generateAccessor = function(_group, _part) {
     return function(string) {
-      return URI[_part](string + '').replace(URI.characters[_group][_part].expression, function(c) {
-        return URI.characters[_group][_part].map[c];
-      });
+      try {
+        return URI[_part](string + '').replace(URI.characters[_group][_part].expression, function(c) {
+          return URI.characters[_group][_part].map[c];
+        });
+      } catch (e) {
+        // we're not going to mess with weird encodings,
+        // give up and return the undecoded original string
+        // see https://github.com/medialize/URI.js/issues/87
+        // see https://github.com/medialize/URI.js/issues/92
+        return string;
+      }
     };
   };
 
   for (_part in _parts) {
     URI[_part + 'PathSegment'] = generateAccessor('pathname', _parts[_part]);
+    URI[_part + 'UrnPathSegment'] = generateAccessor('urnpath', _parts[_part]);
   }
+
+  var generateSegmentedPathFunction = function(_sep, _codingFuncName, _innerCodingFuncName) {
+    return function(string) {
+      // Why pass in names of functions, rather than the function objects themselves? The
+      // definitions of some functions (but in particular, URI.decode) will occasionally change due
+      // to URI.js having ISO8859 and Unicode modes. Passing in the name and getting it will ensure
+      // that the functions we use here are "fresh".
+      var actualCodingFunc;
+      if (!_innerCodingFuncName) {
+        actualCodingFunc = URI[_codingFuncName];
+      } else {
+        actualCodingFunc = function(string) {
+          return URI[_codingFuncName](URI[_innerCodingFuncName](string));
+        };
+      }
+
+      var segments = (string + '').split(_sep);
+
+      for (var i = 0, length = segments.length; i < length; i++) {
+        segments[i] = actualCodingFunc(segments[i]);
+      }
+
+      return segments.join(_sep);
+    };
+  };
+
+  // This takes place outside the above loop because we don't want, e.g., encodeUrnPath functions.
+  URI.decodePath = generateSegmentedPathFunction('/', 'decodePathSegment');
+  URI.decodeUrnPath = generateSegmentedPathFunction(':', 'decodeUrnPathSegment');
+  URI.recodePath = generateSegmentedPathFunction('/', 'encodePathSegment', 'decode');
+  URI.recodeUrnPath = generateSegmentedPathFunction(':', 'encodeUrnPathSegment', 'decode');
 
   URI.encodeReserved = generateAccessor('reserved', 'encode');
 
@@ -414,9 +480,6 @@
         if (parts.protocol && !parts.protocol.match(URI.protocol_expression)) {
           // : may be within the path
           parts.protocol = undefined;
-        } else if (parts.protocol === 'file') {
-          // the file scheme: does not contain an authority
-          string = string.substring(pos + 3);
         } else if (string.substring(pos + 1, pos + 3) === '//') {
           string = string.substring(pos + 3);
 
@@ -455,15 +518,20 @@
       if (parts.port === '/') {
         parts.port = null;
       }
-    } else if (string.indexOf(':') !== string.lastIndexOf(':')) {
-      // IPv6 host contains multiple colons - but no port
-      // this notation is actually not allowed by RFC 3986, but we're a liberal parser
-      parts.hostname = string.substring(0, pos) || null;
-      parts.port = null;
     } else {
-      t = string.substring(0, pos).split(':');
-      parts.hostname = t[0] || null;
-      parts.port = t[1] || null;
+      var firstColon = string.indexOf(':');
+      var firstSlash = string.indexOf('/');
+      var nextColon = string.indexOf(':', firstColon + 1);
+      if (nextColon !== -1 && (firstSlash === -1 || nextColon < firstSlash)) {
+        // IPv6 host contains multiple colons - but no port
+        // this notation is actually not allowed by RFC 3986, but we're a liberal parser
+        parts.hostname = string.substring(0, pos) || null;
+        parts.port = null;
+      } else {
+        t = string.substring(0, pos).split(':');
+        parts.hostname = t[0] || null;
+        parts.port = t[1] || null;
+      }
     }
 
     if (parts.hostname && string.substring(pos).charAt(0) !== '/') {
@@ -480,11 +548,7 @@
   URI.parseUserinfo = function(string, parts) {
     // extract username:password
     var firstSlash = string.indexOf('/');
-    /*jshint laxbreak: true */
-    var pos = firstSlash > -1
-      ? string.lastIndexOf('@', firstSlash)
-      : string.indexOf('@');
-    /*jshint laxbreak: false */
+    var pos = string.lastIndexOf('@', firstSlash > -1 ? firstSlash : string.length - 1);
     var t;
 
     // authority@ must come before /path
@@ -524,7 +588,7 @@
       // no "=" is null according to http://dvcs.w3.org/hg/url/raw-file/tip/Overview.html#collect-url-parameters
       value = v.length ? URI.decodeQuery(v.join('='), escapeQuerySpace) : null;
 
-      if (items[name]) {
+      if (hasOwn.call(items, name)) {
         if (typeof items[name] === 'string') {
           items[name] = [items[name]];
         }
@@ -657,7 +721,7 @@
         value = [value];
       }
 
-      data[name] = data[name].concat(value);
+      data[name] = (data[name] || []).concat(value);
     } else {
       throw new TypeError('URI.addQuery() accepts an object, string as the name parameter');
     }
@@ -686,7 +750,7 @@
         data[name] = undefined;
       }
     } else {
-      throw new TypeError('URI.addQuery() accepts an object, string as the first parameter');
+      throw new TypeError('URI.removeQuery() accepts an object, string as the first parameter');
     }
   };
   URI.hasQuery = function(data, name, value, withinArray) {
@@ -882,9 +946,8 @@
     return this.build(false)._string;
   };
 
-  // generate simple accessors
-  _parts = {protocol: 'protocol', username: 'username', password: 'password', hostname: 'hostname',  port: 'port'};
-  generateAccessor = function(_part){
+
+  function generateSimpleAccessor(_part){
     return function(v, build) {
       if (v === undefined) {
         return this._parts[_part] || '';
@@ -894,15 +957,9 @@
         return this;
       }
     };
-  };
-
-  for (_part in _parts) {
-    p[_part] = generateAccessor(_parts[_part]);
   }
 
-  // generate accessors with optionally prefixed input
-  _parts = {query: '?', fragment: '#'};
-  generateAccessor = function(_part, _key){
+  function generatePrefixAccessor(_part, _key){
     return function(v, build) {
       if (v === undefined) {
         return this._parts[_part] || '';
@@ -919,31 +976,35 @@
         return this;
       }
     };
-  };
-
-  for (_part in _parts) {
-    p[_part] = generateAccessor(_part, _parts[_part]);
   }
 
-  // generate accessors with prefixed output
-  _parts = {search: ['?', 'query'], hash: ['#', 'fragment']};
-  generateAccessor = function(_part, _key){
-    return function(v, build) {
-      var t = this[_part](v, build);
-      return typeof t === 'string' && t.length ? (_key + t) : t;
-    };
-  };
+  p.protocol = generateSimpleAccessor('protocol');
+  p.username = generateSimpleAccessor('username');
+  p.password = generateSimpleAccessor('password');
+  p.hostname = generateSimpleAccessor('hostname');
+  p.port = generateSimpleAccessor('port');
+  p.query = generatePrefixAccessor('query', '?');
+  p.fragment = generatePrefixAccessor('fragment', '#');
 
-  for (_part in _parts) {
-    p[_part] = generateAccessor(_parts[_part][1], _parts[_part][0]);
-  }
+  p.search = function(v, build) {
+    var t = this.query(v, build);
+    return typeof t === 'string' && t.length ? ('?' + t) : t;
+  };
+  p.hash = function(v, build) {
+    var t = this.fragment(v, build);
+    return typeof t === 'string' && t.length ? ('#' + t) : t;
+  };
 
   p.pathname = function(v, build) {
     if (v === undefined || v === true) {
       var res = this._parts.path || (this._parts.hostname ? '/' : '');
-      return v ? URI.decodePath(res) : res;
+      return v ? (this._parts.urn ? URI.decodeUrnPath : URI.decodePath)(res) : res;
     } else {
-      this._parts.path = v ? URI.recodePath(v) : '/';
+      if (this._parts.urn) {
+        this._parts.path = v ? URI.recodeUrnPath(v) : '';
+      } else {
+        this._parts.path = v ? URI.recodePath(v) : '/';
+      }
       this.build(!build);
       return this;
     }
@@ -978,8 +1039,8 @@
       href = href.toString();
     }
 
-    if (typeof href === 'string') {
-      this._parts = URI.parse(href, this._parts);
+    if (typeof href === 'string' || href instanceof String) {
+      this._parts = URI.parse(String(href), this._parts);
     } else if (_URI || _object) {
       var src = _URI ? href._parts : href;
       for (key in src) {
@@ -1485,7 +1546,7 @@
 
           segments.push(v[i]);
         }
-      } else if (v || (typeof v === 'string')) {
+      } else if (v || typeof v === 'string') {
         if (segments[segments.length -1] === '') {
           // empty trailing elements have to be overwritten
           // to prevent results such as /foo//bar
@@ -1495,7 +1556,7 @@
         }
       }
     } else {
-      if (v || (typeof v === 'string' && v.length)) {
+      if (v) {
         segments[segment] = v;
       } else {
         segments.splice(segment, 1);
@@ -1531,7 +1592,7 @@
     }
 
     if (!isArray(v)) {
-      v = typeof v === 'string' ? URI.encode(v) : v;
+      v = (typeof v === 'string' || v instanceof String) ? URI.encode(v) : v;
     } else {
       for (i = 0, l = v.length; i < l; i++) {
         v[i] = URI.decode(v[i]);
@@ -1563,14 +1624,14 @@
   p.setQuery = function(name, value, build) {
     var data = URI.parseQuery(this._parts.query, this._parts.escapeQuerySpace);
 
-    if (typeof name === 'object') {
+    if (typeof name === 'string' || name instanceof String) {
+      data[name] = value !== undefined ? value : null;
+    } else if (typeof name === 'object') {
       for (var key in name) {
         if (hasOwn.call(name, key)) {
           data[key] = name[key];
         }
       }
-    } else if (typeof name === 'string') {
-      data[name] = value !== undefined ? value : null;
     } else {
       throw new TypeError('URI.addQuery() accepts an object, string as the name parameter');
     }
@@ -1619,6 +1680,7 @@
     if (this._parts.urn) {
       return this
         .normalizeProtocol(false)
+        .normalizePath(false)
         .normalizeQuery(false)
         .normalizeFragment(false)
         .build();
@@ -1665,16 +1727,22 @@
     return this;
   };
   p.normalizePath = function(build) {
-    if (this._parts.urn) {
+    var _path = this._parts.path;
+    if (!_path) {
       return this;
     }
 
-    if (!this._parts.path || this._parts.path === '/') {
+    if (this._parts.urn) {
+      this._parts.path = URI.recodeUrnPath(this._parts.path);
+      this.build(!build);
+      return this;
+    }
+
+    if (this._parts.path === '/') {
       return this;
     }
 
     var _was_relative;
-    var _path = this._parts.path;
     var _leadingParents = '';
     var _parent, _pos;
 
@@ -1758,9 +1826,12 @@
 
     URI.encode = escape;
     URI.decode = decodeURIComponent;
-    this.normalize();
-    URI.encode = e;
-    URI.decode = d;
+    try {
+      this.normalize();
+    } finally {
+      URI.encode = e;
+      URI.decode = d;
+    }
     return this;
   };
 
@@ -1771,9 +1842,12 @@
 
     URI.encode = strictEncodeURIComponent;
     URI.decode = unescape;
-    this.normalize();
-    URI.encode = e;
-    URI.decode = d;
+    try {
+      this.normalize();
+    } finally {
+      URI.encode = e;
+      URI.decode = d;
+    }
     return this;
   };
 
@@ -1858,6 +1932,7 @@
 
     if (resolved.path().charAt(0) !== '/') {
       basedir = base.directory();
+      basedir = basedir ? basedir : base.path().indexOf('/') === 0 ? '/' : '';
       resolved._parts.path = (basedir ? (basedir + '/') : '') + resolved._parts.path;
       resolved.normalizePath();
     }
