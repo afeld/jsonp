@@ -33,7 +33,7 @@
     "node": ">=0.10.0 <0.14.0"
   },
   "scripts": {
-    "start": "node --expose-gc server/run.js",
+    "start": "node server/run.js",
     "test": "grunt"
   }
 }
