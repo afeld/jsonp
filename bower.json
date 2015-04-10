@@ -25,5 +25,8 @@
     "jquery": ">=1.9 <3.0",
     "URIjs": ">=1.13 <2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "requirejs": "~2.1.17"
+  }
 }

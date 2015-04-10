@@ -3,6 +3,3 @@ coverage.html
 
 public/bower_components/jquery/*
 !public/bower_components/jquery/dist/jquery.js
-
-public/bower_components/URIjs/*
-!public/bower_components/URIjs/src/URI.min.js
