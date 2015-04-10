@@ -6,8 +6,21 @@ by Aidan Feldman
 MIT license
 */
 /*jshint browser:true */
-/*global jQuery, URI */
-(function($){
+/*global define, jQuery, URI */
+(function(factory){
+  // https://github.com/umdjs/umd/blob/ce6c20e318e58cd301ee929135cf651b02392c08/jqueryPlugin.js
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([
+      'jquery',
+      // https://github.com/medialize/URI.js#requirejs
+      'URIjs/URI'
+    ], factory);
+  } else {
+    // Browser globals
+    factory(jQuery, URI);
+  }
+}(function($, URI) {
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.
@@ -102,4 +115,4 @@ MIT license
       return windowUrl.protocol === 'https:' && uri.protocol() !== windowUrl.protocol;
     }
   });
-}(jQuery));
+}));
