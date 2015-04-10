@@ -1,14 +1,9 @@
 /* jshint node:true */
-/* global gc */
 var requestp = require('./requestp');
 var u = require('underscore');
 var JSON3 = require('json3');
 var cloudflare = require('./cloudflare');
 
-
-var shouldGarbageCollect = function() {
-  return process.env.NODE_ENV === 'production' || typeof gc === 'function';
-};
 
 var passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
@@ -59,11 +54,6 @@ module.exports = function(url, headers, raw) {
       }
     }
   );
-
-  if (shouldGarbageCollect()) {
-    // https://github.com/afeld/jsonp/issues/18#issuecomment-54732166
-    process.nextTick(gc);
-  }
 
   return promise;
 };
