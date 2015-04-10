@@ -85,7 +85,7 @@ describe('app', function(){
         .end(function(err, res) {
           expect(res.body).to.eql({
             accept: 'application/json',
-            connection: 'keep-alive',
+            connection: 'close',
             host: 'localhost:8001'
           });
 

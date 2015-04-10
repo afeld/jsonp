@@ -22,6 +22,7 @@ var passThroughHeaders = function(incomingHeaders) {
 
   externalReqHeaders = cloudflare.filterHeaders(externalReqHeaders);
   externalReqHeaders.accept = 'application/json';
+  externalReqHeaders.connection = 'close';
 
   return externalReqHeaders;
 };
