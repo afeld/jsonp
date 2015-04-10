@@ -3,6 +3,7 @@
 var requestp = require('./requestp');
 var u = require('underscore');
 var JSON3 = require('json3');
+var cloudflare = require('./cloudflare');
 
 
 var shouldGarbageCollect = function() {
@@ -11,8 +12,18 @@ var shouldGarbageCollect = function() {
 
 var passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  var externalReqHeaders = u.omit(incomingHeaders, 'accept-encoding', 'connection', 'cookie', 'host', 'user-agent');
+  var externalReqHeaders = u.omit(incomingHeaders,
+    'accept-encoding',
+    'connection',
+    'cookie',
+    'host',
+    'user-agent'
+  );
+
+  externalReqHeaders = cloudflare.filterHeaders(externalReqHeaders);
   externalReqHeaders.accept = 'application/json';
+  externalReqHeaders.connection = 'close';
+
   return externalReqHeaders;
 };
 

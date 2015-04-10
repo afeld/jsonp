@@ -69,7 +69,36 @@ describe('app', function(){
     });
   });
 
-  it('should exclude particular headers from the server', function(done){
+  it("shouldn't send particular headers to the destination", function(done){
+    var destApp = express();
+    destApp.get('/', function(req, res){
+      // echo the headers
+      res.json(req.headers);
+    });
+    var server = http.createServer(destApp);
+    server.listen(8001, function(){
+
+      supertest(app)
+        .get('/')
+        .set('CF-Foo', 'abc123')
+        .query({url: 'http://localhost:8001'})
+        .end(function(err, res) {
+          expect(res.body).to.eql({
+            accept: 'application/json',
+            connection: 'close',
+            host: 'localhost:8001'
+          });
+
+          server.on('close', function(){
+            done(err);
+          });
+          server.close();
+        });
+
+    });
+  });
+
+  it('should exclude particular headers from the destination', function(done){
     var json = JSON.stringify({ message: 'test' });
 
     var destApp = express();
@@ -77,6 +106,7 @@ describe('app', function(){
       res.set({
         'Connection': 'blabla',
         'Server': 'CERN/3.0 libwww/2.17',
+        'CF-Foo': 'abc123',
         'X-Frame-Options': 'SAMEORIGIN',
         // an arbitrary header, just to ensure they're getting passed
         'X-Foo': 'bar'
@@ -96,6 +126,7 @@ describe('app', function(){
         .expect(json, function(err, res){
           if (!err){
             expect(res.headers['x-foo']).to.be('bar'); // double-check
+            expect(res.headers['cf-foo']).to.be(undefined);
             expect(res.headers.server).to.be(undefined);
             expect(res.headers['x-frame-options']).to.be(undefined);
           }

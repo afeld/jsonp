@@ -30,7 +30,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=0.10.0 <0.14.0"
   },
   "scripts": {
     "start": "node --expose-gc server/run.js",

@@ -4,6 +4,7 @@ var u = require('underscore');
 var JSON3 = require('json3');
 var snippets = require('./snippets');
 var proxy = require('./proxy-request');
+var cloudflare = require('./cloudflare');
 
 var router = express.Router();
 
@@ -19,7 +20,14 @@ var serveLandingPage = function(req, res) {
 
 var passBackHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  return u.omit(incomingHeaders, 'content-length', 'connection', 'server', 'x-frame-options');
+  var resultHeaders = u.omit(incomingHeaders,
+    'connection',
+    'content-length',
+    'server',
+    'x-frame-options'
+  );
+
+  return cloudflare.filterHeaders(resultHeaders);
 };
 
 var errorToJson = function(error) {
