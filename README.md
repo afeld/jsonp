@@ -4,6 +4,8 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API.  See https
 
 ## Running Locally
 
+See [`.travis.yml`](.travis.yml) for compatible Node versions.
+
 ```
 npm install
 npm start
