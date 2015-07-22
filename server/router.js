@@ -38,13 +38,24 @@ var errorToJson = function(error) {
   };
 };
 
-var respond = function(res, raw, result) {
+var isValidJson = function(str) {
+  try {
+    JSON3.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
+var respond = function(res, result) {
   res.status(result.status);
 
-  if (raw){
-    res.set('content-type', 'text/plain');
-  } else {
-    res.set('content-type', 'application/json');
+  if (!res.get('content-type')){
+    if (isValidJson(result.body)){
+      res.set('content-type', 'application/json');
+    } else {
+      res.set('content-type', 'text/plain');
+    }
   }
 
   res.send(result.body);
@@ -61,10 +72,7 @@ router.get('/', function(req, res) {
   } else {
     // do proxy
 
-    // undocumented, for now
-    var raw = !!query.raw;
-
-    var promise = proxy(apiUrl, req.headers, raw);
+    var promise = proxy(apiUrl, req.headers);
     promise.then(
       function(response) {
         var responseHeaders = passBackHeaders(response.headers);
@@ -79,7 +87,7 @@ router.get('/', function(req, res) {
       // keep this right before respond() to handle errors from any previous steps
       errorToJson
     ).then(
-      u.partial(respond, res, raw)
+      u.partial(respond, res)
     ).done();
   }
 });
