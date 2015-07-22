@@ -145,7 +145,7 @@ describe('jsonproxy', function(){
         dataType: 'text',
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url) + '&raw=true');
+          expect(settings.url).to.be(proxy + '?url=' + encodeURIComponent(url));
 
           done();
           return false;
@@ -276,7 +276,6 @@ describe('jsonproxy', function(){
         dataType: 'text',
 
         beforeSend: function(_, settings){
-          expect(settings.url).to.contain('&raw=true&');
           expect(settings.dataType).to.be('jsonp');
 
           done();
