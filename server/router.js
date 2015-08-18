@@ -5,6 +5,7 @@ var JSON3 = require('json3');
 var snippets = require('./snippets');
 var proxy = require('./proxy-request');
 var cloudflare = require('./cloudflare');
+var contentHelper = require('./content-helper');
 
 var router = express.Router();
 
@@ -38,20 +39,11 @@ var errorToJson = function(error) {
   };
 };
 
-var isValidJson = function(str) {
-  try {
-    JSON3.parse(str);
-  } catch (e) {
-    return false;
-  }
-  return true;
-};
-
 var respond = function(res, result) {
   res.status(result.status);
 
   if (!res.get('content-type')){
-    if (isValidJson(result.body)){
+    if (contentHelper.isValidJson(result.body)){
       res.set('content-type', 'application/json');
     } else {
       res.set('content-type', 'text/plain');

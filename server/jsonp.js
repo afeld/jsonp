@@ -3,19 +3,9 @@
 // JSONP middleware
 
 
-var typer = require('media-typer');
 var JSON3 = require('json3');
+var contentHelper = require('./content-helper');
 
-
-var getMediaTypeType = function(res) {
-  var mediaType = res.get('content-type');
-  return typer.parse(mediaType).type;
-};
-
-var isTextResponse = function(res) {
-  var type = getMediaTypeType(res);
-  return type === 'text';
-};
 
 var getCallbackName = function(params) {
   return params.callback || params.jsonp;
@@ -35,8 +25,9 @@ var wrapInCallback = function(callbackName, body) {
   return callbackName + '(' + body + ');';
 };
 
-var transformJsonPBody = function(params, body, res) {
-  if (isTextResponse(res)) {
+var transformJsonPBody = function(params, body) {
+  // TODO only check if valid JSON once (see router)
+  if (!contentHelper.isValidJson(body)) {
     // escape and pass via JSON
     body = JSON3.stringify({data: body});
   }
@@ -62,7 +53,7 @@ module.exports = function(req, res, next) {
   res.send = function(body) {
     var query = req.query;
     if (isJsonP(query)){
-      body = transformJsonPBody(query, body, res);
+      body = transformJsonPBody(query, body);
       res.set('content-type', 'text/javascript'); // use instead of 'application/javascript' for IE < 8 compatibility
     }
 
