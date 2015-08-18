@@ -55,15 +55,13 @@ MIT license
           url: apiUri.toString()
         };
 
+        // TODO consider checking for all non-JSON types
         if (opts.dataType === 'text'){
-          // 'raw' request
-
-          // jQuery(?) doesn't accept JSONP responses with strings passed, so raw responses are wrapped with {data: "..."}.
+          // jQuery(?) doesn't accept JSONP responses with strings passed, so non-JSON responses are wrapped with {data: "..."}.
           // Mask this to the library user by simply returning the underlying string.
           opts.dataFilter = function(json){
             return json.data;
           };
-          opts.data.raw = true;
         }
 
         opts.url = $.jsonp.PROXY;

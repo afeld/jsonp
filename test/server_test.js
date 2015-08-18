@@ -23,35 +23,13 @@ describe('app', function(){
       .expect(502, done);
   });
 
-  it('should give a status of 502 for invalid JSON', function(done){
-    var destApp = express();
-    destApp.get('/', function(req, res){
-      res.send('not JSON');
-    });
-    var server = http.createServer(destApp);
-    server.listen(8001, function(){
-
-      supertest(app)
-        .get('/')
-        .query({url: 'http://localhost:8001'})
-        .expect(502)
-        .expect('{"error":"not JSON"}', function(err){
-          server.on('close', function(){
-            done(err);
-          });
-          server.close();
-        });
-
-    });
-  });
-
   it('should redirect if the REDIRECT_ORIGIN is set', function(done){
     sinon.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
 
     supertest(app)
       .get('/')
-      .query({url: 'http://localhost:8001', raw: true})
-      .expect('location', 'http://redirected.com/?url=http%3A%2F%2Flocalhost%3A8001&raw=true')
+      .query({url: 'http://localhost:8001', callback: 'foo'})
+      .expect('location', 'http://redirected.com/?url=http%3A%2F%2Flocalhost%3A8001&callback=foo')
       .expect(302, done);
   });
 
@@ -151,7 +129,7 @@ describe('app', function(){
       });
     });
 
-    it('should pass the unescaped body for "raw" requests', function(done){
+    it('should pass the unescaped body', function(done){
       var body = 'test " \' " escaping';
 
       var destApp = express();
@@ -163,7 +141,7 @@ describe('app', function(){
 
         supertest(app)
           .get('/')
-          .query({url: 'http://localhost:8001', raw: true})
+          .query({url: 'http://localhost:8001'})
           .expect(body, function(err){
             server.on('close', function(){
               done(err);
@@ -199,7 +177,7 @@ describe('app', function(){
       });
     });
 
-    it('should escape "raw" requests', function(done){
+    it('should escape non-JSON requests', function(done){
       var destApp = express();
       destApp.get('/', function(req, res){
         res.send('test " \' " </script> escaping');
@@ -209,7 +187,7 @@ describe('app', function(){
 
         supertest(app)
           .get('/')
-          .query({callback: 'foo', url: 'http://localhost:8001', raw: true})
+          .query({callback: 'foo', url: 'http://localhost:8001'})
           .expect('foo({"data":"test \\" \' \\" <\\/script> escaping"});', function(err){
             server.on('close', function(){
               done(err);
