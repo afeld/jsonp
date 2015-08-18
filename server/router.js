@@ -53,34 +53,38 @@ var respond = function(res, result) {
   res.send(result.body);
 };
 
+var getApiUrl = function(req) {
+  var query = req.query;
+  return query.url || query.src;
+};
+
+var doProxy = function(apiUrl, req, res) {
+  var promise = proxy(apiUrl, req.headers);
+  promise.then(
+    function(response) {
+      var responseHeaders = passBackHeaders(response.headers);
+      res.set(responseHeaders);
+
+      return {
+        status: response.statusCode,
+        body: response.body
+      };
+    }
+  ).fail(
+    // keep this right before respond() to handle errors from any previous steps
+    errorToJson
+  ).then(
+    u.partial(respond, res)
+  ).done();
+};
+
 
 router.get('/', function(req, res) {
-  var query = req.query;
-  var apiUrl = query.url || query.src;
-
-  if (!apiUrl){
-    // serve landing page
-    serveLandingPage(req, res);
+  var apiUrl = getApiUrl(req);
+  if (apiUrl){
+    doProxy(apiUrl, req, res);
   } else {
-    // do proxy
-
-    var promise = proxy(apiUrl, req.headers);
-    promise.then(
-      function(response) {
-        var responseHeaders = passBackHeaders(response.headers);
-        res.set(responseHeaders);
-
-        return {
-          status: response.statusCode,
-          body: response.body
-        };
-      }
-    ).fail(
-      // keep this right before respond() to handle errors from any previous steps
-      errorToJson
-    ).then(
-      u.partial(respond, res)
-    ).done();
+    serveLandingPage(req, res);
   }
 });
 
