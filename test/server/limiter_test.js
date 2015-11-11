@@ -28,18 +28,10 @@ describe('limiter', function() {
   });
 
   it("blocks after a specified number of requests", function(done) {
-    var limit = 2;
-    var app = createApp(limit);
-    var agent = supertest(app);
-
-    agent
+    var app = createApp(1);
+    supertest(app)
       .get('/')
-      .expect('X-Rate-Limit-Remaining', 1)
-      .expect(200, function() {
-        agent
-          .get('/')
-          .expect('X-Rate-Limit-Remaining', 0)
-          .expect(429, done);
-      });
+      .expect('X-Rate-Limit-Remaining', 0)
+      .expect(429, done);
   });
 });
