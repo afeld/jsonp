@@ -10,8 +10,8 @@ var supertest = require('supertest'),
   express = require('express'),
   expect = require('expect.js'),
   sinon = require('sinon'),
-  app = require('../server/app.js'),
-  redirector = require('../server/redirector.js');
+  app = require('../../server/app.js'),
+  redirector = require('../../server/redirector.js');
 
 require('sinon-mocha').enhance(sinon);
 
