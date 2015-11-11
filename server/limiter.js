@@ -1,12 +1,13 @@
 /*jshint node:true */
 var url = require('url');
 var epsilonDelta = require('epsilon-delta');
+var proxyUtil = require('./proxy_util');
 
 var getUserKey = function(req) {
   var key;
 
   // attempt to limit by the application
-  var keyUrl = req.headers.referer || req.query.url || req.query.src;
+  var keyUrl = req.headers.referer || proxyUtil.getApiUrl(req);
   if (keyUrl) {
     var keyUrlObj = url.parse(keyUrl);
     key = keyUrlObj.host;

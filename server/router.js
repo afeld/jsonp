@@ -6,6 +6,7 @@ var snippets = require('./snippets');
 var proxy = require('./proxy-request');
 var cloudflare = require('./cloudflare');
 var contentHelper = require('./content-helper');
+var proxyUtil = require('./proxy_util');
 
 var router = express.Router();
 
@@ -53,11 +54,6 @@ var respond = function(res, result) {
   res.send(result.body);
 };
 
-var getApiUrl = function(req) {
-  var query = req.query;
-  return query.url || query.src;
-};
-
 var doProxy = function(apiUrl, req, res) {
   var promise = proxy(apiUrl, req.headers);
   promise.then(
@@ -80,7 +76,7 @@ var doProxy = function(apiUrl, req, res) {
 
 
 router.get('/', function(req, res) {
-  var apiUrl = getApiUrl(req);
+  var apiUrl = proxyUtil.getApiUrl(req);
   if (apiUrl){
     doProxy(apiUrl, req, res);
   } else {
