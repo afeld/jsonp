@@ -28,7 +28,6 @@
     "sinon-mocha": "0.0.3",
     "supertest": "^1.0.1"
   },
-  "optionalDependencies": {},
   "engines": {
     "node": ">=0.10.0 <6.0.0"
   },
