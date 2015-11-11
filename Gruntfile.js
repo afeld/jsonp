@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       index: ['test.html']
     },
     mochaTest: {
-      files: ['test/server/*_test.js']
+      files: ['test/server/**/*_test.js']
     },
     watch: {
       files: jsFiles,

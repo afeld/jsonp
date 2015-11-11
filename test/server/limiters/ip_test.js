@@ -1,10 +1,10 @@
 /*jshint node:true */
 /*global describe, it */
-require('./support');
+require('../support');
 
 var express = require('express');
 var supertest = require('supertest');
-var limiter = require('../../server/limiter');
+var limiter = require('../../../server/limiters/ip');
 
 var createApp = function(capacity) {
   var app = express();
@@ -15,7 +15,7 @@ var createApp = function(capacity) {
   return app;
 };
 
-describe('limiter', function() {
+describe('IP limiter', function() {
   it("allows a single request through", function(done) {
     var app = createApp(3);
     supertest(app)
