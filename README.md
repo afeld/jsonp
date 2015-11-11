@@ -13,6 +13,8 @@ npm start
 
 and do requests to `http://localhost:8000/?url=...`
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## See Also
 
 * https://github.com/jpillora/xdomain
