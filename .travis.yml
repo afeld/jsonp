@@ -4,7 +4,9 @@ node_js:
   - "0.10"
   - "0.12"
   - "iojs"
-cache: npm
+cache:
+  directories:
+  - node_modules
 notifications:
   webhooks:
     urls:

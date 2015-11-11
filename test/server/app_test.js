@@ -1,17 +1,14 @@
 /*jshint node:true */
 /*global describe, it */
-require('blanket')({
-  pattern: 'lib',
-  'data-cover-never': 'node_modules'
-});
+require('./support');
 
 var supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   expect = require('expect.js'),
   sinon = require('sinon'),
-  app = require('../server/app.js'),
-  redirector = require('../server/redirector.js');
+  app = require('../../server/app.js'),
+  redirector = require('../../server/redirector.js');
 
 require('sinon-mocha').enhance(sinon);
 
