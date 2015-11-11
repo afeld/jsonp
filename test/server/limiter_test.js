@@ -1,9 +1,6 @@
 /*jshint node:true */
 /*global describe, it */
-require('blanket')({
-  pattern: 'lib',
-  'data-cover-never': 'node_modules'
-});
+require('./support');
 
 var express = require('express');
 var supertest = require('supertest');
