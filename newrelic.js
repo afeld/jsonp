@@ -11,7 +11,7 @@ exports.config = {
   app_name: ['JSONP'],
   capture_params: true,
   error_collector: {
-    ignore_status_codes: [404, 502]
+    ignore_status_codes: [404, 429, 502]
   },
   logging: {
     filepath : 'stdout'

@@ -11,6 +11,7 @@ var express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
+  limiter = require('./limiter'),
   router = require('./router');
 
 var app = express();
@@ -29,6 +30,7 @@ app.use(cors({
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express['static'](__dirname + '/..'));
+app.use(limiter);
 app.use('/', router);
 
 
