@@ -2,6 +2,7 @@
 var url = require('url');
 var epsilonDelta = require('epsilon-delta');
 var proxyUtil = require('../proxy_util');
+var baseLimiter = require('./base');
 
 var getUserKey = function(req) {
   // attempt to limit by the application
@@ -16,10 +17,7 @@ var getLimiter = function(capacity) {
     userKey: getUserKey,
     capacity: capacity,
     expire: 1000 * 10,
-    limitResponse: {
-      status: 429,
-      body: "You have reached the rate limit on your IP for this free service. Please get in touch about sponsorship, or host your own JSONProxy. https://jsonp.afeld.me"
-    }
+    limitResponse: baseLimiter.getResponse()
   };
   return epsilonDelta(options);
 };
