@@ -1,19 +1,21 @@
 /*jshint node:true */
-var url = require('url');
-var epsilonDelta = require('epsilon-delta');
-var proxyUtil = require('../proxy_util');
-var baseLimiter = require('./base');
+'use strict';
 
-var getUserKey = function(req) {
+const url = require('url');
+const epsilonDelta = require('epsilon-delta');
+const proxyUtil = require('../proxy_util');
+const baseLimiter = require('./base');
+
+let getUserKey = function(req) {
   // attempt to limit by the application
-  var keyUrl = req.headers.referer || proxyUtil.getApiUrl(req) || '';
-  var keyUrlObj = url.parse(keyUrl);
+  let keyUrl = req.headers.referer || proxyUtil.getApiUrl(req) || '';
+  let keyUrlObj = url.parse(keyUrl);
   return keyUrlObj.host;
 };
 
-var getLimiter = function(capacity) {
+let getLimiter = function(capacity) {
   capacity = capacity || 100;
-  var options = {
+  let options = {
     userKey: getUserKey,
     capacity: capacity,
     expire: 1000 * 10,
@@ -24,7 +26,7 @@ var getLimiter = function(capacity) {
 
 // use a function so the tests can be stateless
 module.exports = function(capacity) {
-  var limiter = getLimiter(capacity);
+  let limiter = getLimiter(capacity);
   // wrap the limiter middleware
   return function(req, res, next) {
     // only do the limiting if they are making a request via the proxy

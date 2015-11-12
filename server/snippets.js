@@ -1,13 +1,15 @@
 /*jshint node:true */
-var fs = require('fs'),
+'use strict';
+
+const fs = require('fs'),
   path = require('path');
 
-var dir = 'views/snippets/',
+let dir = 'views/snippets/',
   files = fs.readdirSync(dir);
 
-var obj = {};
+let obj = {};
 files.forEach(function(file){
-  var base = path.basename(file, '.html');
+  let base = path.basename(file, '.html');
   base = path.basename(base, '.js');
   obj[base] = fs.readFileSync(dir + file);
 });

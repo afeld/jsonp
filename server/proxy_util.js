@@ -1,6 +1,7 @@
 /*jshint node:true */
+'use strict';
 
 exports.getApiUrl = function(req) {
-  var query = req.query;
+  let query = req.query;
   return query.url || query.src;
 };

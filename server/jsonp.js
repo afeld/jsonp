@@ -1,31 +1,32 @@
 /*jshint node:true */
+'use strict';
 
 // JSONP middleware
 
 
-var JSON3 = require('json3');
-var contentHelper = require('./content-helper');
+const JSON3 = require('json3');
+const contentHelper = require('./content-helper');
 
 
-var getCallbackName = function(params) {
+let getCallbackName = function(params) {
   return params.callback || params.jsonp;
 };
 
-var isJsonP = function(params) {
+let isJsonP = function(params) {
   // TODO check media type?
   return !!getCallbackName(params);
 };
 
-var escapeClosingTags = function(str) {
+let escapeClosingTags = function(str) {
   // http://stackoverflow.com/a/9249932/358804
   return str.replace(/<\//g, '<\\/');
 };
 
-var wrapInCallback = function(callbackName, body) {
+let wrapInCallback = function(callbackName, body) {
   return callbackName + '(' + body + ');';
 };
 
-var transformJsonPBody = function(params, body) {
+let transformJsonPBody = function(params, body) {
   // TODO only check if valid JSON once (see router)
   if (!contentHelper.isValidJson(body)) {
     // escape and pass via JSON
@@ -34,7 +35,7 @@ var transformJsonPBody = function(params, body) {
 
   body = escapeClosingTags(body);
 
-  var callbackName = getCallbackName(params);
+  let callbackName = getCallbackName(params);
   body = wrapInCallback(callbackName, body);
 
   return body;
@@ -49,9 +50,9 @@ module.exports = function(req, res, next) {
     * https://github.com/jshttp/on-headers/blob/cc3688b/index.js#L30
     * http://stackoverflow.com/a/15103881/358804
   */
-  var originalSend = res.send;
+  let originalSend = res.send;
   res.send = function(body) {
-    var query = req.query;
+    let query = req.query;
     if (isJsonP(query)){
       body = transformJsonPBody(query, body);
       res.set('content-type', 'text/javascript'); // use instead of 'application/javascript' for IE < 8 compatibility

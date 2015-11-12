@@ -1,5 +1,7 @@
 /* jshint node:true */
-var u = require('underscore');
+'use strict';
+
+const u = require('underscore');
 
 
 // remove all CloudFlare headers, since they block requests that are already proxied (through the jsonp.afeld.me)

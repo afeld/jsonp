@@ -1,11 +1,13 @@
 /*jshint node:true */
+'use strict';
+
 if (process.env.NEW_RELIC_LICENSE_KEY) {
   require('newrelic');
 } else {
   console.warn("New Relic agent not being started because NEW_RELIC_LICENSE_KEY is missing.");
 }
 
-var express = require('express'),
+const express = require('express'),
   morgan = require('morgan'),
   compress = require('compression'),
   cors = require('cors'),
@@ -15,7 +17,7 @@ var express = require('express'),
   proxyLimiter = require('./limiters/proxy'),
   router = require('./router');
 
-var app = express();
+let app = express();
 
 app.set('query parser', 'simple');
 
