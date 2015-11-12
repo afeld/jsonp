@@ -32,7 +32,7 @@ app.use(cors({
 }));
 app.use(redirector.middleware);
 app.use(jsonp);
-app.use(express['static'](__dirname + '/..'));
+app.use(express.static(`${__dirname}/..`));
 app.use(ipLimiter());
 app.use(proxyLimiter());
 app.use('/', router);

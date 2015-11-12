@@ -23,7 +23,7 @@ let escapeClosingTags = function(str) {
 };
 
 let wrapInCallback = function(callbackName, body) {
-  return callbackName + '(' + body + ');';
+  return `${callbackName}(${body});`;
 };
 
 let transformJsonPBody = function(params, body) {
