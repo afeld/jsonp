@@ -20,6 +20,7 @@ let app = express();
 
 app.set('query parser', 'simple');
 
+app.use(proxyLimiter());
 // logging
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
@@ -32,7 +33,6 @@ app.use(cors({
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
-app.use(proxyLimiter());
 app.use('/', router);
 
 
