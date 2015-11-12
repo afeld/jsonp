@@ -13,7 +13,6 @@ const express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
-  ipLimiter = require('./limiters/ip'),
   proxyLimiter = require('./limiters/proxy'),
   router = require('./router');
 
@@ -33,7 +32,6 @@ app.use(cors({
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
-app.use(ipLimiter());
 app.use(proxyLimiter());
 app.use('/', router);
 
