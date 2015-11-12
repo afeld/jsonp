@@ -1,12 +1,14 @@
 /* jshint node:true */
-var requestp = require('./requestp');
-var u = require('underscore');
-var cloudflare = require('./cloudflare');
+'use strict';
+
+const requestp = require('./requestp');
+const u = require('underscore');
+const cloudflare = require('./cloudflare');
 
 
-var passThroughHeaders = function(incomingHeaders) {
+let passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  var externalReqHeaders = u.omit(incomingHeaders,
+  let externalReqHeaders = u.omit(incomingHeaders,
     'accept-encoding',
     'connection',
     'cookie',
@@ -23,7 +25,7 @@ var passThroughHeaders = function(incomingHeaders) {
 
 
 module.exports = function(url, headers) {
-  var externalReqHeaders = passThroughHeaders(headers);
+  let externalReqHeaders = passThroughHeaders(headers);
 
   return requestp({
     uri: url,

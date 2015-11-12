@@ -8,6 +8,8 @@ MIT license
 /*jshint browser:true */
 /*global define, jQuery, URI */
 (function(factory){
+  'use strict';
+
   // https://github.com/umdjs/umd/blob/ce6c20e318e58cd301ee929135cf651b02392c08/jqueryPlugin.js
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
@@ -21,6 +23,8 @@ MIT license
     factory(jQuery, URI);
   }
 }(function($, URI) {
+  'use strict';
+
   // Accepts all jQuery.ajax() options, plus:
   //   corsSupport {Boolean} Set to true if the URL is known to support CORS for this domain.
   //   jsonpSupport {Boolean} Set to true if the URL is known to support JSONP.

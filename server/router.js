@@ -1,17 +1,19 @@
 /*jshint node:true */
-var express = require('express');
-var u = require('underscore');
-var JSON3 = require('json3');
-var snippets = require('./snippets');
-var proxy = require('./proxy-request');
-var cloudflare = require('./cloudflare');
-var contentHelper = require('./content-helper');
-var proxyUtil = require('./proxy_util');
+'use strict';
 
-var router = express.Router();
+const express = require('express');
+const u = require('underscore');
+const JSON3 = require('json3');
+const snippets = require('./snippets');
+const proxy = require('./proxy-request');
+const cloudflare = require('./cloudflare');
+const contentHelper = require('./content-helper');
+const proxyUtil = require('./proxy_util');
+
+let router = express.Router();
 
 
-var serveLandingPage = function(req, res) {
+let serveLandingPage = function(req, res) {
   res.render('index.ejs', {
     layout: false,
     host: req.headers.host,
@@ -20,9 +22,9 @@ var serveLandingPage = function(req, res) {
   });
 };
 
-var passBackHeaders = function(incomingHeaders) {
+let passBackHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  var resultHeaders = u.omit(incomingHeaders,
+  let resultHeaders = u.omit(incomingHeaders,
     'connection',
     'content-length',
     'server',
@@ -32,15 +34,15 @@ var passBackHeaders = function(incomingHeaders) {
   return cloudflare.filterHeaders(resultHeaders);
 };
 
-var errorToJson = function(error) {
-  var body = JSON3.stringify({ error: error.message });
+let errorToJson = function(error) {
+  let body = JSON3.stringify({ error: error.message });
   return {
     status: 502, // bad gateway
     body: body
   };
 };
 
-var respond = function(res, result) {
+let respond = function(res, result) {
   res.status(result.status);
 
   if (!res.get('content-type')){
@@ -54,11 +56,11 @@ var respond = function(res, result) {
   res.send(result.body);
 };
 
-var doProxy = function(apiUrl, req, res) {
-  var promise = proxy(apiUrl, req.headers);
+let doProxy = function(apiUrl, req, res) {
+  let promise = proxy(apiUrl, req.headers);
   promise.then(
     function(response) {
-      var responseHeaders = passBackHeaders(response.headers);
+      let responseHeaders = passBackHeaders(response.headers);
       res.set(responseHeaders);
 
       return {
@@ -76,7 +78,7 @@ var doProxy = function(apiUrl, req, res) {
 
 
 router.get('/', function(req, res) {
-  var apiUrl = proxyUtil.getApiUrl(req);
+  let apiUrl = proxyUtil.getApiUrl(req);
   if (apiUrl){
     doProxy(apiUrl, req, res);
   } else {

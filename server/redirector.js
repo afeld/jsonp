@@ -1,8 +1,10 @@
 /*jshint node:true */
-var url = require('url');
+'use strict';
+
+const url = require('url');
 
 
-var self = {
+let self = {
   redirectOrigin: function() {
     return process.env.REDIRECT_ORIGIN;
   },
@@ -12,14 +14,14 @@ var self = {
   },
 
   getRedirectUrl: function(req) {
-    var newUrlObj = url.parse(self.redirectOrigin());
+    let newUrlObj = url.parse(self.redirectOrigin());
     newUrlObj.query = req.query;
     return url.format(newUrlObj);
   },
 
   middleware: function(req, res, next) {
     if (self.doRedirect()) {
-      var newUrl = self.getRedirectUrl(req);
+      let newUrl = self.getRedirectUrl(req);
       res.redirect(newUrl);
     } else {
       next();

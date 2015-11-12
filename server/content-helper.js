@@ -1,5 +1,7 @@
 /*jshint node:true */
-var JSON3 = require('json3');
+'use strict';
+
+const JSON3 = require('json3');
 
 module.exports = {
   isValidJson: function(str) {

@@ -1,4 +1,5 @@
 /*jshint node:true */
+'use strict';
 
 exports.getResponse = function() {
   return {

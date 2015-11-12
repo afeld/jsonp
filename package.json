@@ -29,7 +29,7 @@
     "supertest": "^1.0.1"
   },
   "engines": {
-    "node": ">=0.10.0 <6.0.0"
+    "node": ">=4.0.0 <6.0.0"
   },
   "scripts": {
     "start": "node server/run.js",
