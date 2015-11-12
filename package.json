@@ -28,9 +28,8 @@
     "sinon-mocha": "0.0.3",
     "supertest": "^1.0.1"
   },
-  "optionalDependencies": {},
   "engines": {
-    "node": ">=0.10.0 <0.14.0"
+    "node": ">=0.10.0 <6.0.0"
   },
   "scripts": {
     "start": "node server/run.js",
