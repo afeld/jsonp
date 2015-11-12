@@ -2,5 +2,9 @@
   "name": "JSONProxy",
   "website": "https://jsonp.afeld.me/",
   "repository": "https://github.com/afeld/jsonp",
-  "success_url": "/"
+  "success_url": "/",
+  "addons": [
+    "heroku-redis",
+    "newrelic"
+  ]
 }
