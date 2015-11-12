@@ -15,12 +15,12 @@ let getUserKey = function(req) {
 
 let getLimiter = function(capacity) {
   capacity = capacity || 100;
-  let options = {
+  let options = baseLimiter.getOptions();
+  Object.assign(options, {
     userKey: getUserKey,
     capacity: capacity,
-    expire: 1000 * 10,
-    limitResponse: baseLimiter.getResponse()
-  };
+    expire: 1000 * 10
+  });
   return epsilonDelta(options);
 };
 

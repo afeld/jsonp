@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-and do requests to `http://localhost:8000/?url=...`
+and do requests to `http://localhost:8000/?url=...`. If deploying for use in production, please set a `REDIS_URL` to use for [rate limiting](server/limiter.js).
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
