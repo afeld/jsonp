@@ -8,9 +8,13 @@ patterns = patterns.split(',');
 
 const isBlacklisted = function(req) {
   let referer = req.get('referer');
-  return patterns.some(function(pattern) {
-    return referer.includes(pattern);
-  });
+  if (referer) {
+    return patterns.some(function(pattern) {
+      return referer.includes(pattern);
+    });
+  } else {
+    return false;
+  }
 };
 
 module.exports = function() {

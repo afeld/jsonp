@@ -12,7 +12,7 @@ if (redisUrl) {
 
 exports.getMessage = function() {
   return "You have reached the rate limit for this free service. Please get in touch about sponsorship, or host your own JSONProxy. https://jsonp.afeld.me";
-}
+};
 
 exports.getOptions = function() {
   let opts = {
