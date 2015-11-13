@@ -1,8 +1,9 @@
 /*jshint node:true */
 /*global describe, it */
+'use strict';
 require('./support');
 
-var supertest = require('supertest'),
+const supertest = require('supertest'),
   sinon = require('sinon'),
   express = require('express'),
   redirector = require('../../server/redirector.js');
@@ -11,7 +12,7 @@ describe('redirector', function(){
   it('should redirect if the REDIRECT_ORIGIN is set', function(done){
     sinon.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
 
-    var app = express();
+    let app = express();
     app.use(redirector.middleware);
 
     supertest(app)

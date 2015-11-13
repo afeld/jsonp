@@ -1,8 +1,9 @@
 /*jshint node:true */
 /*global describe, it */
+'use strict';
 require('./support');
 
-var supertest = require('supertest'),
+const supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   app = require('../../server/app.js');
@@ -16,13 +17,13 @@ describe('JSONP', function(){
   });
 
   it('should wrap with callback name', function(done){
-    var json = JSON.stringify({ message: 'test' });
+    let json = JSON.stringify({ message: 'test' });
 
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       res.send(json);
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)
@@ -39,11 +40,11 @@ describe('JSONP', function(){
   });
 
   it('should escape non-JSON requests', function(done){
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       res.send('test " \' " </script> escaping');
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)

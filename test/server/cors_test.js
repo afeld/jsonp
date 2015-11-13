@@ -1,8 +1,9 @@
 /*jshint node:true */
 /*global describe, it */
+'use strict';
 require('./support');
 
-var supertest = require('supertest'),
+const supertest = require('supertest'),
   http = require('http'),
   express = require('express'),
   expect = require('expect.js'),
@@ -19,13 +20,13 @@ describe('CORS', function(){
   });
 
   it('should pass the JSON and set the CORS headers', function(done){
-    var json = JSON.stringify({ message: 'test' });
+    let json = JSON.stringify({ message: 'test' });
 
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       res.send(json);
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)
@@ -43,12 +44,12 @@ describe('CORS', function(){
   });
 
   it("shouldn't send particular headers to the destination", function(done){
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       // echo the headers
       res.json(req.headers);
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)
@@ -72,9 +73,9 @@ describe('CORS', function(){
   });
 
   it('should exclude particular headers from the destination', function(done){
-    var json = JSON.stringify({ message: 'test' });
+    let json = JSON.stringify({ message: 'test' });
 
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       res.set({
         'Connection': 'blabla',
@@ -86,7 +87,7 @@ describe('CORS', function(){
       });
       res.send(json);
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)
@@ -114,13 +115,13 @@ describe('CORS', function(){
   });
 
   it('should pass the unescaped body', function(done){
-    var body = 'test " \' " escaping';
+    let body = 'test " \' " escaping';
 
-    var destApp = express();
+    let destApp = express();
     destApp.get('/', function(req, res){
       res.send(body);
     });
-    var server = http.createServer(destApp);
+    let server = http.createServer(destApp);
     server.listen(8001, function(){
 
       supertest(app)

@@ -1,7 +1,7 @@
 /*jshint browser:true*/
 /*global describe, before, beforeEach, after, afterEach, $, it, sinon, expect */
 describe('jsonproxy', function(){
-  var loc = window.location,
+  let loc = window.location,
     origin = loc.origin || (loc.protocol + '//' + loc.host),
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
@@ -31,7 +31,7 @@ describe('jsonproxy', function(){
     });
 
     it('should do standard ajax for the same domain', function(done){
-      var url = origin + packagePath;
+      let url = origin + packagePath;
 
       $.jsonp({
         url: url,
@@ -59,7 +59,7 @@ describe('jsonproxy', function(){
         };
       });
 
-      var url = 'http://foo.com/other/path';
+      let url = 'http://foo.com/other/path';
 
       $.jsonp({
         url: url,
@@ -77,7 +77,7 @@ describe('jsonproxy', function(){
 
 
   describe('with browser CORS support', function(){
-    var origCors;
+    let origCors;
     before(function(){
       origCors = $.support.cors;
       $.support.cors = true;
@@ -91,7 +91,7 @@ describe('jsonproxy', function(){
     sharedTests();
 
     it('should use the CORS proxy', function(done){
-      var url = 'http://foo.com/bar';
+      let url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -106,7 +106,7 @@ describe('jsonproxy', function(){
     });
 
     it('should use CORS proxy even if the URL supports JSONP', function(done){
-      var url = 'http://foo.com/bar';
+      let url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -122,7 +122,7 @@ describe('jsonproxy', function(){
     });
 
     it('should handle requests for text to relative path', function(done){
-      var url = loc.pathname.replace(/test.html/, 'test/data.txt');
+      let url = loc.pathname.replace(/test.html/, 'test/data.txt');
 
       $.jsonp({
         url: url,
@@ -138,7 +138,7 @@ describe('jsonproxy', function(){
     });
 
     it('should handle requests for text across domains', function(done){
-      var url = 'http://foo.com/data.txt';
+      let url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
@@ -171,7 +171,7 @@ describe('jsonproxy', function(){
 
     describe('when API has corsSupport', function(){
       it('should use the URL directly', function(done){
-        var url = 'http://foo.com/bar';
+        let url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
@@ -187,7 +187,7 @@ describe('jsonproxy', function(){
       });
 
       it('should favor CORS to JSONP on the URL directly', function(done){
-        var url = 'http://foo.com/bar';
+        let url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
@@ -204,7 +204,7 @@ describe('jsonproxy', function(){
       });
 
       it("should use the proxy if protocols don't match", function(done){
-        var url = 'http://foo.com/bar';
+        let url = 'http://foo.com/bar';
 
         sandbox.stub($.jsonp, 'getLocation', function(){
           return {
@@ -236,7 +236,7 @@ describe('jsonproxy', function(){
 
 
   describe('without browser CORS support', function(){
-    var origCors;
+    let origCors;
     before(function(){
       origCors = $.support.cors;
       $.support.cors = false;
@@ -250,7 +250,7 @@ describe('jsonproxy', function(){
     sharedTests();
 
     it('should use the JSONP proxy', function(done){
-      var url = 'http://foo.com/bar';
+      let url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -269,7 +269,7 @@ describe('jsonproxy', function(){
     });
 
     it('should handle requests for text across domains', function(done){
-      var url = 'http://foo.com/data.txt';
+      let url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
@@ -286,7 +286,7 @@ describe('jsonproxy', function(){
 
     describe('when API has jsonpSupport', function(){
       it('should use the URL directly', function(done){
-        var url = 'http://foo.com/bar';
+        let url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
