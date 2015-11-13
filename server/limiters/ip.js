@@ -9,7 +9,7 @@ module.exports = function(capacity) {
   capacity = capacity || 100;
   let options = baseLimiter.getOptions();
   Object.assign(options, {
-    userKey: 'connection.remoteAddress',
+    userKey: 'ip',
     capacity: capacity,
     expire: 1000 * 60
   });

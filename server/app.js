@@ -20,6 +20,7 @@ const express = require('express'),
 let app = express();
 
 app.set('query parser', 'simple');
+app.enable('trust proxy');
 
 // logging
 if (process.env.NODE_ENV !== 'test') {
