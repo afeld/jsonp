@@ -4,12 +4,15 @@ require('./support');
 
 var supertest = require('supertest'),
   sinon = require('sinon'),
-  app = require('../../server/app.js'),
+  express = require('express'),
   redirector = require('../../server/redirector.js');
 
 describe('redirector', function(){
   it('should redirect if the REDIRECT_ORIGIN is set', function(done){
     sinon.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
+
+    var app = express();
+    app.use(redirector.middleware);
 
     supertest(app)
       .get('/')
