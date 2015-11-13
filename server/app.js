@@ -25,7 +25,9 @@ app.set('query parser', 'simple');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-app.use(ipLimiter());
+if (process.env.ENABLE_IP_LIMITER) {
+  app.use(ipLimiter());
+}
 app.use(proxyLimiter());
 app.use(compress());
 app.use(cors({
