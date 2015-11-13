@@ -25,6 +25,8 @@ app.set('query parser', 'simple');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
+app.use(ipLimiter());
+app.use(proxyLimiter());
 app.use(compress());
 app.use(cors({
   maxAge: 60 * 60 * 24, // one day
@@ -33,8 +35,6 @@ app.use(cors({
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
-app.use(ipLimiter());
-app.use(proxyLimiter());
 app.use('/', router);
 
 
