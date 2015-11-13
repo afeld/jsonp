@@ -19,6 +19,7 @@ and do requests to `http://localhost:8000/?url=...`.
 
 These apply to the [rate limiting](server/limiter.js):
 
+* `BLACKLIST=somedomain.com,...` – Blacklist sites by a match in the Referer.
 * `ENABLE_IP_LIMITER=true` – Turn on rate limiting by IP address.
 * `REDIS_URL=redis://...` – Database connection URL to use for persistence.
 
