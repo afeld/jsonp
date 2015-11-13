@@ -2,19 +2,26 @@
 'use strict';
 
 const base = require('./base');
+const proxyUtil = require('../proxy_util');
+
 
 let patterns = process.env.BLACKLIST;
 patterns = patterns ? patterns.split(',') : [];
 
-const isBlacklisted = function(req) {
-  let referer = req.get('referer');
-  if (referer) {
+const isPatternPresent = function(str) {
+  if (str) {
     return patterns.some(function(pattern) {
-      return referer.includes(pattern);
+      return str.includes(pattern);
     });
   } else {
     return false;
   }
+};
+
+const isBlacklisted = function(req) {
+  let referer = req.get('referer');
+  let apiUrl = proxyUtil.getApiUrl(req);
+  return isPatternPresent(referer) || isPatternPresent(apiUrl);
 };
 
 module.exports = function() {
