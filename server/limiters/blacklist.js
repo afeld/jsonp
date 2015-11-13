@@ -3,8 +3,8 @@
 
 const base = require('./base');
 
-let patterns = process.env.BLACKLIST || '';
-patterns = patterns.split(',');
+let patterns = process.env.BLACKLIST;
+patterns = patterns ? patterns.split(',') : [];
 
 const isBlacklisted = function(req) {
   let referer = req.get('referer');
