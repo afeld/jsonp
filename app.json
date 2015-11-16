@@ -4,7 +4,6 @@
   "repository": "https://github.com/afeld/jsonp",
   "success_url": "/",
   "addons": [
-    "heroku-redis",
     "newrelic"
   ]
 }

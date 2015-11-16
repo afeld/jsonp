@@ -15,13 +15,6 @@ and do requests to `http://localhost:8000/?url=...`.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-### Environment variables
-
-These apply to the [rate limiting](server/limiter.js):
-
-* `ENABLE_IP_LIMITER=true` – Turn on rate limiting by IP address.
-* `REDIS_URL=redis://...` – Database connection URL to use for persistence.
-
 ## See also
 
 * https://github.com/jpillora/xdomain
