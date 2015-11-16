@@ -7,5 +7,3 @@ nginx:
     - '80:80'
 web:
   build: .
-  command: "bash -c 'npm start'"
-  working_dir: /app/user
