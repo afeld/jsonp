@@ -1,0 +1,19 @@
+# initially generated with `heroku docker:init`
+web:
+  build: .
+  command: "bash -c 'npm start'"
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+  ports:
+    - '8080:8080'
+shell:
+  build: .
+  command: bash
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+  ports:
+    - '8080:8080'
+  volumes:
+    - '.:/app/user'
