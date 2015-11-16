@@ -9,5 +9,3 @@ web:
   build: .
   command: "bash -c 'npm start'"
   working_dir: /app/user
-  ports:
-    - '3000:3000'
