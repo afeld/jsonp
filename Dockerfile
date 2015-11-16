@@ -7,7 +7,7 @@ FROM heroku/cedar:14
 # Internally, we arbitrarily use port 3000
 ENV PORT 3000
 # Which version of node?
-ENV NODE_ENGINE 0.12.2
+ENV NODE_ENGINE 5.0.0
 # Locate our binaries
 ENV PATH /app/heroku/node/bin/:/app/user/node_modules/.bin:$PATH
 
@@ -21,6 +21,6 @@ RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-
 # Export the node path in .profile.d
 RUN echo "export PATH=\"/app/heroku/node/bin:/app/user/node_modules/.bin:\$PATH\"" > /app/.profile.d/nodejs.sh
 
-ONBUILD ADD package.json /app/user/
-ONBUILD RUN /app/heroku/node/bin/npm install
-ONBUILD ADD . /app/user/
+ADD package.json /app/user/
+RUN /app/heroku/node/bin/npm install
+ADD . /app/user/
