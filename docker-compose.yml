@@ -1,4 +1,10 @@
 # initially generated with `heroku docker:init`
+nginx:
+  build: ./nginx
+  links:
+    - web
+  ports:
+    - '80:80'
 web:
   build: .
   command: "bash -c 'npm start'"
