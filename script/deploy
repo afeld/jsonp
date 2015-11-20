@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e
+set -x
+
+# based on https://cloud.google.com/container-engine/docs/tutorials/hello-node
+
+PROJECT_ID=jsonproxy-1135
+IMAGE_NAME=jsonproxy
+CLUSTER_NAME=jsonproxy-cluster
+POD_NAME=$IMAGE_NAME
+
+# create image
+docker build -t gcr.io/${PROJECT_ID}/${IMAGE_NAME} .
+gcloud docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}
+
+# create cluster
+gcloud container clusters create $CLUSTER_NAME --num-nodes 1 --machine-type g1-small || echo "Cluster exists."
+gcloud compute instances list
+
+# create pod
+kubectl run $POD_NAME --image=gcr.io/${PROJECT_ID}/${IMAGE_NAME} --port=8000 || echo "Pod already exists."
+
+# allow traffic
+kubectl expose rc $POD_NAME --create-external-load-balancer=true
+kubectl get services $POD_NAME
