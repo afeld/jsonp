@@ -13,3 +13,5 @@ script:
   - npm test
   - touch .env
   - docker-compose build
+  - docker-compose up -d
+  - curl -I --fail http://localhost
