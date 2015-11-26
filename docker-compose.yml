@@ -7,3 +7,4 @@ nginx:
     - '80:80'
 web:
   build: .
+  env_file: .env
