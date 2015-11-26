@@ -4,9 +4,11 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 
 ## Setup
 
+### Simple
+
 See [`.travis.yml`](.travis.yml) for compatible Node versions.
 
-```
+```bash
 npm install
 npm start
 ```
@@ -15,12 +17,17 @@ and do requests to `http://localhost:8000/?url=...`.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-### Environment variables
+### Docker
 
-These apply to the [rate limiting](server/limiter.js):
+This is how JSONProxy is deployed to production, so running locally with this setup will be more realistic.
 
-* `ENABLE_IP_LIMITER=true` – Turn on rate limiting by IP address.
-* `REDIS_URL=redis://...` – Database connection URL to use for persistence.
+1. If you don't have Docker set up already, follow their [Get Started](https://www.docker.com/) instructions.
+1. Start a Docker Quickstart Terminal.
+1. Run `touch .env`.
+    * If you are adding a New Relic License Key, add as `NEW_RELIC_LICENSE_KEY=...` in that file.
+1. Start the server with `docker-compose up`.
+    * If you make a change and need to re-build, just press `CTRL-c` and run again.
+1. Open in the browser by running `open http://$(docker-machine ip default)`.
 
 ## See also
 

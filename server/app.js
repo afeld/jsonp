@@ -13,8 +13,6 @@ const express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
-  ipLimiter = require('./limiters/ip'),
-  proxyLimiter = require('./limiters/proxy'),
   router = require('./router');
 
 let app = express();
@@ -26,10 +24,6 @@ app.enable('trust proxy');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-if (process.env.ENABLE_IP_LIMITER) {
-  app.use(ipLimiter());
-}
-app.use(proxyLimiter());
 app.use(compress());
 app.use(cors({
   maxAge: 60 * 60 * 24, // one day

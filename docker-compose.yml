@@ -1,0 +1,12 @@
+# initially generated with `heroku docker:init`
+nginx:
+  build: ./nginx
+  restart: always
+  links:
+    - web
+  ports:
+    - '80:80'
+web:
+  build: .
+  env_file: .env
+  restart: always
