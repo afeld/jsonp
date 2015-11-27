@@ -29,6 +29,15 @@ This is how JSONProxy is deployed to production, so running locally with this se
     * If you make a change and need to re-build, just press `CTRL-c` and run again.
 1. Open in the browser by running `open http://$(docker-machine ip default)`.
 
+#### Scaling
+
+See [this blog post](https://github.com/vegasbrianc/docker-compose-demo/blob/master/docker-compose.yml) for instructions, but the short version is:
+
+```bash
+docker-compose scale web=...
+docker-compose up --force-recreate
+```
+
 ## See also
 
 * https://github.com/jpillora/xdomain
