@@ -1,0 +1,9 @@
+# development-only overrides
+# https://docs.docker.com/compose/extends/#multiple-compose-files
+web:
+  # http://hharnisc.github.io/2015/09/16/developing-inside-docker-containers-with-osx.html
+  # https://github.com/b00giZm/docker-compose-nodejs-examples/blob/49d26d90488a073c3fc148171a38fb515beaf926/01-express-nodemon/app/package.json#L6
+  command: sh -c 'npm install -g nodemon && nodemon -L server/run.js'
+  volumes:
+    # destination corresponds to https://github.com/nodejs/docker-node/blob/3622304ad09a84826521e81cb7ddf253c020d89e/5.1/onbuild/Dockerfile#L8
+    - .:/usr/src/app
