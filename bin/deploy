@@ -5,5 +5,8 @@ set -x
 
 docker-compose build
 eval $(docker-machine env do)
-docker-compose up -d
+
+# ignore the overrides file
+docker-compose -f docker-compose.yml up -d
+
 echo "DONE"

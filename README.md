@@ -31,6 +31,8 @@ This is how JSONProxy is deployed to production, so running locally with this se
     * If you make a change and need to re-build, just press `CTRL-c` and run again.
 1. Open in the browser by running `open http://$(docker-machine ip default)`.
 
+Any changes you make to the server code should automatically be reflected in the container, but if all else fails, `docker-compose build` and restart.
+
 #### Deployment
 
 Assumes an existing Digital Ocean Droplet, with a `docker-machine` `name` of `do`. Run:
