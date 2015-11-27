@@ -21,6 +21,8 @@ and do requests to `http://localhost:8000/?url=...`.
 
 This is how JSONProxy is deployed to production, so running locally with this setup will be more realistic.
 
+#### Development
+
 1. If you don't have Docker set up already, follow their [Get Started](https://www.docker.com/) instructions.
 1. Start a Docker Quickstart Terminal.
 1. Run `touch .env`.
@@ -28,6 +30,19 @@ This is how JSONProxy is deployed to production, so running locally with this se
 1. Start the server with `docker-compose up`.
     * If you make a change and need to re-build, just press `CTRL-c` and run again.
 1. Open in the browser by running `open http://$(docker-machine ip default)`.
+
+#### Deployment
+
+Assumes an existing Digital Ocean Droplet, with a `docker-machine` `name` of `do`. Run:
+
+```bash
+./bin/deploy
+```
+
+More info:
+
+* https://docs.docker.com/machine/get-started-cloud/
+* https://docs.docker.com/machine/drivers/digital-ocean/
 
 ## See also
 

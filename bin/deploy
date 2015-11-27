@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+set -x
+
+docker-compose build
+eval $(docker-machine env do)
+docker-compose up -d
+echo "DONE"
