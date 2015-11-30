@@ -57,7 +57,7 @@ let respond = function(res, result) {
 };
 
 let doProxy = function(apiUrl, req, res) {
-  let promise = proxy(apiUrl, req.headers);
+  let promise = proxy(apiUrl, req);
   promise.then(
     function(response) {
       let responseHeaders = passBackHeaders(response.headers);
@@ -76,6 +76,15 @@ let doProxy = function(apiUrl, req, res) {
   ).done();
 };
 
+
+router.head('/', function(req, res) {
+  let apiUrl = proxyUtil.getApiUrl(req);
+  if (apiUrl){
+    doProxy(apiUrl, req, res);
+  } else {
+    res.end();
+  }
+});
 
 router.get('/', function(req, res) {
   let apiUrl = proxyUtil.getApiUrl(req);
