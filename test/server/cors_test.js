@@ -43,6 +43,28 @@ describe('CORS', function(){
     });
   });
 
+  it('should handle HEAD requests', function(done){
+    let destApp = express();
+    destApp.head('/', function(req, res){
+      res.end();
+    });
+    let server = http.createServer(destApp);
+    server.listen(8001, function(){
+
+      supertest(app)
+        .head('/')
+        .query({url: 'http://localhost:8001'})
+        .expect(200)
+        .end(function(err){
+          server.on('close', function(){
+            done(err);
+          });
+          server.close();
+        });
+
+    });
+  });
+
   it("shouldn't send particular headers to the destination", function(done){
     let destApp = express();
     destApp.get('/', function(req, res){

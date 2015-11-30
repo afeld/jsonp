@@ -24,10 +24,13 @@ let passThroughHeaders = function(incomingHeaders) {
 };
 
 
-module.exports = function(url, headers) {
-  let externalReqHeaders = passThroughHeaders(headers);
+module.exports = function(url, req) {
+  // support GET or HEAD requests
+  let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
+  let externalReqHeaders = passThroughHeaders(req.headers);
 
   return requestp({
+    method: method,
     uri: url,
     strictSSL: false, // node(jitsu?) has some SSL problems
     headers: externalReqHeaders,
