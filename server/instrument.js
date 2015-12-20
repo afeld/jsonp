@@ -16,5 +16,11 @@ module.exports = {
       let uriObj = url.parse(uri);
       newrelic.addCustomParameter('apiHostname', uriObj.hostname);
     }
+  },
+
+  logResponse: function(res) {
+    if (newrelic) {
+      newrelic.addCustomParameter('apiStatusCode', res.statusCode);
+    }
   }
 };

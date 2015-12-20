@@ -1,8 +1,10 @@
 /*jshint node:true */
 'use strict';
 
-const request = require('request'),
-  Q = require('q');
+const request = require('request');
+const Q = require('q');
+const instrument = require('./instrument');
+
 
 // based on https://coderwall.com/p/9cifuw
 module.exports = function(opts) {
@@ -17,6 +19,8 @@ module.exports = function(opts) {
       res.body = body;
       deferred.resolve(res);
     }
+
+    instrument.logResponse(res);
   });
 
   return deferred.promise;
