@@ -10,6 +10,8 @@ const instrument = require('./instrument');
 module.exports = function(opts) {
   let deferred = Q.defer();
   request(opts, function(err, res, body) {
+    instrument.logResponse(res);
+
     if (err) {
       let message = err.message || body,
         errObj = new Error(message);
@@ -19,8 +21,6 @@ module.exports = function(opts) {
       res.body = body;
       deferred.resolve(res);
     }
-
-    instrument.logResponse(res);
   });
 
   return deferred.promise;
