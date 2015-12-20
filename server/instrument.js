@@ -1,8 +1,20 @@
 /*jshint node:true */
 'use strict';
 
+let newrelic;
 if (process.env.NEW_RELIC_LICENSE_KEY) {
-  require('newrelic');
+  newrelic = require('newrelic');
 } else {
   console.warn("New Relic agent not being started because NEW_RELIC_LICENSE_KEY is missing.");
 }
+
+const url = require('url');
+
+module.exports = {
+  logRequest: function(uri) {
+    if (newrelic) {
+      let uriObj = url.parse(uri);
+      newrelic.addCustomParameter('apiHostname', uriObj.hostname);
+    }
+  }
+};

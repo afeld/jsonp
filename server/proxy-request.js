@@ -4,6 +4,7 @@
 const requestp = require('./requestp');
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
+const instrument = require('./instrument');
 
 
 let passThroughHeaders = function(incomingHeaders) {
@@ -28,6 +29,8 @@ module.exports = function(url, req) {
   // support GET or HEAD requests
   let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
   let externalReqHeaders = passThroughHeaders(req.headers);
+
+  instrument.logRequest(url);
 
   return requestp({
     method: method,
