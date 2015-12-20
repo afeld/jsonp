@@ -9,6 +9,7 @@ const proxy = require('./proxy-request');
 const cloudflare = require('./cloudflare');
 const contentHelper = require('./content-helper');
 const proxyUtil = require('./proxy_util');
+const qs = require('querystring');
 
 let router = express.Router();
 
@@ -95,5 +96,83 @@ router.get('/', function(req, res) {
   }
 });
 
+let defined = function(variable) {
+  if (typeof variable !== 'undefined' && variable !== null)
+    return true;
+  return false;
+}
+
+router.post('/', function(req, res) {
+  var body = '';
+
+  req.on('data', function (data) {
+    body += data;
+    // Too much POST data, kill the connection!
+    // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+    if (body.length > 1e6)
+      request.connection.destroy();
+  });
+
+  req.on('end', function () {
+    var post = qs.parse(body);
+
+    if (defined(post['url']) == false) {
+      res.status(400);
+      res.send('you shall not pass.');
+    } else {
+      let apiUrl = post['url'];
+
+      if (defined(post['referer']) && post['referer']) {
+        if (post['referer'] == "false") {
+          req.headers = u.omit(req.headers, 'referer');
+        } else {
+          req.headers['referer'] = post['referer'];
+        }
+      } else {
+        req.headers = u.omit(req.headers, 'referer');
+      }
+
+      if (defined(post['origin']) && post['origin']) {
+        if (post['origin'] == "false") {
+          req.headers = u.omit(req.headers, 'origin');
+        } else {
+          req.headers['origin'] = post['origin'];
+        }
+      } else {
+        req.headers = u.omit(req.headers, 'origin');
+      }
+
+      if (defined(post['useragent']) && post['useragent']) {
+        if (post['useragent'] == "false") {
+          req.headers = u.omit(req.headers, 'user-agent');
+        } else {
+          req.headers['user-agent'] = post['useragent'];
+        }
+      } else {
+        req.headers = u.omit(req.headers, 'user-agent');
+      }
+
+      if (defined(post['data'])) {
+        // this is a post request for sure.
+        req.method = 'POST';
+
+        let postdata = post['data'];
+        req.headers['content-length'] = postdata.length;
+
+        // temporarily store post-data
+        req.headers['x-post-data'] = postdata;
+      } else {
+        // strip content-length; there's no data
+        req.headers = u.omit(req.headers,
+          'content-length',
+          'content-type'
+        );
+      }
+
+      // finally call Proxy
+      doProxy(apiUrl, req, res);
+    }
+  });
+});
 
 module.exports = router;

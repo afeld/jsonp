@@ -91,6 +91,44 @@
         </p>
       </section>
 
+      <section>
+        <h2 id="cors">Cross-domain AJAX POST (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>)</h2>
+        <p class="finePrint">
+          (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
+        </p>
+        <p class="finePrint">
+          This is an example which creates a gist at <a href="https://gist.github.com/" target="_blank">gist.github.com</a> using the GitHub API and POST.
+        </p>
+        <pre><code class="language-html"><%= snippets.ajax_post %></code></pre>
+        <br />
+        <h4>parameters</h4>
+        <ul>
+          <li>
+            <b>url</b>: (required): url to access
+          </li>
+          <li>
+            <b>data</b>: JSON.Stringify() your json object and pass through. If this is omitted, request goes through as empty POST request
+          </li>
+          <li>
+            <b>referer</b>: (optional): default: false, 'string' object;
+            <br />
+            false removes referer, any other value is set as referer in header
+          </li>
+          <li>
+            <b>origin</b>: (optional): default: false, 'string' object;
+            <br />
+            false removes origin, any other value is set as origin in header
+          </li>
+          <li>
+            <b>useragent</b>: (optional): default: false, 'string' object;
+            <br />
+            false removes useragent, any other value is set as useragent in header
+            <br />
+            <i>Some APIs require user-agent to be set, as in this example, GitHub.</i>
+          </li>
+        </ul>
+      </section>
+
       <hr/>
 
       <section>
