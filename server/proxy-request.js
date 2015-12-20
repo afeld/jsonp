@@ -12,8 +12,7 @@ let passThroughHeaders = function(incomingHeaders) {
     'accept-encoding',
     'connection',
     'cookie',
-    'host',
-    'user-agent'
+    'host'
   );
 
   externalReqHeaders = cloudflare.filterHeaders(externalReqHeaders);
