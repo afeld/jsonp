@@ -10,6 +10,8 @@ npm install
 grunt
 ```
 
+The tests can be found under the [`test/`](https://github.com/afeld/jsonp/tree/master/test) directory.
+
 ## Code coverage
 
 ```bash
