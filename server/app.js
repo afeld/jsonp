@@ -9,6 +9,7 @@ if (process.env.NEW_RELIC_LICENSE_KEY) {
 
 const express = require('express'),
   morgan = require('morgan'),
+  bodyParser = require('body-parser'),
   compress = require('compression'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
@@ -28,6 +29,10 @@ app.use(compress());
 app.use(cors({
   maxAge: 60 * 60 * 24, // one day
   methods: ['GET']
+}));
+app.use(bodyParser.text({
+  type: '*/*',
+  limit: '1mB',
 }));
 app.use(redirector.middleware);
 app.use(jsonp);

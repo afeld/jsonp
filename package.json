@@ -2,6 +2,7 @@
   "name": "jsonp",
   "private": "true",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "ejs": "^2.3.3",

@@ -95,5 +95,17 @@ router.get('/', function(req, res) {
   }
 });
 
+router.post('/', function(req, res) {
+  let apiUrl = proxyUtil.getApiUrl(req);
+  if (apiUrl){
+    if (req.headers['content-length'] !== 0) {
+      req.headers['x-raw-data'] = req.body;
+    }
+    doProxy(apiUrl, req, res);
+  } else {
+    res.status(400);
+    res.send('malformed request');
+  }
+});
 
 module.exports = router;

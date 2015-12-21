@@ -4,6 +4,7 @@
 const requestp = require('./requestp');
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
+const acceptedmethods = ['GET', 'HEAD', 'POST'];
 
 
 let passThroughHeaders = function(incomingHeaders) {
@@ -24,15 +25,30 @@ let passThroughHeaders = function(incomingHeaders) {
 
 
 module.exports = function(url, req) {
-  // support GET or HEAD requests
-  let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
+  let method = req.method;
+  if (!u.contains(acceptedmethods, method)) {
+    method = 'GET';
+  }
   let externalReqHeaders = passThroughHeaders(req.headers);
 
-  return requestp({
+  let opts = {
     method: method,
     uri: url,
     strictSSL: false, // node(jitsu?) has some SSL problems
     headers: externalReqHeaders,
     encoding: 'utf8'
-  });
+  };
+
+  if (opts['headers']['content-length'] !== 0) {
+    // extract x-raw-data
+    let body = opts['headers']['x-raw-data'];
+
+    // remove x-raw-data
+    opts['headers'] = u.omit(opts['headers'], 'x-raw-data');
+
+    // set body
+    opts['body'] = body;
+  }
+
+  return requestp(opts);
 };
