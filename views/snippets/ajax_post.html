@@ -1,0 +1,10 @@
+<script>
+  $.post('https://jsonp.afeld.me/?url=http://dpaste.com/api/v2/', {
+    content: 'console.log("lorem ipsum");',
+    syntax: 'js',
+    expiry_days: 1,
+    title: 'test paste'
+  }, function(data) {
+    // success!
+  });
+</script>
