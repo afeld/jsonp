@@ -4,7 +4,7 @@
 const requestp = require('./requestp');
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
-const acceptedmethods = ['GET', 'HEAD', 'POST'];
+const acceptedmethods = ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT'];
 
 
 let passThroughHeaders = function(incomingHeaders) {
