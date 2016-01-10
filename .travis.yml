@@ -1,15 +1,17 @@
-sudo: false
+sudo: required
 language: node_js
 node_js:
   - "5.0"
 cache:
   directories:
   - node_modules
-notifications:
-  webhooks:
-    urls:
-      - http://webhooks.nodejitsu.com/1/deploy
-    on_success: always
-    on_failure: never
-before_script:
+services:
+  - docker
+before_install:
   - npm install -g grunt-cli
+script:
+  - npm test
+  - touch .env
+  - docker-compose build
+  - docker-compose up -d
+  - curl -I --fail http://localhost
