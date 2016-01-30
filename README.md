@@ -4,8 +4,6 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 
 ## Setup
 
-If you want to have New Relic enabled, use the environment variable `NEW_RELIC_LICENSE_KEY`.
-
 ### Simple
 
 See [`.travis.yml`](.travis.yml) for compatible Node versions.
