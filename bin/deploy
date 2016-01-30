@@ -6,5 +6,5 @@ set -x
 eval $(docker-machine env do2)
 docker-compose build
 docker-compose up -d
-curl -I --fail https://jsonp.afeld.me
+curl -I --fail --retry 10 --retry-delay 1 https://jsonp.afeld.me
 echo "DONE"
