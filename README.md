@@ -4,6 +4,8 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 
 ## Setup
 
+If you want to have New Relic enabled, use the environment variable `NEW_RELIC_LICENSE_KEY`.
+
 ### Simple
 
 See [`.travis.yml`](.travis.yml) for compatible Node versions.
@@ -33,7 +35,7 @@ This is how JSONProxy is deployed to production, so running locally with this se
 
 #### Deployment
 
-Assumes an existing Digital Ocean Droplet, with a `docker-machine` `name` of `do`. Run:
+Assumes an existing Digital Ocean Droplet, with a `docker-machine` `name` of `do2`. Run:
 
 ```bash
 ./bin/deploy

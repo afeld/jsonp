@@ -1,4 +1,3 @@
-# initially generated with `heroku docker:init`
 nginx:
   build: ./nginx
   restart: always
@@ -8,5 +7,6 @@ nginx:
     - '80:80'
 web:
   build: .
-  env_file: .env
+  environment:
+    NEW_RELIC_LICENSE_KEY:
   restart: always

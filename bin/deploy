@@ -3,8 +3,8 @@
 set -e
 set -x
 
+eval $(docker-machine env do2)
 docker-compose build
-eval $(docker-machine env do)
-docker-compose up -d --force-recreate
-curl -I --fail https://jsonp.afeld.me
+docker-compose up -d
+curl -I --fail --retry 10 --retry-delay 1 https://jsonp.afeld.me
 echo "DONE"
