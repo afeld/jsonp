@@ -3,7 +3,7 @@
 set -e
 set -x
 
-eval $(docker-machine env do2)
+eval $(docker-machine env do3)
 docker-compose build
 docker-compose up -d
 curl -I --fail --retry 10 --retry-delay 1 https://jsonp.afeld.me

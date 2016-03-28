@@ -33,8 +33,12 @@ This is how JSONProxy is deployed to production, so running locally with this se
 
 #### Deployment
 
-1. Set up a `docker-machine` with a `name` of `do2`.
-    * https://jsonp.afeld.me uses [Digital Ocean](https://www.digitalocean.com/), set up with [these instructions](https://docs.docker.com/machine/get-started-cloud/#digital-ocean-example).
+1. Set up a `docker-machine` with a `name` of `do3`. https://jsonp.afeld.me uses [Digital Ocean](https://www.digitalocean.com/), set up with [these instructions](https://docs.docker.com/machine/get-started-cloud/#digital-ocean-example).
+
+    ```bash
+    docker-machine create --driver digitalocean --digitalocean-access-token TOKEN --engine-opt log-opt="max-size=50m" --engine-opt log-opt="max-file=100" do3
+    ```
+
 1. Run:
 
     ```bash
