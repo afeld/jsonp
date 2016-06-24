@@ -3,7 +3,13 @@
 set -e
 set -x
 
-eval $(docker-machine env do3)
+MACHINE=$1
+if [ -z "$MACHINE" ]; then
+  echo "ERROR: Please specify the docker-machine name."
+  exit 1
+fi
+
+eval $(docker-machine env $MACHINE)
 docker-compose build
 docker-compose up -d
 curl -I --fail --retry 10 --retry-delay 1 https://jsonp.afeld.me
