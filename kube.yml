@@ -8,12 +8,14 @@ kind: Deployment
 metadata:
   name: jsonp
 spec:
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       labels:
         app: jsonp
     spec:
+      strategy:
+        type: RollingUpdate
       containers:
       - name: web
         image: afeld/jsonp
