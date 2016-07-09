@@ -1,0 +1,21 @@
+# usage:
+#
+#   kubectl create -f kube.yml --record
+#   kubectl expose deployment jsonp --type="LoadBalancer"
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jsonp
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: jsonp
+    spec:
+      containers:
+      - name: web
+        image: afeld/jsonp
+        ports:
+        - containerPort: 8000
