@@ -49,9 +49,12 @@ This is how JSONProxy is deployed to production, so running locally with this se
 
 ##### [Kubernetes](http://kubernetes.io/)
 
+The examples below are using [Google Container Engine](https://cloud.google.com/container-engine/).
+
 Initial deployment:
 
 ```bash
+gcloud container clusters create jsonp-clustered --num-nodes=2 --machine-type=g1-small
 kubectl create -f kube.yml --record
 kubectl expose deployment jsonp --type="LoadBalancer" --port=80 --target-port=8000
 
@@ -62,6 +65,7 @@ kubectl get service jsonp
 Updates:
 
 ```bash
+gcloud container clusters get-credentials jsonp-clustered
 kubectl replace -f kube.yml --record
 ```
 
