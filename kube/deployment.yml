@@ -14,3 +14,7 @@ spec:
         image: afeld/jsonp
         ports:
         - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
