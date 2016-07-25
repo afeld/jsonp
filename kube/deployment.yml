@@ -18,3 +18,9 @@ spec:
           httpGet:
             path: /
             port: 8000
+        env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic
+              key: license-key
