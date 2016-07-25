@@ -33,6 +33,8 @@ This is how JSONProxy is deployed to production, so running locally with this se
 
 #### Deployment
 
+##### Docker Compose
+
 1. Set up a `docker-machine`. https://jsonp.afeld.me uses [Digital Ocean](https://www.digitalocean.com/), set up with [these instructions](https://docs.docker.com/machine/get-started-cloud/#digital-ocean-example).
 
     ```bash
@@ -44,6 +46,10 @@ This is how JSONProxy is deployed to production, so running locally with this se
     ```bash
     ./bin/deploy <name>
     ```
+
+##### [Kubernetes](http://kubernetes.io/)
+
+See [`kube/`](kube/).
 
 ## See also
 
