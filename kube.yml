@@ -1,8 +1,19 @@
-# usage:
-#
-#   kubectl create -f kube.yml --record
-#   kubectl expose deployment jsonp --type="LoadBalancer"
-#
+apiVersion: v1
+kind: Service
+metadata:
+  name: jsonp
+  labels:
+    run: jsonp
+spec:
+  ports:
+  - name: default
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: jsonp
+  type: LoadBalancer
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:

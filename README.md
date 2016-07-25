@@ -56,7 +56,6 @@ Initial deployment:
 ```bash
 gcloud container clusters create jsonp-clustered --num-nodes=2 --machine-type=g1-small
 kubectl create -f kube.yml --record
-kubectl expose deployment jsonp --type="LoadBalancer" --port=80 --target-port=8000
 
 # re-run this until there's an EXTERNAL-IP, then visit that in your browser
 kubectl get service jsonp
