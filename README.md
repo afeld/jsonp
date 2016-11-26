@@ -6,7 +6,7 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 
 ### Simple
 
-See [`.travis.yml`](.travis.yml) for compatible Node versions.
+See [`package.json`](package.json) for compatible Node versions.
 
 ```bash
 npm install
