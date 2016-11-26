@@ -9,7 +9,7 @@
     "expect.js": "^0.3.1",
     "express": "^4.13.3",
     "json3": "^3.3.2",
-    "mocha": "^2.2.5",
+    "mocha": "^3.2.0",
     "morgan": "^1.6.1",
     "newrelic": "^1.24.0",
     "q": "^1.4.1",
@@ -19,14 +19,16 @@
   },
   "devDependencies": {
     "blanket": "^1.1.7",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-contrib-watch": "^0.6.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
-    "grunt-mocha": "^0.4.13",
-    "grunt-mocha-test": "^0.12.7",
+    "grunt-mocha": "^1.0.2",
+    "grunt-mocha-test": "^0.13.2",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-requirejs": "^1.1.0",
     "sinon-mocha": "0.0.3",
-    "supertest": "^1.0.1"
+    "supertest": "^2.0.1"
   },
   "engines": {
     "node": ">=4.0.0 <7.0.0"
