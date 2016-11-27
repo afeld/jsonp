@@ -94,6 +94,13 @@
       <hr/>
 
       <section>
+        <h2>Disclaimer</h2>
+        <a href="https://jsonp.afeld.me">jsonp.afeld.me</a> is rate limited. The proxy is fairly easy to <a href="https://github.com/afeld/jsonp#setup">deploy</a> if you want to set up your own.
+      </section>
+
+      <hr/>
+
+      <section>
         <h2>CORS vs. JSONP</h2>
         <p>
           Unfortunately, detection of response errors with JSONP is difficult, at best. jQuery's JSONP implementation won't call an error callback unless an explicit timeout is specified (which the <a href="#plugin">plugin</a> takes care of) - see <a href="http://stackoverflow.com/questions/5247295/jquery-ajax-request-using-jsonp-error">here</a> for more info and options.
@@ -102,8 +109,9 @@
           CORS, however, is just normal AJAX!  There is also a security advantage, in that it's not possible for a malicious service (including this one) to run arbirtrary JavaScript on your page.
         </p>
 
-        <hr/>
       </section>
+
+      <hr/>
 
       <footer>
         <a href="https://twitter.com/aidanfeldman" class="twitter-follow-button" data-show-count="false">Follow @aidanfeldman</a>
