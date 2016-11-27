@@ -1,0 +1,17 @@
+version: '2'
+services:
+  nginx:
+    image: afeld/jsonp-nginx
+    restart: always
+    fip: 209.177.88.209
+    size: s2
+    links:
+      - web
+    ports:
+      - '80:80'
+  web:
+    image: afeld/jsonp
+    size: s3
+    env_file:
+      - .env
+    restart: always
