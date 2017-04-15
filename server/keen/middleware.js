@@ -1,10 +1,20 @@
+const url = require('url');
 const keen = require('./client');
+const proxyUtil = require('../proxy_util');
+
 
 const getCommonEvent = (req) => {
+  const apiUrl = proxyUtil.getApiUrl(req);
+  let apiHost;
+  if (apiUrl) {
+    apiHost = url.parse(apiUrl).host;
+  }
+
   return {
     method: req.method,
     path: req.path,
-    ip: req.ips[0]
+    ip: req.ips[0],
+    apiHost: apiHost
   };
 };
 
