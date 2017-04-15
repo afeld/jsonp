@@ -13,7 +13,14 @@ npm install
 npm start
 ```
 
-and do requests to `http://localhost:8000/?url=...`. To enable [New Relic](https://newrelic.com/), ensure that the `NEW_RELIC_LICENSE_KEY` environment variable is set.
+and do requests to `http://localhost:8000/?url=...`.
+
+### External services
+
+The following service integrations can be enabled with the corresponding envrionment variables:
+
+* [New Relic](https://newrelic.com/): set `NEW_RELIC_LICENSE_KEY`
+* [Keen.io](https://keen.io/): set `KEEN_PROJECT_ID` and `KEEN_WRITE_KEY`
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 

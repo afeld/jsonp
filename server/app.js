@@ -13,7 +13,8 @@ const express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
-  router = require('./router');
+  router = require('./router'),
+  keen = require('./keen');
 
 let app = express();
 
@@ -34,5 +35,8 @@ app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
 app.use('/', router);
 
+keen.recordEvent('test', {
+  title: 'foo'
+});
 
 module.exports = app;
