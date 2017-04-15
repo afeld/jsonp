@@ -31,26 +31,6 @@ This is how JSONProxy is deployed to production, so running locally with this se
     * If you make a change and need to re-build, just press `CTRL-c` and run again.
 1. Open in the browser by running `open http://$(docker-machine ip default)`.
 
-#### Deployment
-
-##### Docker Compose
-
-1. Set up a `docker-machine`. https://jsonp.afeld.me uses [Digital Ocean](https://www.digitalocean.com/), set up with [these instructions](https://docs.docker.com/machine/get-started-cloud/#digital-ocean-example).
-
-    ```bash
-    docker-machine create --driver digitalocean --digitalocean-access-token <token> --engine-opt log-opt="max-size=50m" --engine-opt log-opt="max-file=100" <name>
-    ```
-
-1. Run:
-
-    ```bash
-    ./bin/deploy <name>
-    ```
-
-##### [Kubernetes](http://kubernetes.io/)
-
-See [`kube/`](kube/).
-
 ## See also
 
 * https://github.com/jpillora/xdomain
