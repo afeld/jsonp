@@ -9,6 +9,7 @@ if (KEEN_PROJECT_ID && KEEN_WRITE_KEY) {
     projectId: KEEN_PROJECT_ID,
     writeKey: KEEN_WRITE_KEY
   });
+  console.log("Keen.io enabled.")
 } else {
   console.warn("Keen.io credentials not set - events will not be recorded.");
 }

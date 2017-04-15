@@ -13,7 +13,12 @@ npm install
 npm start
 ```
 
-and do requests to `http://localhost:8000/?url=...`.
+and do requests to `http://localhost:8000/?url=...`. For live reloading:
+
+```sh
+npm install -g nodemon
+export $(cat .env | xargs) && nodemon
+```
 
 ### External services
 
