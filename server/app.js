@@ -13,7 +13,8 @@ const express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
-  router = require('./router');
+  router = require('./router'),
+  keenMiddleware = require('./keen/middleware');
 
 let app = express();
 
@@ -32,7 +33,7 @@ app.use(cors({
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
+app.use(keenMiddleware);
 app.use('/', router);
-
 
 module.exports = app;
