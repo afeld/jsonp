@@ -1,3 +1,6 @@
+/*jshint node:true */
+'use strict';
+
 const KeenTracking = require('keen-tracking');
 
 const KEEN_PROJECT_ID = process.env.KEEN_PROJECT_ID;
@@ -9,7 +12,7 @@ if (KEEN_PROJECT_ID && KEEN_WRITE_KEY) {
     projectId: KEEN_PROJECT_ID,
     writeKey: KEEN_WRITE_KEY
   });
-  console.log("Keen.io enabled.")
+  console.log("Keen.io enabled.");
 } else {
   console.warn("Keen.io credentials not set - events will not be recorded.");
 }

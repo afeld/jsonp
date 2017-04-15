@@ -1,3 +1,6 @@
+/*jshint node:true */
+'use strict';
+
 const url = require('url');
 const keen = require('./client');
 const proxyUtil = require('../proxy_util');
@@ -19,10 +22,8 @@ const getCommonEvent = (req) => {
 };
 
 const registerResponse = (req, res, resEvent, start) => {
-  let end = new Date().getTime();
-  let resTime = end - start; // milliseconds
-  console.log(req);
-  console.log(`response time:: ${resTime}ms`);
+  const end = new Date().getTime();
+  const resTime = end - start; // milliseconds
 
   const eventData = getCommonEvent(req);
   eventData.event = resEvent;
