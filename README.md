@@ -37,11 +37,19 @@ This is how JSONProxy is deployed to production, so running locally with this se
 
 1. If you don't have Docker set up already, follow their [Get Started](https://www.docker.com/) instructions.
 1. Start a Docker Quickstart Terminal.
-1. Run `touch .env`.
-    * If you are adding a New Relic License Key, add as `NEW_RELIC_LICENSE_KEY=...` in that file.
+1. Run `touch .env`
+    * Optionally fill out with environment variables specified above.
 1. Start the server with `docker-compose up`.
     * If you make a change and need to re-build, just press `CTRL-c` and run again.
 1. Open in the browser by running `open http://$(docker-machine ip default)`.
+
+#### Deployment
+
+This app is deployed to [Hyper.sh](https://hyper.sh/). To deploy, run
+
+```sh
+./bin/deploy
+```
 
 ## See also
 
