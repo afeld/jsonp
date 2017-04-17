@@ -1,0 +1,27 @@
+<script src="jquery.js"></script>
+<script>
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/',
+    data: {
+      url: 'https://api.github.com/gists',
+      data: JSON.stringify({
+        "description": "the description for this gist",
+        "public": true,
+        "files": {
+          "file1.txt": {
+            "content": "String file contents"
+          }
+        }
+      }),
+      referer: false,
+      origin: false,
+      useragent: navigator.userAgent,
+    },
+    dataType: 'json',
+    success: function(data) {
+      // Do some nice stuff here
+    },
+    // error, etc.
+  });
+</script>
