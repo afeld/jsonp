@@ -1,4 +1,4 @@
-service: my-express-application
+service: jsonp
 
 provider:
   name: aws
