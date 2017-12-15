@@ -1,4 +1,4 @@
-/*jshint node:true */
+/*jshint esversion:6, node:true */
 // a simple server that serves a JSON file with a delay
 
 const express = require('express');

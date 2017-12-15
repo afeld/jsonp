@@ -1,4 +1,3 @@
-/*jshint node:true */
 'use strict';
 
 const KeenTracking = require('keen-tracking');

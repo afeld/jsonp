@@ -1,5 +1,3 @@
-/*jshint node:true */
-/*global describe, it */
 'use strict';
 require('./support');
 

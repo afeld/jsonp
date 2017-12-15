@@ -1,4 +1,3 @@
-/*jshint node:true */
 'use strict';
 
 const compress = require('compression'),
