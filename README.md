@@ -33,7 +33,14 @@ The following service integrations can be enabled with the corresponding environ
 This app is deployed to AWS with the [Serverless Framework](https://serverless.com/framework/docs/). To deploy, run
 
 ```sh
+sls create_domain
 sls deploy
+```
+
+If you use [the client library](jsonp.js) with your own JSONP deployment, override the proxy URL before calling `$.jsonp()`.
+
+```javascript
+$.jsonp.PROXY = 'https://mydomain.com/proxy/path/';
 ```
 
 ## See also
