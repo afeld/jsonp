@@ -29,16 +29,6 @@ The following service integrations can be enabled with the corresponding environ
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-### Docker
-
-1. If you don't have Docker set up already, follow their [Get Started](https://www.docker.com/) instructions.
-1. Start a Docker Quickstart Terminal.
-1. Run `touch .env`
-    * Optionally fill out with environment variables specified above.
-1. Start the server with `docker-compose up`.
-    * If you make a change and need to re-build, just press `CTRL-c` and run again.
-1. Open in the browser by running `open http://$(docker-machine ip default)`.
-
 ## Deployment
 
 This app is deployed to AWS with the [Serverless Framework](https://serverless.com/framework/docs/). To deploy, run
