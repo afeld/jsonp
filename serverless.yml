@@ -4,7 +4,9 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: dev
-  region: us-east-2
+  # required for custom domains
+  # https://serverless.com/blog/serverless-api-gateway-domain/#getting-a-certificate-for-your-domain
+  region: us-east-1
 
 functions:
   app:
@@ -12,3 +14,14 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: jsonp-aws.afeld.me
+    certificateName: jsonp.afeld.me
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: false
