@@ -14,6 +14,6 @@
   "bogus": false,
   "meaning": null,
   "japanese": "明日がある。",
-  "link": "http://jsonview.com",
-  "notLink": "http://jsonview.com is great"
+  "link": "https://jsonview.com",
+  "notLink": "https://jsonview.com is great"
 }
