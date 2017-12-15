@@ -4,3 +4,5 @@ coverage.html
 
 public/bower_components/jquery/*
 !public/bower_components/jquery/dist/jquery.js
+
+.serverless/

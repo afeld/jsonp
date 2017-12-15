@@ -9,7 +9,6 @@ if (process.env.NEW_RELIC_LICENSE_KEY) {
 
 const express = require('express'),
   morgan = require('morgan'),
-  compress = require('compression'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
@@ -25,7 +24,6 @@ app.enable('trust proxy');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-app.use(compress());
 app.use(cors({
   maxAge: 60 * 60 * 24, // one day
   methods: ['GET']
