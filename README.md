@@ -24,20 +24,9 @@ export $(cat .env | xargs) && nodemon
 
 The following service integrations can be enabled with the corresponding environment variables:
 
-* [New Relic](https://newrelic.com/): set `NEW_RELIC_LICENSE_KEY`
 * [Keen.io](https://keen.io/): set `KEEN_PROJECT_ID` and `KEEN_WRITE_KEY`
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-### Docker
-
-1. If you don't have Docker set up already, follow their [Get Started](https://www.docker.com/) instructions.
-1. Start a Docker Quickstart Terminal.
-1. Run `touch .env`
-    * Optionally fill out with environment variables specified above.
-1. Start the server with `docker-compose up`.
-    * If you make a change and need to re-build, just press `CTRL-c` and run again.
-1. Open in the browser by running `open http://$(docker-machine ip default)`.
 
 ## Deployment
 

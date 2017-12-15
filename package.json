@@ -12,7 +12,6 @@
     "keen-tracking": "^1.1.3",
     "mocha": "^3.2.0",
     "morgan": "^1.6.1",
-    "newrelic": "^1.24.0",
     "q": "^1.4.1",
     "request": "^2.67.0",
     "serverless-http": "^1.5.2",

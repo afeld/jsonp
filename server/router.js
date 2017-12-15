@@ -18,7 +18,6 @@ let serveLandingPage = function(req, res) {
     layout: false,
     host: req.headers.host,
     nodeVersion: process.version,
-    nrSet: !!process.env.NEW_RELIC_LICENSE_KEY,
     snippets: snippets
   });
 };
