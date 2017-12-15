@@ -3,8 +3,5 @@
   "website": "https://jsonp.afeld.me/",
   "repository": "https://github.com/afeld/jsonp",
   "image": "heroku/nodejs",
-  "success_url": "/",
-  "addons": [
-    "newrelic"
-  ]
+  "success_url": "/"
 }
