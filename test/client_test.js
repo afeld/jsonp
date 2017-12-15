@@ -46,7 +46,7 @@ describe('jsonproxy', function(){
     });
 
     it('should use the proxy for a mismatched protocol', function(done){
-      sandbox.stub($.jsonp, 'getLocation', function(){
+      sandbox.stub($.jsonp, 'getLocation').callsFake(function(){
         return {
           hash: '',
           host: 'foo.com',
@@ -206,7 +206,7 @@ describe('jsonproxy', function(){
       it("should use the proxy if protocols don't match", function(done){
         var url = 'http://foo.com/bar';
 
-        sandbox.stub($.jsonp, 'getLocation', function(){
+        sandbox.stub($.jsonp, 'getLocation').callsFake(function(){
           return {
             hash: '',
             host: 'foo.com',
