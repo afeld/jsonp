@@ -21,11 +21,11 @@
   "devDependencies": {
     "blanket": "^1.1.7",
     "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
     "grunt-mocha": "^1.0.2",
     "grunt-mocha-test": "^0.13.2",
+    "jshint": "^2.9.5",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-requirejs": "^1.1.0",
     "serverless-domain-manager": "^2.0.0",
@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "node server/run.js",
-    "test": "grunt"
+    "lint": "jshint .",
+    "test": "npm run lint && grunt"
   }
 }

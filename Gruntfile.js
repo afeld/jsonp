@@ -9,23 +9,6 @@ module.exports = function(grunt) {
         NODE_ENV: 'test'
       }
     },
-    jshint: {
-      all: jsFiles,
-      options: {
-        boss: true,
-        curly: true,
-        eqeqeq: true,
-        eqnull: true,
-        esnext: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        unused: true
-      }
-    },
     mocha: {
       index: ['test.html']
     },
@@ -39,9 +22,8 @@ module.exports = function(grunt) {
   });
 
   // default tasks
-  grunt.registerTask('default', ['env', 'jshint', 'mocha', 'mochaTest']);
+  grunt.registerTask('default', ['env', 'mocha', 'mochaTest']);
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-env');
 

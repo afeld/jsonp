@@ -1,4 +1,3 @@
-/*jshint node:true */
 'use strict';
 
 const JSON3 = require('json3');
