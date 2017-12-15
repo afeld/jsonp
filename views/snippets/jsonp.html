@@ -3,12 +3,12 @@
     alert('it works! ', JSON.parse(data).awesome);
   }
 </script>
-<script src="https://jsonp.afeld.me/?callback=myCallback&url=http://jsonview.com/example.json"></script>
+<script src="https://jsonp.afeld.me/?callback=myCallback&url=https://jsonview.com/example.json"></script>
 
 <!-- or the jQuery convenience method -->
 
 <script>
-  $.getJSON('https://jsonp.afeld.me/?callback=?&url=http://jsonview.com/example.json', function(data){
+  $.getJSON('https://jsonp.afeld.me/?callback=?&url=https://jsonview.com/example.json', function(data){
     alert('fake AJAX! ' + data.awesome);
   });
 </script>
