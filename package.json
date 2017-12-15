@@ -20,10 +20,6 @@
   },
   "devDependencies": {
     "blanket": "^1.1.7",
-    "grunt": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-env": "^0.4.4",
-    "grunt-mocha-test": "^0.13.2",
     "jshint": "^2.9.5",
     "mocha-phantomjs-core": "^2.1.2",
     "serverless-domain-manager": "^2.0.0",
@@ -37,6 +33,7 @@
     "start": "node server/run.js",
     "lint": "jshint .",
     "client_test": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test.html spec '{\"useColors\":true}'",
-    "test": "npm run lint && grunt && npm run client_test"
+    "server_test": "mocha test/server/",
+    "test": "npm run lint && npm run server_test && npm run client_test"
   }
 }

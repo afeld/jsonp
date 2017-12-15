@@ -5,7 +5,6 @@
 Install Node and [PhantomJS](http://phantomjs.org/), then run:
 
 ```
-npm install -g grunt-cli
 npm install
 npm test
 ```
