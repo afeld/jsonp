@@ -1,9 +1,0 @@
-#!/bin/bash
-
-set -e
-set -x
-
-COMPOSE_FILE=hyper-compose.yml
-
-hyper compose pull -f $COMPOSE_FILE
-hyper compose up -f $COMPOSE_FILE -d --force-recreate
