@@ -34,7 +34,7 @@
     "supertest": "^2.0.1"
   },
   "engines": {
-    "node": ">=4.0.0 <7.0.0"
+    "node": "^6.10.0"
   },
   "scripts": {
     "start": "node server/run.js",
