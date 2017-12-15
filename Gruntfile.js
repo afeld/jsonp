@@ -9,9 +9,6 @@ module.exports = function(grunt) {
         NODE_ENV: 'test'
       }
     },
-    mocha: {
-      index: ['test.html']
-    },
     mochaTest: {
       files: ['test/server/**/*_test.js']
     },
@@ -22,13 +19,11 @@ module.exports = function(grunt) {
   });
 
   // default tasks
-  grunt.registerTask('default', ['env', 'mocha', 'mochaTest']);
+  grunt.registerTask('default', ['env', 'mochaTest']);
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-env');
 
-  // client tests
-  grunt.loadNpmTasks('grunt-mocha');
   // server tests
   grunt.loadNpmTasks('grunt-mocha-test');
 };
