@@ -3,7 +3,8 @@ service: jsonp
 provider:
   name: aws
   runtime: nodejs6.10
-  stage: dev
+  # only deploy production, because of https://github.com/amplify-education/serverless-domain-manager/issues/60
+  stage: prod
   # required for custom domains
   # https://serverless.com/blog/serverless-api-gateway-domain/#getting-a-certificate-for-your-domain
   region: us-east-1
@@ -20,8 +21,5 @@ plugins:
 
 custom:
   customDomain:
-    domainName: jsonp-aws.afeld.me
-    certificateName: jsonp.afeld.me
-    basePath: ''
-    stage: ${self:provider.stage}
+    domainName: jsonp.afeld.me
     createRoute53Record: false
