@@ -48,7 +48,7 @@ data "template_file" "nginx_config" {
   template = "${file("${path.module}/../nginx/nginx.conf")}"
 
   vars {
-    proxy_pass = "${var.proxy_pass}"
+    proxy_pass = "${data.aws_cloudformation_stack.serverless.outputs["ServiceEndpoint"]}"
   }
 }
 

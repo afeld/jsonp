@@ -1,10 +1,10 @@
-variable "public_key_path" {
-  default = "~/.ssh/id_rsa.pub"
+variable "cloudformation_stack" {
+  default = "jsonp-prod"
+  description = "Should match `<service>-<stage>` in serverless.yml"
 }
 
-variable "proxy_pass" {
-  type = "string"
-  description = "The URL of the Lambda function"
+variable "public_key_path" {
+  default = "~/.ssh/id_rsa.pub"
 }
 
 variable "cloudflare_email" {
