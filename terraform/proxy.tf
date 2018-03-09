@@ -84,3 +84,8 @@ resource "aws_instance" "nginx" {
     create_before_destroy = true
   }
 }
+
+# use an Elastic IP so that the instance can be recreated without needing to update DNS
+resource "aws_eip" "proxy" {
+  instance = "${aws_instance.nginx.id}"
+}

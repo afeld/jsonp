@@ -6,8 +6,8 @@ provider "cloudflare" {
 resource "cloudflare_record" "main" {
   domain = "${var.cloudflare_domain}"
   name   = "${var.cloudflare_subdomain}"
-  value  = "${aws_instance.nginx.public_dns}"
-  type   = "CNAME"
+  value  = "${aws_eip.proxy.public_ip}"
+  type   = "A"
   proxied = true
 }
 
