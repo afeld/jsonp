@@ -5,9 +5,6 @@ provider:
   runtime: nodejs6.10
   # only deploy production, because of https://github.com/amplify-education/serverless-domain-manager/issues/60
   stage: prod
-  # required for custom domains
-  # https://serverless.com/blog/serverless-api-gateway-domain/#getting-a-certificate-for-your-domain
-  region: us-east-1
 
 functions:
   app:
@@ -15,11 +12,3 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
-
-plugins:
-  - serverless-domain-manager
-
-custom:
-  customDomain:
-    domainName: jsonp.afeld.me
-    createRoute53Record: false

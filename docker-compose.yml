@@ -1,0 +1,13 @@
+version: '2'
+services:
+  nginx:
+    build: ./nginx
+    restart: always
+    links:
+      - web
+    ports:
+      - '80:80'
+  web:
+    build: .
+    env_file: .env
+    restart: always
