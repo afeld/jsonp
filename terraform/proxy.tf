@@ -46,6 +46,7 @@ data "template_file" "nginx_config" {
   template = "${file("${path.module}/../nginx/nginx.conf")}"
 
   vars {
+    real_ips_from = "${join("\n  ", formatlist("set_real_ip_from %s;", concat(local.cloudflare_ipv4_cidrs, local.cloudflare_ipv6_cidrs)))}"
     proxy_pass = "${local.endpoint_url}"
   }
 }
