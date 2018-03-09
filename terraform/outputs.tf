@@ -11,5 +11,5 @@ output "public_url" {
 }
 
 output "ssh_dest" {
-  value = "${local.ssh_user}@${aws_instance.nginx.public_dns}"
+  value = "${local.ssh_user}@${aws_eip.proxy.public_ip}"
 }
