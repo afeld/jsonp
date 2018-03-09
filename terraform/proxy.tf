@@ -1,5 +1,3 @@
-provider "aws" {}
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -48,8 +46,13 @@ data "template_file" "nginx_config" {
   template = "${file("${path.module}/../nginx/nginx.conf")}"
 
   vars {
-    proxy_pass = "${data.aws_cloudformation_stack.serverless.outputs["ServiceEndpoint"]}"
+    real_ips_from = "${join("\n  ", formatlist("set_real_ip_from %s;", concat(local.cloudflare_ipv4_cidrs, local.cloudflare_ipv6_cidrs)))}"
+    proxy_pass = "${local.endpoint_url}"
   }
+}
+
+locals {
+  ssh_user = "ubuntu"
 }
 
 resource "aws_instance" "nginx" {
@@ -59,7 +62,7 @@ resource "aws_instance" "nginx" {
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   connection {
-    user = "ubuntu"
+    user = "${local.ssh_user}"
   }
 
   provisioner "file" {
@@ -80,4 +83,9 @@ resource "aws_instance" "nginx" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+# use an Elastic IP so that the instance can be recreated without needing to update DNS
+resource "aws_eip" "proxy" {
+  instance = "${aws_instance.nginx.id}"
 }
