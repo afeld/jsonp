@@ -9,3 +9,7 @@ output "proxy_url" {
 output "public_url" {
   value = "https://${cloudflare_record.main.hostname}"
 }
+
+output "ssh_dest" {
+  value = "${local.ssh_user}@${aws_instance.nginx.public_dns}"
+}

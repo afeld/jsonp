@@ -1,5 +1,3 @@
-provider "aws" {}
-
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -52,6 +50,10 @@ data "template_file" "nginx_config" {
   }
 }
 
+locals {
+  ssh_user = "ubuntu"
+}
+
 resource "aws_instance" "nginx" {
   ami = "${data.aws_ami.ubuntu.id}"
   instance_type = "t2.micro"
@@ -59,7 +61,7 @@ resource "aws_instance" "nginx" {
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   connection {
-    user = "ubuntu"
+    user = "${local.ssh_user}"
   }
 
   provisioner "file" {
