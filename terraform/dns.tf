@@ -8,5 +8,5 @@ resource "cloudflare_record" "main" {
   name   = "${var.cloudflare_subdomain}"
   value  = "${aws_instance.nginx.public_dns}"
   type   = "CNAME"
-  proxied = false
+  proxied = true
 }
