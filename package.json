@@ -19,13 +19,16 @@
   },
   "devDependencies": {
     "blanket": "^1.1.7",
-    "jshint": "^2.9.6",
+    "dotenv": "^6.0.0",
+    "jshint": "^2.9.5",
     "mocha-phantomjs-core": "^2.1.2",
-    "serverless-domain-manager": "^2.6.0",
-    "supertest": "^3.3.0"
+    "request-promise-native": "^1.0.5",
+    "serverless-domain-manager": "^2.3.4",
+    "supertest": "^3.0.0",
+    "webpack": "^4.17.2"
   },
   "engines": {
-    "node": "^6.10.0"
+    "node": ">= 7.6.0"
   },
   "prettier": {
     "singleQuote": true
