@@ -52,6 +52,31 @@ If you use [the client library](jsonp.js) with your own JSONP deployment, overri
 $.jsonp.PROXY = 'https://mydomain.com/proxy/path/';
 ```
 
+### Rate limiting
+
+Do the following to set up an nginx proxy for rate limiting the requests.
+
+1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
+1. Go into the [`terraform/`](terraform) directory.
+
+    ```sh
+    cd terraform
+    ```
+
+1. Create a `terraform.tfvars` file.
+
+    ```hcl
+    cloudflare_email = "..."
+    cloudflare_token = "..."
+    ```
+
+1. Deploy the environment.
+
+    ```sh
+    terraform init
+    terraform apply
+    ```
+
 ## See also
 
 * https://github.com/jpillora/xdomain
