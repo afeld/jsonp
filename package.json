@@ -25,7 +25,8 @@
     "request-promise-native": "^1.0.5",
     "serverless-domain-manager": "^2.3.4",
     "supertest": "^3.0.0",
-    "webpack": "^4.17.2"
+    "webpack": "^4.17.2",
+    "webpack-command": "^0.4.1"
   },
   "engines": {
     "node": ">= 7.6.0"
