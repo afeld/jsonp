@@ -52,6 +52,7 @@ async function uploadWorker(zoneId, filename) {
 
 Promise.all([build(), getZoneId()])
   .then(([buildResult, zoneId]) => {
+    // TODO get path dynamically
     return uploadWorker(zoneId, "dist/main.js");
   })
   .then(() => {
