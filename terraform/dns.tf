@@ -22,3 +22,18 @@ locals {
   cloudflare_ipv4_cidrs = ["${split("\n",trimspace(data.http.cloudflare_ipv4.body))}"]
   cloudflare_ipv6_cidrs = ["${split("\n",trimspace(data.http.cloudflare_ipv6.body))}"]
 }
+
+resource "cloudflare_rate_limit" "ip" {
+  zone = "${var.cloudflare_domain}"
+  threshold = 5
+  period = 1
+  match {
+    request {
+      url_pattern = "${var.cloudflare_subdomain}.${var.cloudflare_domain}/*"
+    }
+  }
+  action {
+    mode = "ban"
+    timeout = 60
+  }
+}
