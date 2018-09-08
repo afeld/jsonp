@@ -25,7 +25,8 @@
     "mocha-phantomjs-core": "^2.1.2",
     "request-promise-native": "^1.0.5",
     "supertest": "^3.3.0",
-    "webpack": "^4.17.2"
+    "webpack": "^4.17.2",
+    "webpack-command": "^0.4.1"
   },
   "engines": {
     "node": ">= 7.6.0"
