@@ -2,7 +2,6 @@
 
 const url = require('url');
 
-
 let self = {
   redirectOrigin: function() {
     return process.env.REDIRECT_ORIGIN;
@@ -27,6 +26,5 @@ let self = {
     }
   }
 };
-
 
 module.exports = self;

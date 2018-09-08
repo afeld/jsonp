@@ -4,8 +4,7 @@ const url = require('url');
 const keen = require('./client');
 const proxyUtil = require('../proxy_util');
 
-
-const getCommonEvent = (req) => {
+const getCommonEvent = req => {
   const apiUrl = proxyUtil.getApiUrl(req);
   let apiHost;
   if (apiUrl) {

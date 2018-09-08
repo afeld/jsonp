@@ -11,7 +11,6 @@ const proxyUtil = require('./proxy_util');
 
 let router = express.Router();
 
-
 let serveLandingPage = function(req, res) {
   res.render('index.ejs', {
     layout: false,
@@ -23,7 +22,8 @@ let serveLandingPage = function(req, res) {
 
 let passBackHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  let resultHeaders = u.omit(incomingHeaders,
+  let resultHeaders = u.omit(
+    incomingHeaders,
     'connection',
     'content-length',
     'server',
@@ -44,8 +44,8 @@ let errorToJson = function(error) {
 let respond = function(res, result) {
   res.status(result.status);
 
-  if (!res.get('content-type')){
-    if (contentHelper.isValidJson(result.body)){
+  if (!res.get('content-type')) {
+    if (contentHelper.isValidJson(result.body)) {
       res.set('content-type', 'application/json');
     } else {
       res.set('content-type', 'text/plain');
@@ -57,8 +57,8 @@ let respond = function(res, result) {
 
 let doProxy = function(apiUrl, req, res) {
   let promise = proxy(apiUrl, req);
-  promise.then(
-    function(response) {
+  promise
+    .then(function(response) {
       let responseHeaders = passBackHeaders(response.headers);
       res.set(responseHeaders);
 
@@ -66,19 +66,18 @@ let doProxy = function(apiUrl, req, res) {
         status: response.statusCode,
         body: response.body
       };
-    }
-  ).fail(
-    // keep this right before respond() to handle errors from any previous steps
-    errorToJson
-  ).then(
-    u.partial(respond, res)
-  ).done();
+    })
+    .fail(
+      // keep this right before respond() to handle errors from any previous steps
+      errorToJson
+    )
+    .then(u.partial(respond, res))
+    .done();
 };
-
 
 router.head('/', function(req, res) {
   let apiUrl = proxyUtil.getApiUrl(req);
-  if (apiUrl){
+  if (apiUrl) {
     doProxy(apiUrl, req, res);
   } else {
     res.end();
@@ -87,12 +86,11 @@ router.head('/', function(req, res) {
 
 router.get('/', function(req, res) {
   let apiUrl = proxyUtil.getApiUrl(req);
-  if (apiUrl){
+  if (apiUrl) {
     doProxy(apiUrl, req, res);
   } else {
     serveLandingPage(req, res);
   }
 });
-
 
 module.exports = router;

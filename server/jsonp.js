@@ -2,10 +2,8 @@
 
 // JSONP middleware
 
-
 const JSON3 = require('json3');
 const contentHelper = require('./content-helper');
-
 
 let getCallbackName = function(params) {
   return params.callback || params.jsonp;
@@ -29,7 +27,7 @@ let transformJsonPBody = function(params, body) {
   // TODO only check if valid JSON once (see router)
   if (!contentHelper.isValidJson(body)) {
     // escape and pass via JSON
-    body = JSON3.stringify({data: body});
+    body = JSON3.stringify({ data: body });
   }
 
   body = escapeClosingTags(body);
@@ -39,7 +37,6 @@ let transformJsonPBody = function(params, body) {
 
   return body;
 };
-
 
 module.exports = function(req, res, next) {
   /*
@@ -52,7 +49,7 @@ module.exports = function(req, res, next) {
   let originalSend = res.send;
   res.send = function(body) {
     let query = req.query;
-    if (isJsonP(query)){
+    if (isJsonP(query)) {
       body = transformJsonPBody(query, body);
       res.set('content-type', 'text/javascript'); // use instead of 'application/javascript' for IE < 8 compatibility
     }

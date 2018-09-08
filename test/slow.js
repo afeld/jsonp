@@ -14,6 +14,6 @@ app.get('/', (req, res) => {
   }, delay);
 });
 
-app.listen(3000, function () {
+app.listen(3000, function() {
   console.log('Ready at http://localhost:3000');
 });

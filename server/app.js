@@ -17,10 +17,12 @@ app.enable('trust proxy');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-app.use(cors({
-  maxAge: 60 * 60 * 24, // one day
-  methods: ['GET']
-}));
+app.use(
+  cors({
+    maxAge: 60 * 60 * 24, // one day
+    methods: ['GET']
+  })
+);
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));

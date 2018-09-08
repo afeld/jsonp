@@ -1,6 +1,6 @@
 {
   "name": "jsonp",
-  "private": "true",
+  "private": true,
   "dependencies": {
     "compression": "^1.7.2",
     "cors": "^2.8.4",
@@ -28,6 +28,9 @@
   },
   "engines": {
     "node": "^6.10.0"
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "scripts": {
     "start": "node server/run.js",

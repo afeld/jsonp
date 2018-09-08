@@ -4,10 +4,10 @@ const requestp = require('./requestp');
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
 
-
 let passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  let externalReqHeaders = u.omit(incomingHeaders,
+  let externalReqHeaders = u.omit(
+    incomingHeaders,
     'accept-encoding',
     'connection',
     'cookie',
@@ -21,7 +21,6 @@ let passThroughHeaders = function(incomingHeaders) {
 
   return externalReqHeaders;
 };
-
 
 module.exports = function(url, req) {
   // support GET or HEAD requests
