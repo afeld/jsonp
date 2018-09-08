@@ -1,8 +1,8 @@
-const proxy = require("./proxy-request");
-const proxyUtil = require("./proxy_util");
-const url = require("url");
+const proxy = require('./proxy-request');
+const proxyUtil = require('./proxy_util');
+const url = require('url');
 
-addEventListener("fetch", event => {
+addEventListener('fetch', event => {
   event.respondWith(fetchAndApply(event.request));
 });
 
