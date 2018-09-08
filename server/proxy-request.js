@@ -1,6 +1,5 @@
 'use strict';
 
-const requestp = require('./requestp');
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
 
@@ -27,11 +26,8 @@ module.exports = function(url, req) {
   let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
   let externalReqHeaders = passThroughHeaders(req.headers);
 
-  return requestp({
+  return fetch(url, {
     method: method,
-    uri: url,
-    strictSSL: false, // node(jitsu?) has some SSL problems
-    headers: externalReqHeaders,
-    encoding: 'utf8'
+    headers: externalReqHeaders
   });
 };
