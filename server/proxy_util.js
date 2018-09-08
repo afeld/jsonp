@@ -1,6 +1,11 @@
-'use strict';
+"use strict";
 
-exports.getApiUrl = function(req) {
-  let query = req.query;
+const getApiUrlFromQuery = query => {
   return query.url || query.src;
 };
+
+const getApiUrl = req => {
+  return getApiUrlFromQuery(req.query);
+};
+
+module.exports = { getApiUrlFromQuery, getApiUrl };
