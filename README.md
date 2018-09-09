@@ -20,12 +20,6 @@ npm install -g nodemon
 export $(cat .env | xargs) && nodemon
 ```
 
-### External services
-
-The following service integrations can be enabled with the corresponding environment variables:
-
-* [Keen.io](https://keen.io/): set `KEEN_PROJECT_ID` and `KEEN_WRITE_KEY`
-
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### Docker

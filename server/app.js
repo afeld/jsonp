@@ -5,8 +5,7 @@ const express = require('express'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
   redirector = require('./redirector'),
-  router = require('./router'),
-  keenMiddleware = require('./keen/middleware');
+  router = require('./router');
 
 let app = express();
 
@@ -26,7 +25,6 @@ app.use(
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(`${__dirname}/..`));
-app.use(keenMiddleware);
 app.use('/', router);
 
 module.exports = app;
