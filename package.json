@@ -24,6 +24,7 @@
     "express-service": "^1.7.0",
     "jshint": "^2.9.6",
     "mocha-phantomjs-core": "^2.1.2",
+    "performance-polyfill": "0.0.2",
     "request-promise-native": "^1.0.5",
     "supertest": "^3.3.0",
     "webpack": "^4.17.2",
