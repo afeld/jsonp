@@ -4,6 +4,7 @@ const express = require('express'),
   morgan = require('morgan'),
   cors = require('cors'),
   jsonp = require('./jsonp'),
+  path = require('path'),
   redirector = require('./redirector'),
   router = require('./router');
 
@@ -24,7 +25,7 @@ app.use(
 );
 app.use(redirector.middleware);
 app.use(jsonp);
-app.use(express.static(`${__dirname}/..`));
+app.use(express.static(path.join(__dirname, '..')));
 app.use('/', router);
 
 module.exports = app;
