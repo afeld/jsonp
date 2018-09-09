@@ -59,6 +59,6 @@ Promise.all([build(), getZoneId()])
     console.log('Upload complete.');
   })
   .catch(err => {
-    console.error(err);
+    console.error(err.message || err);
     process.exit(1);
   });
