@@ -1,7 +1,7 @@
 const config = require('./webpack.config.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
-const request = require('request-promise-native');
+const fetch = require('node-fetch');
 const util = require('util');
 const webpack = require('webpack');
 
@@ -28,26 +28,16 @@ async function build() {
 }
 
 async function getZoneId() {
-  const reqOpts = {
-    url: 'https://api.cloudflare.com/client/v4/zones',
-    qs: {
-      name: CLOUDFLARE_ZONE
-    },
-    json: true,
-    headers
-  };
-  const data = await request(reqOpts);
+  const url = `https://api.cloudflare.com/client/v4/zones?name=${CLOUDFLARE_ZONE}`;
+  const req = await fetch(url, { headers });
+  const data = await req.json();
   return data.result[0].id;
 }
 
 async function uploadWorker(zoneId, filename) {
-  const reqOpts = {
-    method: 'PUT',
-    url: `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/script`,
-    json: true,
-    headers
-  };
-  await fs.createReadStream(filename).pipe(request(reqOpts));
+  const body = fs.createReadStream(filename);
+  const url = `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/script`;
+  await fetch(url, { body, headers, method: 'PUT' });
 }
 
 Promise.all([build(), getZoneId()])
