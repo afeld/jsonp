@@ -1,14 +1,19 @@
+/*global afterEach */
 'use strict';
 require('./support');
 
 const supertest = require('supertest'),
-  sinon = require('sinon'),
+  sandbox = require('sinon').sandbox.create(),
   express = require('express'),
   redirector = require('../../server/redirector.js');
 
 describe('redirector', function() {
+  afterEach(function () {
+    sandbox.restore();
+  });
+
   it('should redirect if the REDIRECT_ORIGIN is set', function(done) {
-    sinon.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
+    sandbox.stub(redirector, 'redirectOrigin').returns('http://redirected.com');
 
     let app = express();
     app.use(redirector.middleware);
