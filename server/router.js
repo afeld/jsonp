@@ -13,8 +13,7 @@ let router = express.Router();
 
 let serveLandingPage = function(res) {
   res.render('index.ejs', {
-    layout: false,
-    nodeVersion: process.version
+    layout: false
   });
 };
 
