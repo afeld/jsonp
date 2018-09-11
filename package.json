@@ -22,7 +22,6 @@
     "jshint": "^2.9.6",
     "mocha-phantomjs-core": "^2.1.2",
     "serverless-domain-manager": "^2.6.0",
-    "sinon-mocha": "0.0.3",
     "supertest": "^3.3.0"
   },
   "engines": {

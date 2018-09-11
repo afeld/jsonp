@@ -1,15 +1,11 @@
 /*jshint browser:true*/
-/*global describe, before, beforeEach, after, afterEach, $, it, sinon, expect */
+/*global describe, before, after, afterEach, $, it, sinon, expect */
 describe('jsonproxy', function() {
   var loc = window.location,
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
-    sandbox;
-
-  beforeEach(function() {
     sandbox = sinon.sandbox.create();
-  });
 
   afterEach(function() {
     sandbox.restore();
