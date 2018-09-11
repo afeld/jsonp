@@ -67,7 +67,7 @@ let doProxy = function(apiUrl, req, res) {
         body: response.body
       };
     })
-    .fail(
+    .catch(
       // keep this right before respond() to handle errors from any previous steps
       errorToJson
     )
