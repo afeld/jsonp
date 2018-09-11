@@ -21,6 +21,7 @@ module.exports = async function(req) {
   // fetch() response isn't mutable, so make a new one
   const res = new Response(proxyRes.body, {
     status: proxyRes.status,
+    statusText: proxyRes.statusText,
     headers: proxyRes.headers
   });
 

@@ -20,6 +20,7 @@
     "dotenv": "^6.0.0",
     "jshint": "^2.9.5",
     "mocha-phantomjs-core": "^2.1.2",
+    "nock": "^9.6.1",
     "node-fetch": "^2.2.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
