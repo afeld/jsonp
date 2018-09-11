@@ -2,7 +2,7 @@
 
 const express = require('express'),
   morgan = require('morgan'),
-  cors = require('cors'),
+  cors = require('./app-helper').cors,
   jsonp = require('./jsonp'),
   path = require('path'),
   redirector = require('./redirector'),
@@ -17,12 +17,7 @@ app.enable('trust proxy');
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-app.use(
-  cors({
-    maxAge: 60 * 60 * 24, // one day
-    methods: ['GET']
-  })
-);
+app.use(cors);
 app.use(redirector.middleware);
 app.use(jsonp);
 app.use(express.static(path.join(__dirname, '..')));
