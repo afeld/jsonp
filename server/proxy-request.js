@@ -3,6 +3,7 @@
 const fetch = require('node-fetch');
 const omit = require('lodash.omit');
 const cloudflare = require('./cloudflare');
+const contentHelper = require('./content-helper');
 
 let passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
@@ -24,8 +25,10 @@ let passThroughHeaders = function(incomingHeaders) {
 
 module.exports = function(url, req) {
   // support GET or HEAD requests
-  let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
-  let externalReqHeaders = passThroughHeaders(req.headers);
+  const method = req.method === 'HEAD' ? 'HEAD' : 'GET';
+  const externalReqHeaders = passThroughHeaders(
+    contentHelper.headersToObj(req.headers)
+  );
 
   return fetch(url, {
     method: method,
