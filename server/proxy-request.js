@@ -3,6 +3,15 @@
 const u = require('underscore');
 const cloudflare = require('./cloudflare');
 
+// convert a Headers object to a plain object
+const headersToObj = headers => {
+  const result = {};
+  for (const [key, value] of headers.entries()) {
+    result[key] = value;
+  }
+  return result;
+};
+
 let passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
   let externalReqHeaders = u.omit(
@@ -23,8 +32,8 @@ let passThroughHeaders = function(incomingHeaders) {
 
 module.exports = function(url, req) {
   // support GET or HEAD requests
-  let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
-  let externalReqHeaders = passThroughHeaders(req.headers);
+  const method = req.method === 'HEAD' ? 'HEAD' : 'GET';
+  const externalReqHeaders = passThroughHeaders(headersToObj(req.headers));
 
   return fetch(url, {
     method: method,
