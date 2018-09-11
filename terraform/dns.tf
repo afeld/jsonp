@@ -25,8 +25,9 @@ locals {
 
 resource "cloudflare_rate_limit" "ip" {
   zone = "${var.cloudflare_domain}"
-  threshold = 5
-  period = 1
+  # https://support.cloudflare.com/hc/en-us/articles/235240767-Cloudflare-Rate-Limiting#components
+  threshold = 20
+  period = 60
   match {
     request {
       url_pattern = "${var.cloudflare_subdomain}.${var.cloudflare_domain}/*"
@@ -34,6 +35,6 @@ resource "cloudflare_rate_limit" "ip" {
   }
   action {
     mode = "ban"
-    timeout = 60
+    timeout = "${60 * 60}"
   }
 }
