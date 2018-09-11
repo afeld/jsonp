@@ -37,7 +37,14 @@ async function getZoneId() {
 async function uploadWorker(zoneId, filename) {
   const body = fs.createReadStream(filename);
   const url = `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/script`;
-  await fetch(url, { body, headers, method: 'PUT' });
+  const res = await fetch(url, {
+    body,
+    headers: { ...headers, 'content-type': 'application/javascript' },
+    method: 'PUT'
+  });
+  if (!res.ok) {
+    throw res;
+  }
 }
 
 Promise.all([build(), getZoneId()])
