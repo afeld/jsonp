@@ -3,7 +3,6 @@ service: jsonp
 provider:
   name: aws
   runtime: nodejs8.10
-  # only deploy production, because of https://github.com/amplify-education/serverless-domain-manager/issues/60
   stage: prod
 
 functions:
