@@ -74,8 +74,8 @@ resource "aws_instance" "nginx" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get install -y nginx",
+      "sudo apt-get update -yq",
+      "sudo apt-get install -yq nginx",
       "sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf",
       "sudo systemctl reload nginx",
     ]
