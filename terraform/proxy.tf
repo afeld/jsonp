@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_key_pair" "main" {
   key_name_prefix = "jsonp"
-  public_key = "${file("${var.public_key_path}")}"
+  public_key      = "${file("${var.public_key_path}")}"
 }
 
 resource "aws_security_group" "allow_all" {
@@ -35,10 +35,10 @@ resource "aws_security_group" "allow_all" {
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -47,7 +47,7 @@ data "template_file" "nginx_config" {
 
   vars {
     real_ips_from = "${join("\n  ", formatlist("set_real_ip_from %s;", concat(local.cloudflare_ipv4_cidrs, local.cloudflare_ipv6_cidrs)))}"
-    proxy_pass = "${local.endpoint_url}"
+    proxy_pass    = "${local.endpoint_url}"
   }
 }
 
@@ -56,9 +56,9 @@ locals {
 }
 
 resource "aws_instance" "nginx" {
-  ami = "${data.aws_ami.ubuntu.id}"
-  instance_type = "t2.micro"
-  key_name = "${aws_key_pair.main.key_name}"
+  ami                    = "${data.aws_ami.ubuntu.id}"
+  instance_type          = "t2.micro"
+  key_name               = "${aws_key_pair.main.key_name}"
   vpc_security_group_ids = ["${aws_security_group.allow_all.id}"]
 
   connection {
@@ -67,6 +67,7 @@ resource "aws_instance" "nginx" {
 
   provisioner "file" {
     content = "${data.template_file.nginx_config.rendered}"
+
     # default user doesn't have permissions to write to the actual destination
     destination = "/tmp/nginx.conf"
   }
@@ -76,12 +77,16 @@ resource "aws_instance" "nginx" {
       "sudo apt-get update -y",
       "sudo apt-get install -y nginx",
       "sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf",
-      "sudo systemctl reload nginx"
+      "sudo systemctl reload nginx",
     ]
   }
 
   lifecycle {
     create_before_destroy = true
+
+    // don't recreate when AMI gets updated
+    // https://github.com/hashicorp/terraform/issues/1678#issuecomment-336212832
+    ignore_changes = ["ami"]
   }
 }
 
