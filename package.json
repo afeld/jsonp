@@ -21,6 +21,7 @@
   "devDependencies": {
     "blanket": "^1.1.7",
     "dotenv": "^6.0.0",
+    "ejs-compiled-loader": "^1.1.0",
     "eslint": "^5.9.0",
     "mocha-phantomjs-core": "^2.1.2",
     "nock": "^9.6.1",

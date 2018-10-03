@@ -47,4 +47,14 @@ describe('CloudFlare Worker', () => {
     expect(res.status).to.be(202);
     expect(res.headers.get('x-foo')).to.eql('bar');
   });
+
+  it('renders the homepage', async () => {
+    const req = new Request(`http://jsonp.test/`);
+    const res = await handleRequest(req);
+
+    expect(res.status).to.be(200);
+    expect(res.body).to.contain('Cross-domain AJAX');
+    // snippet
+    expect(res.body).to.contain("$.getJSON('");
+  });
 });
