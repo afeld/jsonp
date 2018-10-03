@@ -9,13 +9,15 @@
     "expect.js": "^0.3.1",
     "express": "^4.16.3",
     "json3": "^3.3.2",
+    "lodash.omit": "^4.5.0",
+    "lodash.omitby": "^4.6.0",
+    "lodash.partial": "^4.2.1",
     "mocha": "^5.2.0",
     "morgan": "^1.9.0",
     "q": "^1.5.1",
     "request": "^2.88.0",
     "serverless-http": "^1.6.0",
-    "sinon": "^4.5.0",
-    "underscore": "^1.9.1"
+    "sinon": "^4.5.0"
   },
   "devDependencies": {
     "blanket": "^1.1.7",

@@ -1,7 +1,8 @@
 'use strict';
 
 const express = require('express');
-const u = require('underscore');
+const omit = require('lodash.omit');
+const partial = require('lodash.partial');
 const JSON3 = require('json3');
 const snippets = require('./snippets');
 const proxy = require('./proxy-request');
@@ -22,7 +23,7 @@ let serveLandingPage = function(req, res) {
 
 let passBackHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  let resultHeaders = u.omit(
+  let resultHeaders = omit(
     incomingHeaders,
     'connection',
     'content-length',
@@ -71,7 +72,7 @@ let doProxy = function(apiUrl, req, res) {
       // keep this right before respond() to handle errors from any previous steps
       errorToJson
     )
-    .then(u.partial(respond, res))
+    .then(partial(respond, res))
     .done();
 };
 

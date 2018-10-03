@@ -1,12 +1,12 @@
 'use strict';
 
 const requestp = require('./requestp');
-const u = require('underscore');
+const omit = require('lodash.omit');
 const cloudflare = require('./cloudflare');
 
 let passThroughHeaders = function(incomingHeaders) {
   // remove those that node should generate
-  let externalReqHeaders = u.omit(
+  let externalReqHeaders = omit(
     incomingHeaders,
     'accept-encoding',
     'connection',
