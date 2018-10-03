@@ -75,7 +75,11 @@ resource "aws_instance" "nginx" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get update -yq",
-      "sudo apt-get install -yq nginx",
+
+      // https://askubuntu.com/a/147079/501568
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\" dist-upgrade",
+
+      "sudo apt-get install -yq nginx unattended-upgrades",
       "sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf",
       "sudo systemctl reload nginx",
     ]
