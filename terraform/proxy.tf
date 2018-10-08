@@ -79,6 +79,9 @@ resource "aws_instance" "nginx" {
       // https://askubuntu.com/a/147079/501568
       "sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::=\"--force-confdef\" -o Dpkg::Options::=\"--force-confold\" dist-upgrade",
 
+      // an update needs to be done again for the nginx package to be available...sometimes
+      "sudo apt-get update -yq",
+
       "sudo apt-get install -yq nginx unattended-upgrades",
       "sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf",
       "sudo systemctl reload nginx",
