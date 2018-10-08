@@ -12,10 +12,9 @@ const proxyUtil = require('./proxy_util');
 
 let router = express.Router();
 
-let serveLandingPage = function(req, res) {
+let serveLandingPage = function(res) {
   res.render('index.ejs', {
     layout: false,
-    host: req.headers.host,
     nodeVersion: process.version,
     snippets: snippets
   });
@@ -90,7 +89,7 @@ router.get('/', function(req, res) {
   if (apiUrl) {
     doProxy(apiUrl, req, res);
   } else {
-    serveLandingPage(req, res);
+    serveLandingPage(res);
   }
 });
 
