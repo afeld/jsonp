@@ -13,7 +13,7 @@
     "lodash.omitby": "^4.6.0",
     "lodash.partial": "^4.2.1",
     "mocha": "^5.2.0",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "q": "^1.5.1",
     "request": "^2.88.0",
     "serverless-http": "^1.6.0",
