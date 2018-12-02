@@ -43,7 +43,7 @@
 
       <section>
         <h2 id="jsonp">Easy: JSONP</h2>
-        <pre><code class="language-html"><%= snippets.jsonp %></code></pre>
+        <pre><code class="language-html"><%= include('snippets/jsonp') %></code></pre>
         <form class="urlEntry" action="" method="get">
           https://jsonp.afeld.me/?callback=<input type="text" name="callback" placeholder="functionName" />&amp;</span>url=<span><input type="text" name="url" placeholder="API URL"/>
           <input type="submit" value="Go"/>
@@ -55,7 +55,7 @@
         <p class="finePrint">
           (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
         </p>
-        <pre><code class="language-html"><%= snippets.ajax %></code></pre>
+        <pre><code class="language-html"><%= include('snippets/ajax') %></code></pre>
         <form class="urlEntry" action="" method="get">
           https://jsonp.afeld.me/?url=<input type="text" name="url" placeholder="API URL" />
           <input type="submit" value="Go"/>
@@ -76,7 +76,7 @@
         <p>
           In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
         </p>
-        <pre><code class="language-html"><%= snippets.client %></code></pre>
+        <pre><code class="language-html"><%= include('snippets/client') %></code></pre>
         <h3>Installation</h3>
         <p>
           <code>bower install jsonproxy</code>, or <a href="https://raw.github.com/afeld/jsonp/v0.3.1/jsonp.js">download directly</a>. Requires jQuery 1.5+ and <a href="http://medialize.github.io/URI.js/">URI.js</a>.
@@ -85,7 +85,7 @@
         <p>
           Once the plugin is installed, it's easy to include it from a frontend module loader like <a href="http://requirejs.org/">RequireJS</a>:
         </p>
-        <pre><code class="language-js"><%= snippets.amd %></code></pre>
+        <pre><code class="language-js"><%= include('snippets/amd') %></code></pre>
         <p>
           Check out <a href="http://requirejs.org/docs/jquery.html">the RequireJS jQuery guide</a> for more information.
         </p>

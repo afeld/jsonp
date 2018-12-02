@@ -4,7 +4,6 @@ const express = require('express');
 const omit = require('lodash.omit');
 const partial = require('lodash.partial');
 const JSON3 = require('json3');
-const snippets = require('./snippets');
 const proxy = require('./proxy-request');
 const cloudflare = require('./cloudflare');
 const contentHelper = require('./content-helper');
@@ -15,8 +14,7 @@ let router = express.Router();
 let serveLandingPage = function(res) {
   res.render('index.ejs', {
     layout: false,
-    nodeVersion: process.version,
-    snippets: snippets
+    nodeVersion: process.version
   });
 };
 
