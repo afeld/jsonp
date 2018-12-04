@@ -10,5 +10,14 @@ module.exports = {
       return false;
     }
     return true;
+  },
+
+  // convert a Headers object to a plain object
+  headersToObj: headers => {
+    const result = {};
+    for (const [key, value] of headers.entries()) {
+      result[key] = value;
+    }
+    return result;
   }
 };

@@ -15,7 +15,8 @@ describe('CORS', function() {
       .expect(
         502,
         {
-          error: 'connect ECONNREFUSED 127.0.0.1:8001'
+          error:
+            'request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001'
         },
         done
       );
@@ -78,8 +79,11 @@ describe('CORS', function() {
         .end(function(err, res) {
           expect(res.body).to.eql({
             accept: 'application/json',
+            'accept-encoding': 'gzip,deflate',
             connection: 'close',
-            host: 'localhost:8001'
+            host: 'localhost:8001',
+            'user-agent':
+              'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'
           });
 
           server.on('close', function() {

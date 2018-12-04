@@ -57,20 +57,23 @@ let doProxy = function(apiUrl, req, res) {
   let promise = proxy(apiUrl, req);
   promise
     .then(function(response) {
-      let responseHeaders = passBackHeaders(response.headers);
+      const responseHeaders = passBackHeaders(
+        contentHelper.headersToObj(response.headers)
+      );
       res.set(responseHeaders);
 
-      return {
-        status: response.statusCode,
-        body: response.body
-      };
+      return response.text().then(body => {
+        return {
+          status: response.status,
+          body: body
+        };
+      });
     })
-    .fail(
+    .catch(
       // keep this right before respond() to handle errors from any previous steps
       errorToJson
     )
-    .then(partial(respond, res))
-    .done();
+    .then(partial(respond, res));
 };
 
 router.head('/', function(req, res) {

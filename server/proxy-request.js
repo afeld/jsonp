@@ -1,6 +1,6 @@
 'use strict';
 
-const requestp = require('./requestp');
+const fetch = require('node-fetch');
 const omit = require('lodash.omit');
 const cloudflare = require('./cloudflare');
 
@@ -27,11 +27,8 @@ module.exports = function(url, req) {
   let method = req.method === 'HEAD' ? 'HEAD' : 'GET';
   let externalReqHeaders = passThroughHeaders(req.headers);
 
-  return requestp({
+  return fetch(url, {
     method: method,
-    uri: url,
-    strictSSL: false, // node(jitsu?) has some SSL problems
-    headers: externalReqHeaders,
-    encoding: 'utf8'
+    headers: externalReqHeaders
   });
 };
