@@ -4,7 +4,6 @@
   "dependencies": {
     "compression": "^1.7.3",
     "cors": "^2.8.4",
-    "ejs": "^2.6.1",
     "epsilon-delta": "^0.3.4",
     "expect.js": "^0.3.1",
     "express": "^4.16.3",
@@ -21,10 +20,10 @@
   "devDependencies": {
     "blanket": "^1.1.7",
     "dotenv": "^6.0.0",
-    "ejs-compiled-loader": "^1.1.0",
     "eslint": "^5.9.0",
     "mocha-phantomjs-core": "^2.1.2",
     "nock": "^9.6.1",
+    "raw-loader": "^0.5.1",
     "supertest": "^3.3.0",
     "webpack": "^4.26.1",
     "webpack-command": "^0.4.2"

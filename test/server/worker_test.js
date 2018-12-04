@@ -54,7 +54,5 @@ describe('CloudFlare Worker', () => {
 
     expect(res.status).to.be(200);
     expect(res.body).to.contain('Cross-domain AJAX');
-    // snippet
-    expect(res.body).to.contain("$.getJSON('");
   });
 });

@@ -4,18 +4,16 @@ const proxy = require('./proxy-request');
 const proxyUtil = require('./proxy_util');
 const url = require('url');
 
-const compileTemplate = templatePath => {
+const readFile = srcPath => {
   const fs = require('fs');
-  const ejs = require('ejs');
-  const templateAbsPath = path.resolve(__dirname, templatePath);
-  const templateSource = fs.readFileSync(templateAbsPath, 'utf8');
-  return ejs.compile(templateSource);
+  const srcAbsPath = path.resolve(__dirname, srcPath);
+  return fs.readFileSync(srcAbsPath, 'utf8');
 };
 
-// can only use loaders when building with webpack, so fall back to normal EJS for tests
-const template = process.env.WEBPACK
-  ? require(`ejs-compiled-loader!../views/index.ejs`)
-  : compileTemplate('../views/index.ejs');
+// can only use loaders when building with webpack, so fall back to normal file reading for tests
+const index = process.env.WEBPACK
+  ? require('./index.html')
+  : readFile('./index.html');
 
 const emptyFn = () => {};
 
@@ -42,11 +40,8 @@ const proxyReq = async req => {
   return res;
 };
 
-const renderHomepage = req => {
-  const body = template({
-    host: req.headers.get('host')
-  });
-  return new Response(body, {
+const renderHomepage = () => {
+  return new Response(index, {
     headers: {
       'content-type': 'text/html'
     }
@@ -58,5 +53,5 @@ module.exports = req => {
   if (apiUrl) {
     return proxyReq(req);
   }
-  return renderHomepage(req);
+  return renderHomepage();
 };
