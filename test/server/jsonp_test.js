@@ -13,7 +13,7 @@ describe('JSONP', function() {
       .query({ url: 'http://localhost:8001', callback: 'foo' })
       .expect(
         502,
-        'foo({"error":"connect ECONNREFUSED 127.0.0.1:8001"});',
+        'foo({"error":"request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001"});',
         done
       );
   });
