@@ -44,8 +44,7 @@ const proxyReq = async req => {
 
 const renderHomepage = req => {
   const body = template({
-    host: req.headers.get('host'),
-    snippets: {}
+    host: req.headers.get('host')
   });
   return new Response(body, {
     headers: {
