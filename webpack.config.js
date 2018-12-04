@@ -6,7 +6,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
+        test: /\.(css|html)$/,
         use: 'raw-loader'
       }
     ]

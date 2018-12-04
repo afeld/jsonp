@@ -1,19 +1,22 @@
 const cors = require('./app-helper').cors;
+const fs = require('fs');
 const path = require('path');
 const proxy = require('./proxy-request');
 const proxyUtil = require('./proxy_util');
 const url = require('url');
 
-const readFile = srcPath => {
-  const fs = require('fs');
-  const srcAbsPath = path.resolve(__dirname, srcPath);
-  return fs.readFileSync(srcAbsPath, 'utf8');
-};
-
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
-const index = process.env.WEBPACK
-  ? require('./index.html')
-  : readFile('./index.html');
+if (!process.env.WEBPACK) {
+  require = srcPath => {
+    const srcAbsPath = path.resolve(__dirname, srcPath);
+    return fs.readFileSync(srcAbsPath, 'utf8');
+  };
+}
+
+const files = {
+  '/': require('../public/index.html'),
+  '/app.css': require('../public/app.css')
+};
 
 const emptyFn = () => {};
 
@@ -40,11 +43,27 @@ const proxyReq = async req => {
   return res;
 };
 
-const renderHomepage = () => {
-  return new Response(index, {
-    headers: {
-      'content-type': 'text/html'
-    }
+const render = req => {
+  let status = 200;
+  let contentType = 'text/html';
+
+  const parsedUrl = new URL(req.url);
+  const path = parsedUrl.pathname;
+  if (path.endsWith('.css')) {
+    contentType = 'text/css';
+  }
+
+  const lastSegment = path.substring(path.lastIndexOf('/'));
+  let contents = files[lastSegment];
+
+  if (!contents) {
+    status = 404;
+    contents = `${lastSegment} not found`;
+  }
+
+  return new Response(contents, {
+    status,
+    headers: { 'content-type': contentType }
   });
 };
 
@@ -53,5 +72,5 @@ module.exports = req => {
   if (apiUrl) {
     return proxyReq(req);
   }
-  return renderHomepage();
+  return render(req);
 };

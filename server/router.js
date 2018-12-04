@@ -12,7 +12,7 @@ const proxyUtil = require('./proxy_util');
 let router = express.Router();
 
 let serveLandingPage = function(res) {
-  res.sendfile('index.html', { root: __dirname });
+  res.sendfile('index.html', { root: __dirname + '/../public' });
 };
 
 let passBackHeaders = function(incomingHeaders) {
