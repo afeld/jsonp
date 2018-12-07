@@ -1,105 +1,84 @@
 'use strict';
 require('./support');
 
-const supertest = require('supertest'),
-  http = require('http'),
-  express = require('express'),
+const nock = require('nock'),
   expect = require('expect.js'),
-  app = require('../../server/app.js');
+  handleRequest = require('../../server/worker-helper');
 
 describe('CORS', function() {
-  it('should give a status of 502 for a non-existent page', function(done) {
-    supertest(app)
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it('gives a status of 502 for a non-existent page', () => {
+    const req = new Request('http://jsonp.test/?url=http://localhost:8001');
+    return handleRequest(req).catch(err => {
+      expect(err.code).to.be('ECONNREFUSED');
+    });
+  });
+
+  it('passes the JSON and set the CORS headers', async () => {
+    const destHost = 'http://localhost:8001';
+    const json = { message: 'test' };
+    nock(destHost)
       .get('/')
-      .query({ url: 'http://localhost:8001' })
-      .expect(
-        502,
-        {
-          error:
-            'request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001'
-        },
-        done
-      );
+      .reply(200, json);
+
+    const req = new Request(`http://jsonp.test/?url=${destHost}`);
+    const res = await handleRequest(req);
+
+    expect(res.status).to.be(200);
+    expect(res.headers.get('access-control-allow-origin')).to.eql('*');
+    const data = await res.json();
+    expect(data).to.eql(json);
   });
 
-  it('should pass the JSON and set the CORS headers', function(done) {
-    let json = JSON.stringify({ message: 'test' });
+  it('handles HEAD requests', async () => {
+    const destHost = 'http://localhost:8001';
+    nock(destHost)
+      .head('/')
+      .reply(200);
 
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      res.send(json);
+    const req = new Request(`http://jsonp.test/?url=${destHost}`, {
+      method: 'HEAD'
     });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .query({ url: 'http://localhost:8001' })
-        .expect('access-control-allow-origin', '*')
-        .expect(json, function(err) {
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
-    });
+    const res = await handleRequest(req);
+
+    expect(res.status).to.be(200);
   });
 
-  it('should handle HEAD requests', function(done) {
-    let destApp = express();
-    destApp.head('/', function(req, res) {
-      res.end();
-    });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .head('/')
-        .query({ url: 'http://localhost:8001' })
-        .expect(200)
-        .end(function(err) {
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
-    });
-  });
+  it('excludes particular headers to the destination', async () => {
+    const host = 'http://localhost:8001';
+    nock(host)
+      .get('/')
+      .reply(function() {
+        // echo the headers
+        return [200, JSON.stringify(this.req.headers)];
+      });
 
-  it("shouldn't send particular headers to the destination", function(done) {
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      // echo the headers
-      res.json(req.headers);
+    const req = new Request(`http://jsonp.test/?url=${host}`, {
+      headers: { 'CF-Foo': 'abc123' }
     });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .set('CF-Foo', 'abc123')
-        .query({ url: 'http://localhost:8001' })
-        .end(function(err, res) {
-          expect(res.body).to.eql({
-            accept: 'application/json',
-            'accept-encoding': 'gzip,deflate',
-            connection: 'close',
-            host: 'localhost:8001',
-            'user-agent':
-              'node-fetch/1.0 (+https://github.com/bitinn/node-fetch)'
-          });
+    const res = await handleRequest(req);
 
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
+    expect(res.status).to.be(200);
+    const body = await res.json();
+    expect(body).to.eql({
+      // for some reason, nock makes these arrays
+      accept: ['application/json'],
+      'accept-encoding': ['gzip,deflate'],
+      connection: ['close'],
+      host: 'localhost:8001',
+      'user-agent': ['node-fetch/1.0 (+https://github.com/bitinn/node-fetch)']
     });
   });
 
-  it('should exclude particular headers from the destination', function(done) {
-    let json = JSON.stringify({ message: 'test' });
-
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      res.set({
+  it('excludes particular headers from the destination', async () => {
+    const json = { message: 'test' };
+    const host = 'http://localhost:8001';
+    nock(host)
+      .get('/')
+      .reply(200, json, {
         Connection: 'blabla',
         Server: 'CERN/3.0 libwww/2.17',
         'CF-Foo': 'abc123',
@@ -107,51 +86,31 @@ describe('CORS', function() {
         // an arbitrary header, just to ensure they're getting passed
         'X-Foo': 'bar'
       });
-      res.send(json);
-    });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .query({ url: 'http://localhost:8001' })
-        .expect('access-control-allow-origin', '*')
-        .expect('content-length', '18')
-        .expect('connection', 'close')
-        .expect('x-foo', 'bar')
-        .expect(json, function(err, res) {
-          if (!err) {
-            expect(res.headers['x-foo']).to.be('bar'); // double-check
-            expect(res.headers['cf-foo']).to.be(undefined);
-            expect(res.headers.server).to.be(undefined);
-            expect(res.headers['x-frame-options']).to.be(undefined);
-          }
 
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
-    });
+    const req = new Request(`http://jsonp.test/?url=${host}`);
+    const res = await handleRequest(req);
+    expect(res.headers.get('access-control-allow-origin')).to.be('*');
+
+    expect(res.headers.get('access-control-allow-origin')).to.be('*');
+    expect(res.headers.get('cf-foo')).to.be(undefined);
+    expect(res.headers.get('connection')).to.be('close');
+    expect(res.headers.get('content-length')).to.be('18');
+    expect(res.headers.get('server')).to.be(undefined);
+    expect(res.headers.get('x-foo')).to.be('bar');
+    expect(res.headers.get('x-frame-options')).to.be(undefined);
   });
 
-  it('should pass the unescaped body', function(done) {
-    let body = 'test " \' " escaping';
+  it('passes the unescaped body', async () => {
+    const body = 'test " \' " escaping';
 
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      res.send(body);
-    });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .query({ url: 'http://localhost:8001' })
-        .expect(body, function(err) {
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
-    });
+    const host = 'http://localhost:8001';
+    nock(host)
+      .get('/')
+      .reply(200, body);
+
+    const req = new Request(`http://jsonp.test/?url=${host}`);
+    const res = await handleRequest(req);
+    const resBody = await res.text();
+    expect(resBody).to.be(body);
   });
 });
