@@ -12,10 +12,10 @@ module.exports = {
     return true;
   },
 
-  // convert a Headers object to a plain object
-  headersToObj: headers => {
+  // convert an object with .entries() to a plain object
+  iteratorToObj: iterable => {
     const result = {};
-    for (const [key, value] of headers.entries()) {
+    for (const [key, value] of iterable.entries()) {
       result[key] = value;
     }
     return result;

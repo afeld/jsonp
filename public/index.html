@@ -5,16 +5,8 @@
     <meta name="description" content="Enables cross-domain requests to any JSON API"/>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <link rel="canonical" href="https://jsonp.afeld.me"/>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet" type="text/css"/>
     <link href="public/app.css" rel="stylesheet" type="text/css"/>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js" type="text/javascript"></script>
-
     <script type="text/javascript">
-      hljs.initHighlightingOnLoad();
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-19048260-7']);
       _gaq.push(['_trackPageview']);
@@ -43,7 +35,7 @@
 
       <section>
         <h2 id="jsonp">Easy: JSONP</h2>
-        <pre><code class="language-html"><%= include('snippets/jsonp') %></code></pre>
+        <script src="https://gist.github.com/afeld/d248e2bfbc8d49e4e64971a9de367d08.js?file=jsonp.html"></script>
         <form class="urlEntry" action="" method="get">
           https://jsonp.afeld.me/?callback=<input type="text" name="callback" placeholder="functionName" />&amp;</span>url=<span><input type="text" name="url" placeholder="API URL"/>
           <input type="submit" value="Go"/>
@@ -55,7 +47,7 @@
         <p class="finePrint">
           (<a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing#Browser_support">not supported</a> by IE &lt; 10)
         </p>
-        <pre><code class="language-html"><%= include('snippets/ajax') %></code></pre>
+        <script src="https://gist.github.com/afeld/d248e2bfbc8d49e4e64971a9de367d08.js?file=ajax.html"></script>
         <form class="urlEntry" action="" method="get">
           https://jsonp.afeld.me/?url=<input type="text" name="url" placeholder="API URL" />
           <input type="submit" value="Go"/>
@@ -76,7 +68,7 @@
         <p>
           In addition to the options available for <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery.ajax()</a>, the plugin adds two additional options: <code>corsSupport</code> and <code>jsonpSupport</code>.
         </p>
-        <pre><code class="language-html"><%= include('snippets/client') %></code></pre>
+        <script src="https://gist.github.com/afeld/d248e2bfbc8d49e4e64971a9de367d08.js?file=client.html"></script>
         <h3>Installation</h3>
         <p>
           <code>bower install jsonproxy</code>, or <a href="https://raw.github.com/afeld/jsonp/v0.3.1/jsonp.js">download directly</a>. Requires jQuery 1.5+ and <a href="http://medialize.github.io/URI.js/">URI.js</a>.
@@ -85,7 +77,7 @@
         <p>
           Once the plugin is installed, it's easy to include it from a frontend module loader like <a href="http://requirejs.org/">RequireJS</a>:
         </p>
-        <pre><code class="language-js"><%= include('snippets/amd') %></code></pre>
+        <script src="https://gist.github.com/afeld/d248e2bfbc8d49e4e64971a9de367d08.js?file=amd.js"></script>
         <p>
           Check out <a href="http://requirejs.org/docs/jquery.html">the RequireJS jQuery guide</a> for more information.
         </p>
@@ -116,9 +108,6 @@
       <footer>
         <a href="https://twitter.com/aidanfeldman" class="twitter-follow-button" data-show-count="false">Follow @aidanfeldman</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        <p class="node-version">
-          Node <%= nodeVersion %>
-        </p>
       </footer>
     </div>
   </body>

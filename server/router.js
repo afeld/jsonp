@@ -12,10 +12,7 @@ const proxyUtil = require('./proxy_util');
 let router = express.Router();
 
 let serveLandingPage = function(res) {
-  res.render('index.ejs', {
-    layout: false,
-    nodeVersion: process.version
-  });
+  res.sendfile('index.html', { root: __dirname + '/../public' });
 };
 
 let passBackHeaders = function(incomingHeaders) {
@@ -58,7 +55,7 @@ let doProxy = function(apiUrl, req, res) {
   promise
     .then(function(response) {
       const responseHeaders = passBackHeaders(
-        contentHelper.headersToObj(response.headers)
+        contentHelper.iteratorToObj(response.headers)
       );
       res.set(responseHeaders);
 
