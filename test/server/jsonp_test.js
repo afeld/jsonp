@@ -1,63 +1,59 @@
 'use strict';
 require('./support');
 
-const supertest = require('supertest'),
-  http = require('http'),
-  express = require('express'),
-  app = require('../../server/app.js');
+const expect = require('expect.js'),
+  nock = require('nock'),
+  handleRequest = require('../../server/worker-helper');
 
 describe('JSONP', function() {
-  it('should give a status of 502 for a non-existent page', function(done) {
-    supertest(app)
-      .get('/')
-      .query({ url: 'http://localhost:8001', callback: 'foo' })
-      .expect(
-        502,
-        'foo({"error":"request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001"});',
-        done
-      );
+  afterEach(() => {
+    nock.cleanAll();
   });
 
-  it('should wrap with callback name', function(done) {
-    let json = JSON.stringify({ message: 'test' });
-
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      res.send(json);
-    });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .query({ callback: 'foo', url: 'http://localhost:8001' })
-        .expect('foo(' + json + ');', function(err) {
-          server.on('close', function() {
-            done(err);
-          });
-          server.close();
-        });
-    });
-  });
-
-  it('should escape non-JSON requests', function(done) {
-    let destApp = express();
-    destApp.get('/', function(req, res) {
-      res.send('test " \' " </script> escaping');
-    });
-    let server = http.createServer(destApp);
-    server.listen(8001, function() {
-      supertest(app)
-        .get('/')
-        .query({ callback: 'foo', url: 'http://localhost:8001' })
-        .expect(
-          'foo({"data":"test \\" \' \\" <\\/script> escaping"});',
-          function(err) {
-            server.on('close', function() {
-              done(err);
-            });
-            server.close();
-          }
+  it('gives a status of 502 for a non-existent page', () => {
+    const req = new Request(
+      'http://jsonp.test/?url=http://localhost:8001&callback=foo'
+    );
+    return handleRequest(req)
+      .then(res => {
+        expect(res.ok).to.be(false);
+        return res.text();
+      })
+      .then(body => {
+        expect(body).to.be(
+          'foo({"error":"request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001"});'
         );
-    });
+      });
+  });
+
+  it('wraps with callback name', async () => {
+    const destHost = 'http://localhost:8001';
+    const json = { message: 'test' };
+    nock(destHost)
+      .get('/')
+      .reply(200, json);
+
+    const req = new Request(`http://jsonp.test/?url=${destHost}&callback=foo`);
+    const res = await handleRequest(req);
+
+    expect(res.status).to.be(200);
+    const body = await res.text();
+    expect(body).to.eql('foo(' + JSON.stringify(json) + ');');
+  });
+
+  it('escapes non-JSON requests', async () => {
+    const destHost = 'http://localhost:8001';
+    nock(destHost)
+      .get('/')
+      .reply(200, 'test " \' " </script> escaping');
+
+    const req = new Request(`http://jsonp.test/?url=${destHost}&callback=foo`);
+    const res = await handleRequest(req);
+
+    expect(res.status).to.be(200);
+    const body = await res.text();
+    expect(body).to.eql(
+      'foo({"data":"test \\" \' \\" <\\/script> escaping"});'
+    );
   });
 });
