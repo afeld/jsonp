@@ -1,4 +1,3 @@
-/*global afterEach */
 'use strict';
 require('./support');
 
@@ -8,7 +7,7 @@ const supertest = require('supertest'),
   redirector = require('../../server/redirector.js');
 
 describe('redirector', function() {
-  afterEach(function () {
+  afterEach(function() {
     sandbox.restore();
   });
 

@@ -1,8 +1,0 @@
-{
-  "esversion": 6,
-  "globals": {
-    "describe": false,
-    "it": false
-  },
-  "node": true
-}
