@@ -2,6 +2,8 @@ const cors = require('./app-helper').cors;
 const fs = require('fs');
 const path = require('path');
 const proxy = require('./proxy-request');
+const jsonp = require('./jsonp');
+const contentHelper = require('./content-helper');
 const proxyUtil = require('./proxy_util');
 const url = require('url');
 
@@ -29,11 +31,20 @@ const proxyReq = async req => {
   const apiUrl = getApiUrl(req);
   const proxyRes = await proxy(apiUrl, req);
 
+  const reqUrl = new URL(req.url);
+  const query = contentHelper.iteratorToObj(reqUrl.searchParams);
+  const resHeaders = new Headers(proxyRes.headers);
+  let body = await proxyRes.text();
+  if (jsonp.isJsonP(query)) {
+    body = jsonp.transformJsonPBody(query, body);
+    resHeaders.set('content-type', 'text/javascript'); // use instead of 'application/javascript' for IE < 8 compatibility
+  }
+
   // fetch() response isn't mutable, so make a new one
-  const res = new Response(proxyRes.body, {
+  const res = new Response(body, {
     status: proxyRes.status,
     statusText: proxyRes.statusText,
-    headers: proxyRes.headers
+    headers: resHeaders
   });
 
   // make browser Response act like http.ServerResponse

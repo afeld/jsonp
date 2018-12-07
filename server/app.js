@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 app.use(cors);
 app.use(redirector.middleware);
-app.use(jsonp);
+app.use(jsonp.middleware);
 app.use(express.static(path.join(__dirname, '..')));
 app.use('/', router);
 

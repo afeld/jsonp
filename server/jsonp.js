@@ -38,7 +38,7 @@ let transformJsonPBody = function(params, body) {
   return body;
 };
 
-module.exports = function(req, res, next) {
+const middleware = function(req, res, next) {
   /*
     Monkey-patch the response. It would be great to make this less of a hack, though it seems to be how other modules are doing it (as of 12/6/14):
     * https://github.com/nemtsov/express-partial-response/blob/cf9a426/index.js#L30-L31
@@ -58,4 +58,10 @@ module.exports = function(req, res, next) {
   };
 
   next();
+};
+
+module.exports = {
+  isJsonP,
+  transformJsonPBody,
+  middleware
 };
