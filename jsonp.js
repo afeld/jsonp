@@ -5,8 +5,8 @@ https://jsonp.afeld.me
 by Aidan Feldman
 MIT license
 */
-/*jshint browser:true */
-/*global define, jQuery, URI */
+/* eslint-env amd, browser */
+/*global jQuery, URI */
 (function(factory) {
   'use strict';
 

@@ -1,4 +1,3 @@
-/*jshint esversion:6, node:true */
 // a simple server that serves a JSON file with a delay
 
 const express = require('express');
@@ -15,5 +14,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000, function() {
-  console.log('Ready at http://localhost:3000');
+  console.log('Ready at http://localhost:3000'); // eslint-disable-line no-console
 });

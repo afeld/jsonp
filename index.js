@@ -1,4 +1,3 @@
-/*jshint esversion:6, node:true */
 'use strict';
 
 const serverless = require('serverless-http'),

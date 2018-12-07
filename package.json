@@ -20,19 +20,22 @@
   },
   "devDependencies": {
     "blanket": "^1.1.7",
-    "jshint": "^2.9.6",
+    "eslint": "^5.9.0",
     "mocha-phantomjs-core": "^2.1.2",
     "supertest": "^3.3.0"
   },
   "engines": {
     "node": "^6.10.0"
   },
+  "eslintIgnore": [
+    "public/bower_components/"
+  ],
   "prettier": {
     "singleQuote": true
   },
   "scripts": {
     "start": "node server/run.js",
-    "lint": "jshint .",
+    "lint": "eslint .",
     "client_test": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test.html spec '{\"useColors\":true}'",
     "server_test": "mocha test/server/",
     "test": "npm run lint && npm run server_test && npm run client_test"

@@ -1,5 +1,7 @@
 # Contributing
 
+Code should be formatted using [Prettier](https://prettier.io/).
+
 ## Running tests
 
 Install Node and [PhantomJS](http://phantomjs.org/), then run:
