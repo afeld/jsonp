@@ -27,7 +27,7 @@ module.exports = function(url, req) {
   // support GET or HEAD requests
   const method = req.method === 'HEAD' ? 'HEAD' : 'GET';
   const externalReqHeaders = passThroughHeaders(
-    contentHelper.headersToObj(req.headers)
+    contentHelper.iteratorToObj(req.headers)
   );
 
   return fetch(url, {

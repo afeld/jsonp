@@ -55,7 +55,7 @@ let doProxy = function(apiUrl, req, res) {
   promise
     .then(function(response) {
       const responseHeaders = passBackHeaders(
-        contentHelper.headersToObj(response.headers)
+        contentHelper.iteratorToObj(response.headers)
       );
       res.set(responseHeaders);
 
