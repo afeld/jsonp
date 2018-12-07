@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const config = require('./webpack.config.js');
 const dotenv = require('dotenv');
 const fs = require('fs');
@@ -48,7 +49,7 @@ async function uploadWorker(zoneId, filename) {
 }
 
 Promise.all([build(), getZoneId()])
-  .then(([buildResult, zoneId]) => {
+  .then(([, zoneId]) => {
     // TODO get path dynamically
     return uploadWorker(zoneId, 'dist/main.js');
   })

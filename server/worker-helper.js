@@ -9,6 +9,7 @@ const url = require('url');
 
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
 if (!process.env.WEBPACK) {
+  // eslint-disable-next-line no-global-assign
   require = srcPath => {
     const srcAbsPath = path.resolve(__dirname, srcPath);
     return fs.readFileSync(srcAbsPath, 'utf8');
