@@ -1,6 +1,8 @@
 'use strict';
 
 const JSON3 = require('json3');
+const cloudflare = require('./cloudflare');
+const omit = require('lodash.omit');
 
 module.exports = {
   isValidJson: function(str) {
@@ -19,5 +21,18 @@ module.exports = {
       result[key] = value;
     }
     return result;
+  },
+
+  passBackHeaders: incomingHeaders => {
+    // remove those that node should generate
+    const resultHeaders = omit(
+      incomingHeaders,
+      'connection',
+      'content-length',
+      'server',
+      'x-frame-options'
+    );
+
+    return cloudflare.filterHeaders(resultHeaders);
   }
 };

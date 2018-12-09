@@ -1,7 +1,5 @@
-const cloudflare = require('./cloudflare');
 const cors = require('./app-helper').cors;
 const fs = require('fs');
-const omit = require('lodash.omit');
 const path = require('path');
 const proxy = require('./proxy-request');
 const jsonp = require('./jsonp');
@@ -30,30 +28,15 @@ function getApiUrl(req) {
   return proxyUtil.getApiUrlFromQuery(query);
 }
 
-const passBackHeaders = incomingHeaders => {
-  // remove those that node should generate
-  const resultHeaders = omit(
-    incomingHeaders,
-    'connection',
-    'content-length',
-    'server',
-    'x-frame-options'
-  );
-
-  return cloudflare.filterHeaders(resultHeaders);
-};
-
 const proxyReq = async req => {
   const apiUrl = getApiUrl(req);
   const proxyRes = await proxy(apiUrl, req);
 
   const reqUrl = new URL(req.url);
   const query = contentHelper.iteratorToObj(reqUrl.searchParams);
-
   const resHeaders = new Headers(
-    passBackHeaders(contentHelper.iteratorToObj(proxyRes.headers))
+    contentHelper.passBackHeaders(contentHelper.iteratorToObj(proxyRes.headers))
   );
-
   let body = await proxyRes.text();
   if (jsonp.isJsonP(query)) {
     body = jsonp.transformJsonPBody(query, body);
