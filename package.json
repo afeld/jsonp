@@ -35,8 +35,9 @@
     "singleQuote": true
   },
   "scripts": {
+    "build_worker": "webpack",
     "client_test": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test.html spec '{\"useColors\":true}'",
-    "deploy": "node deploy.js",
+    "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
     "server_test": "mocha test/server/",
