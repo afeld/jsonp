@@ -1,7 +1,9 @@
 dist/
 node_modules/
 .env
-coverage.html
+
+.nyc_output/
+coverage/
 
 public/bower_components/jquery/*
 !public/bower_components/jquery/dist/jquery.js
