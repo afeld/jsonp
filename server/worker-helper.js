@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const proxy = require('./proxy-request');
 const jsonp = require('./jsonp');
+const JSON3 = require('json3');
 const contentHelper = require('./content-helper');
 const proxyUtil = require('./proxy_util');
 const url = require('url');
@@ -30,7 +31,13 @@ function getApiUrl(req) {
 
 const proxyReq = async req => {
   const apiUrl = getApiUrl(req);
-  const proxyRes = await proxy(apiUrl, req);
+  const proxyRes = await proxy(apiUrl, req).catch(err => {
+    // network error
+    const body = JSON3.stringify({ error: err.message });
+    return new Response(body, {
+      status: 502 // bad gateway
+    });
+  });
 
   const reqUrl = new URL(req.url);
   const query = contentHelper.iteratorToObj(reqUrl.searchParams);
