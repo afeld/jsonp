@@ -16,6 +16,5 @@ The tests can be found under the [`test/`](https://github.com/afeld/jsonp/tree/m
 ## Code coverage
 
 ```bash
-NODE_ENV=test mocha --reporter html-cov test/server_test.js > coverage.html
-open coverage.html
+npm run server_coverage
 ```
