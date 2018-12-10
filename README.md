@@ -20,8 +20,6 @@ npm install -g nodemon
 export $(cat .env | xargs) && nodemon
 ```
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 ## Deployment
 
 This app is deployed to AWS with the [Serverless Framework](https://serverless.com/framework/docs/). To deploy, run
