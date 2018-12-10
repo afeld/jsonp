@@ -4,41 +4,16 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 
 ## Setup
 
-### Simple
+This app is deployed to a [CloudFlare Worker](https://developers.cloudflare.com/workers/) using [Terraform](https://www.terraform.io/). To deploy:
 
-See [`package.json`](package.json) for compatible Node versions.
+1. Install the dependencies.
 
-```bash
-npm install
-npm start
-```
+    ```sh
+    npm install
+    ```
 
-and do requests to `http://localhost:8000/?url=...`. For live reloading:
-
-```sh
-npm install -g nodemon
-export $(cat .env | xargs) && nodemon
-```
-
-## Deployment
-
-This app is deployed to AWS with the [Serverless Framework](https://serverless.com/framework/docs/). To deploy, run
-
-```sh
-sls create_domain
-sls deploy
-```
-
-If you use [the client library](jsonp.js) with your own JSONP deployment, override the proxy URL before calling `$.jsonp()`.
-
-```javascript
-$.jsonp.PROXY = 'https://mydomain.com/proxy/path/';
-```
-
-### Rate limiting
-
-Do the following to set up a proxy for rate limiting the requests.
-
+1. Install NodeJS >= 7.6.0 and [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html).
+1. [Sign up for CloudFlare](https://www.cloudflare.com/), and ensure you have a domain pointed there for DNS.
 1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
 1. Go into the [`terraform/`](terraform) directory.
 
@@ -46,19 +21,31 @@ Do the following to set up a proxy for rate limiting the requests.
     cd terraform
     ```
 
-1. Create a `terraform.tfvars` file.
+1. Create a `terraform/terraform.tfvars` file.
 
     ```hcl
     cloudflare_email = "..."
     cloudflare_token = "..."
     ```
 
-1. Deploy the environment.
+1. Set up Terraform.
 
     ```sh
     terraform init
-    terraform apply
     ```
+
+1. Deploy the environment.
+
+    ```sh
+    cd ..
+    npm run deploy
+    ```
+
+If you use [the client library](jsonp.js) with your own JSONP deployment, override the proxy URL before calling `$.jsonp()`.
+
+```javascript
+$.jsonp.PROXY = 'https://mydomain.com/proxy/path/';
+```
 
 ## See also
 
