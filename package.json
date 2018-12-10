@@ -2,24 +2,17 @@
   "name": "jsonp",
   "private": true,
   "dependencies": {
-    "compression": "^1.7.3",
     "cors": "^2.8.4",
-    "epsilon-delta": "^0.3.4",
     "expect.js": "^0.3.1",
-    "express": "^4.16.3",
     "json3": "^3.3.2",
     "lodash.omit": "^4.5.0",
     "lodash.omitby": "^4.6.0",
-    "lodash.partial": "^4.2.1",
     "mocha": "^5.2.0",
-    "morgan": "^1.9.1",
     "node-fetch": "^2.3.0",
-    "serverless-http": "^1.6.0",
     "sinon": "^4.5.0"
   },
   "devDependencies": {
     "acorn": "^6.0.4",
-    "dotenv": "^6.0.0",
     "eslint": "^5.9.0",
     "mocha-phantomjs-core": "^2.1.2",
     "nock": "^9.6.1",
@@ -40,11 +33,12 @@
     "singleQuote": true
   },
   "scripts": {
-    "start": "node server/run.js",
-    "lint": "eslint .",
+    "build_worker": "webpack",
     "client_test": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test.html spec '{\"useColors\":true}'",
-    "server_test": "mocha test/server/",
+    "deploy": "npm run build_worker && cd terraform && terraform apply",
+    "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
+    "server_test": "mocha test/server/",
     "test": "npm run lint && npm run server_test && npm run client_test"
   }
 }
