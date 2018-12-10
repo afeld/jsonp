@@ -9,7 +9,6 @@
     "lodash.omitby": "^4.6.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.3.0",
-    "serverless-http": "^1.6.0",
     "sinon": "^4.5.0"
   },
   "devDependencies": {
