@@ -39,7 +39,7 @@ $.jsonp.PROXY = 'https://mydomain.com/proxy/path/';
 
 ### Rate limiting
 
-Do the following to set up an nginx proxy for rate limiting the requests.
+Do the following to set up a proxy for rate limiting the requests.
 
 1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
 1. Go into the [`terraform/`](terraform) directory.
