@@ -1,8 +1,10 @@
 # JSONProxy [![Build Status](https://travis-ci.org/afeld/jsonp.png?branch=master)](https://travis-ci.org/afeld/jsonp)
 
-Simple HTTP proxy that enables cross-domain requests to any JSON API. See https://jsonp.afeld.me for documentation. See the [releases](https://github.com/afeld/jsonp/releases) page for the [client library](jsonp.js) changelog.
+HTTP proxy that enables cross-domain requests to any JSON API. See https://jsonp.afeld.me for documentation. See the [releases](https://github.com/afeld/jsonp/releases) page for the [client library](jsonp.js) changelog.
 
 ## Development
+
+Code is written in a combination of JavaScript and TypeScript. The app is written to be deployed to a [CloudFlare Worker](https://developers.cloudflare.com/workers/) using [Terraform](https://www.terraform.io/), but can be run locally by doing the following:
 
 1. Install NodeJS >= 7.6.0.
 1. Install the dependencies.
@@ -20,8 +22,6 @@ Simple HTTP proxy that enables cross-domain requests to any JSON API. See https:
 See [CONTRIBUTING](CONTRIBUTING.md) for more info.
 
 ## Deployment
-
-This app is deployed to a [CloudFlare Worker](https://developers.cloudflare.com/workers/) using [Terraform](https://www.terraform.io/). To deploy:
 
 1. Install NodeJS >= 7.6.0 and [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html).
 1. Install the dependencies.
