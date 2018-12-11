@@ -47,6 +47,6 @@
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
     "server_test": "mocha -r ts-node/register test/server/",
     "start": "ts-node server/local.js",
-    "test": "npm run lint && npm run server_test && npm run client_test"
+    "test": "npm run lint && npm run server_test && npm run client_test && npm run build_worker"
   }
 }
