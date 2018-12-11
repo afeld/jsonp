@@ -1,10 +1,12 @@
 const express = require('express');
+const morgan = require('morgan');
 require('../test/server/support');
 const contentHelper = require('./content-helper');
 
 const fetchListeners = [];
 
 const app = express();
+app.use(morgan('combined'));
 const port = 3000;
 
 const reqObjFromExpressReq = req => {
@@ -36,8 +38,9 @@ app.get('*', (req, res) => {
   });
 });
 
-app.listen(port, () =>
-  console.log(`Example app running at http://localhost:${port}`)
+app.listen(
+  port,
+  () => console.log(`Example app running at http://localhost:${port}`) // eslint-disable-line no-console
 );
 
 // simulate a browser

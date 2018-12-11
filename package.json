@@ -16,6 +16,7 @@
     "eslint": "^5.9.0",
     "express": "^4.16.4",
     "mocha-phantomjs-core": "^2.1.2",
+    "morgan": "^1.9.1",
     "nock": "^9.6.1",
     "nyc": "^13.1.0",
     "raw-loader": "^0.5.1",
