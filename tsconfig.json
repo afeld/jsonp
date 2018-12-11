@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "es6",
+    "noImplicitAny": true,
+    "outDir": "./dist/",
+    "strictNullChecks": true,
+    "target": "ES2017"
+  },
+  "include": ["./server/"]
+}
