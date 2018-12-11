@@ -2,17 +2,34 @@
 
 Simple HTTP proxy that enables cross-domain requests to any JSON API. See https://jsonp.afeld.me for documentation. See the [releases](https://github.com/afeld/jsonp/releases) page for the [client library](jsonp.js) changelog.
 
-## Setup
+## Development
 
-This app is deployed to a [CloudFlare Worker](https://developers.cloudflare.com/workers/) using [Terraform](https://www.terraform.io/). To deploy:
-
+1. Install NodeJS >= 7.6.0.
 1. Install the dependencies.
 
     ```sh
     npm install
     ```
 
+1. Run the server.
+
+    ```sh
+    npm start
+    ```
+
+See [CONTRIBUTING](CONTRIBUTING.md) for more info.
+
+## Deployment
+
+This app is deployed to a [CloudFlare Worker](https://developers.cloudflare.com/workers/) using [Terraform](https://www.terraform.io/). To deploy:
+
 1. Install NodeJS >= 7.6.0 and [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html).
+1. Install the dependencies.
+
+    ```sh
+    npm install
+    ```
+
 1. [Sign up for CloudFlare](https://www.cloudflare.com/), and ensure you have a domain pointed there for DNS.
 1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
 1. Go into the [`terraform/`](terraform) directory.

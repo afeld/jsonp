@@ -14,7 +14,9 @@
   "devDependencies": {
     "acorn": "^6.0.4",
     "eslint": "^5.9.0",
+    "express": "^4.16.4",
     "mocha-phantomjs-core": "^2.1.2",
+    "morgan": "^1.9.1",
     "nock": "^9.6.1",
     "nyc": "^13.1.0",
     "raw-loader": "^0.5.1",
@@ -39,6 +41,7 @@
     "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
     "server_test": "mocha test/server/",
+    "start": "node server/local.js",
     "test": "npm run lint && npm run server_test && npm run client_test"
   }
 }
