@@ -23,6 +23,7 @@
     "raw-loader": "^0.5.1",
     "supertest": "^3.3.0",
     "ts-loader": "^5.3.1",
+    "ts-node": "^7.0.1",
     "typescript": "^3.2.2",
     "typescript-eslint-parser": "^21.0.2",
     "webpack": "^4.26.1",
@@ -45,7 +46,7 @@
     "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
     "server_test": "mocha test/server/",
-    "start": "node server/local.js",
+    "start": "ts-node server/local.js",
     "test": "npm run lint && npm run server_test && npm run client_test"
   }
 }
