@@ -45,7 +45,7 @@
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
-    "server_test": "mocha test/server/",
+    "server_test": "mocha -r ts-node/register test/server/",
     "start": "ts-node server/local.js",
     "test": "npm run lint && npm run server_test && npm run client_test"
   }
