@@ -3,7 +3,7 @@ require('./support');
 
 import expect from 'expect.js';
 import nock from 'nock';
-import handleRequest from '../../server/worker-helper';
+import handleRequest from '../worker-helper';
 
 describe('JSONP', function() {
   afterEach(() => {

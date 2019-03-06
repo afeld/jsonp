@@ -114,7 +114,7 @@ describe('jsonproxy', function() {
     });
 
     it('should handle requests for text to relative path', function(done) {
-      var url = loc.pathname.replace(/test.html/, 'test/data.txt');
+      var url = loc.pathname.replace(/test.html/, 'client/test/data.txt');
 
       $.jsonp({
         url: url,

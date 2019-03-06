@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-require('../test/server/support');
+require('./test/support');
 import * as contentHelper from './content-helper';
 
 const fetchListeners = [];

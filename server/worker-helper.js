@@ -18,8 +18,8 @@ if (!process.env.WEBPACK) {
 }
 
 const files = {
-  '/': require('../public/index.html'),
-  '/app.css': require('../public/app.css')
+  '/': require('./public/index.html'),
+  '/app.css': require('./public/app.css')
 };
 
 const emptyFn = () => {};

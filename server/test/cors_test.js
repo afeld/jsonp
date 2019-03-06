@@ -4,7 +4,7 @@ require('./support');
 import nock from 'nock';
 import expect from 'expect.js';
 import zlib from 'zlib';
-import handleRequest from '../../server/worker-helper';
+import handleRequest from '../worker-helper';
 
 describe('CORS', function() {
   afterEach(() => {
