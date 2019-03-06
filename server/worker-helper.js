@@ -1,12 +1,12 @@
-const cors = require('./app-helper').cors;
-const fs = require('fs');
-const path = require('path');
-const proxy = require('./proxy-request');
-const jsonp = require('./jsonp');
-const JSON3 = require('json3');
-const contentHelper = require('./content-helper');
-const proxyUtil = require('./proxy_util');
-const url = require('url');
+import { cors } from './app-helper';
+import fs from 'fs';
+import path from 'path';
+import proxy from './proxy-request';
+import * as jsonp from './jsonp';
+import JSON3 from 'json3';
+import * as contentHelper from './content-helper';
+import * as proxyUtil from './proxy_util';
+import url from 'url';
 
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
 if (!process.env.WEBPACK) {
@@ -88,7 +88,7 @@ const render = req => {
   });
 };
 
-module.exports = req => {
+export default req => {
   const apiUrl = getApiUrl(req);
   if (apiUrl) {
     return proxyReq(req);

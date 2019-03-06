@@ -1,4 +1,4 @@
-const handleRequest = require('./worker-helper');
+import handleRequest from './worker-helper';
 
 // https://gist.github.com/ithinkihaveacat/227bfe8aa81328c5d64ec48f4e4df8e5
 interface FetchEvent extends Event {

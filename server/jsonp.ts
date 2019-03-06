@@ -1,7 +1,7 @@
 'use strict';
 
-const JSON3 = require('json3');
-const contentHelper = require('./content-helper');
+import JSON3 from 'json3';
+import * as contentHelper from './content-helper';
 
 interface JSONPCallbackQuery {
   callback?: string;
@@ -12,7 +12,7 @@ const getCallbackName = (params: JSONPCallbackQuery) => {
   return params.callback || params.jsonp;
 };
 
-const isJsonP = (params: JSONPCallbackQuery) => {
+export const isJsonP = (params: JSONPCallbackQuery) => {
   // TODO check media type?
   return !!getCallbackName(params);
 };
@@ -26,7 +26,10 @@ const wrapInCallback = (callbackName: string, body: string) => {
   return `${callbackName}(${body});`;
 };
 
-const transformJsonPBody = (params: JSONPCallbackQuery, body: string) => {
+export const transformJsonPBody = (
+  params: JSONPCallbackQuery,
+  body: string
+) => {
   // TODO only check if valid JSON once (see router)
   if (!contentHelper.isValidJson(body)) {
     // escape and pass via JSON
@@ -42,9 +45,4 @@ const transformJsonPBody = (params: JSONPCallbackQuery, body: string) => {
   body = wrapInCallback(callbackName, body);
 
   return body;
-};
-
-module.exports = {
-  isJsonP,
-  transformJsonPBody
 };

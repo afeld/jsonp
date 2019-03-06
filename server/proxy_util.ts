@@ -5,8 +5,6 @@ interface JSONProxyQuery {
   src?: string;
 }
 
-const getApiUrlFromQuery = (query: JSONProxyQuery) => {
+export const getApiUrlFromQuery = (query: JSONProxyQuery) => {
   return query.url || query.src;
 };
-
-module.exports = { getApiUrlFromQuery };

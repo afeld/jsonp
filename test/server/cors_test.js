@@ -1,10 +1,10 @@
 'use strict';
 require('./support');
 
-const nock = require('nock'),
-  expect = require('expect.js'),
-  zlib = require('zlib'),
-  handleRequest = require('../../server/worker-helper');
+import nock from 'nock';
+import expect from 'expect.js';
+import zlib from 'zlib';
+import handleRequest from '../../server/worker-helper';
 
 describe('CORS', function() {
   afterEach(() => {

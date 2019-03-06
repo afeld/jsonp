@@ -1,9 +1,9 @@
 'use strict';
 require('./support');
 
-const expect = require('expect.js'),
-  nock = require('nock'),
-  handleRequest = require('../../server/worker-helper');
+import expect from 'expect.js';
+import nock from 'nock';
+import handleRequest from '../../server/worker-helper';
 
 describe('CloudFlare Worker', () => {
   afterEach(() => {
