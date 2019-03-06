@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 /*global $, sinon, expect */
 describe('jsonproxy', function() {
   var loc = window.location,
