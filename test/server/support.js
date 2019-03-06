@@ -1,6 +1,6 @@
 'use strict';
 
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 global.fetch = fetch;
 global.Headers = fetch.Headers;
 global.Request = fetch.Request;

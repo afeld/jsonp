@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "module": "es6",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "./dist/",
     "strictNullChecks": true,
-    "target": "ES2017"
+    "target": "ES2017",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   }
 }

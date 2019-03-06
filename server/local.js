@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
+import express from 'express';
+import morgan from 'morgan';
 require('../test/server/support');
-const contentHelper = require('./content-helper');
+import * as contentHelper from './content-helper';
 
 const fetchListeners = [];
 

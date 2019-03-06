@@ -1,11 +1,11 @@
 'use strict';
 
-const fetch = require('node-fetch');
-const omit = require('lodash.omit');
-const cloudflare = require('./cloudflare');
-const contentHelper = require('./content-helper');
+import fetch from 'node-fetch';
+import omit from 'lodash.omit';
+import * as cloudflare from './cloudflare';
+import * as contentHelper from './content-helper';
 
-let passThroughHeaders = function(incomingHeaders) {
+const passThroughHeaders = incomingHeaders => {
   // remove those that node should generate
   let externalReqHeaders = omit(
     incomingHeaders,
@@ -23,7 +23,7 @@ let passThroughHeaders = function(incomingHeaders) {
   return externalReqHeaders;
 };
 
-module.exports = function(url, req) {
+export default (url, req) => {
   // support GET or HEAD requests
   const method = req.method === 'HEAD' ? 'HEAD' : 'GET';
   const externalReqHeaders = passThroughHeaders(
