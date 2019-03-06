@@ -3,6 +3,7 @@ require('./support');
 
 const nock = require('nock'),
   expect = require('expect.js'),
+  zlib = require('zlib'),
   handleRequest = require('../../server/worker-helper');
 
 describe('CORS', function() {
@@ -111,6 +112,30 @@ describe('CORS', function() {
 
     const req = new Request(`http://jsonp.test/?url=${host}`);
     const res = await handleRequest(req);
+    const resBody = await res.text();
+    expect(resBody).to.be(body);
+  });
+
+  it('handles Gzipped responses', async () => {
+    // https://github.com/nock/nock/commit/22667de15b0a77c9e0fd0a5edf8b11d8adbc29e6#diff-e6b4eb6dbc5c8f06bbf35940febd5af0
+    var body = 'Lorem ipsum dolor sit amet';
+    var compressedMessage = zlib.gzipSync(body);
+    const host = 'http://localhost:8001';
+
+    nock(host)
+      .get('/')
+      .reply(200, compressedMessage, {
+        'X-Transfer-Length': String(compressedMessage.length),
+        'Content-Length': undefined,
+        'Content-Encoding': 'gzip'
+      });
+
+    const req = new Request(`http://jsonp.test/?url=${host}`);
+    const res = await handleRequest(req);
+
+    const headers = Array.from(res.headers.keys()).map(h => h.toLowerCase());
+    expect(headers).to.not.contain('content-encoding');
+
     const resBody = await res.text();
     expect(resBody).to.be(body);
   });
