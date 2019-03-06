@@ -1,3 +1,4 @@
+/* eslint-env node */
 // a simple server that serves a JSON file with a delay
 
 const express = require('express');

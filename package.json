@@ -51,8 +51,8 @@
     "client_test": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test.html spec '{\"useColors\":true}'",
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint .",
-    "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
-    "server_test": "mocha -r ts-node/register test/server/",
+    "server_coverage": "nyc --reporter=html mocha server/test && open coverage/index.html",
+    "server_test": "mocha -r ts-node/register server/test/",
     "start": "ts-node server/local.js",
     "test": "npm run lint && npm run server_test && npm run client_test && npm run build_worker"
   }
