@@ -12,6 +12,7 @@
     "sinon": "^7.2.7"
   },
   "devDependencies": {
+    "@types/node": "^11.10.4",
     "acorn": "^6.1.1",
     "eslint": "^5.15.1",
     "express": "^4.16.4",
@@ -21,6 +22,10 @@
     "nyc": "^13.3.0",
     "raw-loader": "^1.0.0",
     "supertest": "^3.4.2",
+    "ts-loader": "^5.3.1",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.2",
+    "typescript-eslint-parser": "^22.0.0",
     "webpack": "^4.29.6",
     "webpack-command": "^0.4.2"
   },
@@ -40,8 +45,8 @@
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint .",
     "server_coverage": "nyc --reporter=html mocha test/server && open coverage/index.html",
-    "server_test": "mocha test/server/",
-    "start": "node server/local.js",
-    "test": "npm run lint && npm run server_test && npm run client_test"
+    "server_test": "mocha -r ts-node/register test/server/",
+    "start": "ts-node server/local.js",
+    "test": "npm run lint && npm run server_test && npm run client_test && npm run build_worker"
   }
 }
