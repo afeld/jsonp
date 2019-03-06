@@ -28,6 +28,7 @@ module.exports = {
     const resultHeaders = omit(
       incomingHeaders,
       'connection',
+      'content-encoding',
       'content-length',
       'server',
       'x-frame-options'
