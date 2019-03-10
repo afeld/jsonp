@@ -5,7 +5,7 @@ describe('jsonproxy', function() {
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
   afterEach(function() {
     sandbox.restore();
