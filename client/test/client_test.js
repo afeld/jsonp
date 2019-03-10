@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /*global $, sinon, expect */
 describe('jsonproxy', function() {
-  const loc = window.location,
+  var loc = window.location,
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
@@ -26,7 +26,7 @@ describe('jsonproxy', function() {
     });
 
     it('should do standard ajax for the same domain', function(done) {
-      const url = origin + packagePath;
+      var url = origin + packagePath;
 
       $.jsonp({
         url: url,
@@ -54,7 +54,7 @@ describe('jsonproxy', function() {
         };
       });
 
-      const url = 'http://foo.com/other/path';
+      var url = 'http://foo.com/other/path';
 
       $.jsonp({
         url: url,
@@ -71,7 +71,7 @@ describe('jsonproxy', function() {
   }
 
   describe('with browser CORS support', function() {
-    let origCors;
+    var origCors;
     before(function() {
       origCors = $.support.cors;
       $.support.cors = true;
@@ -84,7 +84,7 @@ describe('jsonproxy', function() {
     sharedTests();
 
     it('should use the CORS proxy', function(done) {
-      const url = 'http://foo.com/bar';
+      var url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -99,7 +99,7 @@ describe('jsonproxy', function() {
     });
 
     it('should use CORS proxy even if the URL supports JSONP', function(done) {
-      const url = 'http://foo.com/bar';
+      var url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -115,7 +115,7 @@ describe('jsonproxy', function() {
     });
 
     it('should handle requests for text to relative path', function(done) {
-      const url = loc.pathname.replace(/test.html/, 'client/test/data.txt');
+      var url = loc.pathname.replace(/test.html/, 'client/test/data.txt');
 
       $.jsonp({
         url: url,
@@ -131,7 +131,7 @@ describe('jsonproxy', function() {
     });
 
     it('should handle requests for text across domains', function(done) {
-      const url = 'http://foo.com/data.txt';
+      var url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
@@ -166,7 +166,7 @@ describe('jsonproxy', function() {
 
     describe('when API has corsSupport', function() {
       it('should use the URL directly', function(done) {
-        const url = 'http://foo.com/bar';
+        var url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
@@ -182,7 +182,7 @@ describe('jsonproxy', function() {
       });
 
       it('should favor CORS to JSONP on the URL directly', function(done) {
-        const url = 'http://foo.com/bar';
+        var url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
@@ -199,7 +199,7 @@ describe('jsonproxy', function() {
       });
 
       it("should use the proxy if protocols don't match", function(done) {
-        const url = 'http://foo.com/bar';
+        var url = 'http://foo.com/bar';
 
         sandbox.stub($.jsonp, 'getLocation').callsFake(function() {
           return {
@@ -232,7 +232,7 @@ describe('jsonproxy', function() {
   });
 
   describe('without browser CORS support', function() {
-    let origCors;
+    var origCors;
     before(function() {
       origCors = $.support.cors;
       $.support.cors = false;
@@ -245,7 +245,7 @@ describe('jsonproxy', function() {
     sharedTests();
 
     it('should use the JSONP proxy', function(done) {
-      const url = 'http://foo.com/bar';
+      var url = 'http://foo.com/bar';
 
       $.jsonp({
         url: url,
@@ -264,7 +264,7 @@ describe('jsonproxy', function() {
     });
 
     it('should handle requests for text across domains', function(done) {
-      const url = 'http://foo.com/data.txt';
+      var url = 'http://foo.com/data.txt';
 
       $.jsonp({
         url: url,
@@ -281,7 +281,7 @@ describe('jsonproxy', function() {
 
     describe('when API has jsonpSupport', function() {
       it('should use the URL directly', function(done) {
-        const url = 'http://foo.com/bar';
+        var url = 'http://foo.com/bar';
 
         $.jsonp({
           url: url,
