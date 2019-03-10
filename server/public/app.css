@@ -18,24 +18,21 @@ hr {
 }
 code {
   padding: 0.04em 0.35em;
-  background-color: #EAEAEA;
-  border: 1px solid #C2C2C2;
+  background-color: #eaeaea;
+  border: 1px solid #c2c2c2;
 }
 #subtitle {
   font-size: 1.2em;
   font-weight: bold;
 }
-.finePrint {
-  font-size: 0.8em;
-}
 .gist {
   margin-bottom: 1em;
   font-size: 0.9em;
   width: 100%;
-  -webkit-transition: width .3s ease-out;
-  -moz-transition: width .3s ease-out;
-  -o-transition: width .3s ease-out;
-  transition: width .3s ease-out;
+  -webkit-transition: width 0.3s ease-out;
+  -moz-transition: width 0.3s ease-out;
+  -o-transition: width 0.3s ease-out;
+  transition: width 0.3s ease-out;
 }
 .gist:hover {
   width: 135%;
@@ -43,7 +40,7 @@ code {
 .urlEntry {
   display: inline-block;
   padding: 5px 10px;
-  background-color: #C9C9C9;
+  background-color: #c9c9c9;
   border: 1px solid #818181;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
