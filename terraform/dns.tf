@@ -31,22 +31,3 @@ resource "cloudflare_worker_route" "jsonp" {
 
   depends_on = ["cloudflare_worker_script.jsonp"]
 }
-
-resource "cloudflare_rate_limit" "ip" {
-  zone = "${var.cloudflare_domain}"
-
-  # https://support.cloudflare.com/hc/en-us/articles/235240767-Cloudflare-Rate-Limiting#components
-  threshold = 20
-  period    = 60
-
-  match {
-    request {
-      url_pattern = "${local.url_pattern}"
-    }
-  }
-
-  action {
-    mode    = "ban"
-    timeout = "${60 * 60}"
-  }
-}
