@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JSONProxy local test</title>
+    <script>
+      navigator.serviceWorker.register('main.js').then(
+        function(registration) {
+          console.log(
+            'ServiceWorker registration successful with scope: ',
+            registration.scope
+          );
+        },
+        function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        }
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
