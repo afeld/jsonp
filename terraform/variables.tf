@@ -1,9 +1,9 @@
 variable "cloudflare_email" {
-  type = "string"
+  type = string
 }
 
 variable "cloudflare_token" {
-  type = "string"
+  type = string
 }
 
 variable "cloudflare_domain" {
@@ -13,3 +13,4 @@ variable "cloudflare_domain" {
 variable "cloudflare_subdomain" {
   default = "jsonp"
 }
+
