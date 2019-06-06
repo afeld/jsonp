@@ -30,21 +30,24 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more info.
    npm install
    ```
 
-1. [Sign up for CloudFlare](https://www.cloudflare.com/), and ensure you have a domain pointed there for DNS.
-1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
-1. Go into the [`terraform/`](terraform) directory.
+1. Set up CloudFlare.
+
+   1. [Sign up for CloudFlare](https://www.cloudflare.com/), and ensure you have a domain pointed there for DNS.
+   1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
+   1. Go into the [`terraform/`](terraform) directory.
 
    ```sh
    cd terraform
    ```
 
-1. Create a `terraform/terraform.tfvars` file.
+   1. Create a `terraform/terraform.tfvars` file.
 
    ```hcl
    cloudflare_email = "..."
    cloudflare_token = "..."
    ```
 
+1. [Create a Terraform Cloud account.](https://app.terraform.io/signup)
 1. Set up Terraform.
 
    ```sh
