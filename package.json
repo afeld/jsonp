@@ -7,7 +7,7 @@
     "json3": "^3.3.2",
     "lodash.omit": "^4.5.0",
     "lodash.omitby": "^4.6.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.4",
     "node-fetch": "^2.3.0",
     "sinon": "^7.2.7"
   },
@@ -29,7 +29,7 @@
     "mocha-phantomjs-core": "^2.1.2",
     "morgan": "^1.9.1",
     "nock": "^10.0.6",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "raw-loader": "^1.0.0",
     "supertest": "^3.4.2",
     "ts-loader": "^5.3.1",
