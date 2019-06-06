@@ -30,6 +30,7 @@ describe('CloudFlare Worker', () => {
     const res = await handleRequest(req);
 
     expect(res.status).to.be(200);
-    expect(res.body).to.contain('Cross-domain AJAX');
+    const body = await res.text();
+    expect(body).to.contain('Cross-domain AJAX');
   });
 });
