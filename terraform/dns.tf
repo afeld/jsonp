@@ -1,13 +1,13 @@
 provider "cloudflare" {
-  version = "~> 1.4"
+  version = "~> 1.15"
 
-  email = "${var.cloudflare_email}"
-  token = "${var.cloudflare_token}"
+  email = var.cloudflare_email
+  token = var.cloudflare_token
 }
 
 resource "cloudflare_record" "main" {
-  domain  = "${var.cloudflare_domain}"
-  name    = "${var.cloudflare_subdomain}"
+  domain  = var.cloudflare_domain
+  name    = var.cloudflare_subdomain
   proxied = true
 
   // this is an arbitrary value, since all requests will be captured by the worker anyway
@@ -16,8 +16,8 @@ resource "cloudflare_record" "main" {
 }
 
 resource "cloudflare_worker_script" "jsonp" {
-  zone    = "${var.cloudflare_domain}"
-  content = "${file("../dist/main.js")}"
+  zone    = var.cloudflare_domain
+  content = file("../dist/main.js")
 }
 
 locals {
@@ -25,9 +25,10 @@ locals {
 }
 
 resource "cloudflare_worker_route" "jsonp" {
-  zone    = "${var.cloudflare_domain}"
-  pattern = "${local.url_pattern}"
+  zone    = var.cloudflare_domain
+  pattern = local.url_pattern
   enabled = true
 
-  depends_on = ["cloudflare_worker_script.jsonp"]
+  depends_on = [cloudflare_worker_script.jsonp]
 }
+
