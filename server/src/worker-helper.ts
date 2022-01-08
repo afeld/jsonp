@@ -7,15 +7,17 @@ import JSON3 from 'json3';
 import * as contentHelper from './content-helper';
 import * as proxyUtil from './proxy_util';
 import url from 'url';
+import { Response as ExpressResponse } from 'express';
 
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
-if (!process.env.WEBPACK) {
-  // eslint-disable-next-line no-global-assign
-  require = (srcPath) => {
-    const srcAbsPath = path.resolve(__dirname, srcPath);
-    return fs.readFileSync(srcAbsPath, 'utf8');
-  };
-}
+// TODO put back
+// if (!process.env.WEBPACK) {
+//   // eslint-disable-next-line no-global-assign
+//   require = (srcPath) => {
+//     const srcAbsPath = path.resolve(__dirname, srcPath);
+//     return fs.readFileSync(srcAbsPath, 'utf8');
+//   };
+// }
 
 const files = {
   '/': require('./public/index.html'),
@@ -57,9 +59,11 @@ const proxyReq = async (req) => {
     headers: resHeaders,
   });
 
-  // make browser Response act like http.ServerResponse
-  res.setHeader = res.headers.set.bind(res.headers);
-  cors(req, res, emptyFn);
+  // cast the CloudFlare Worker Response to be an Express one
+  const exRes = res as unknown as ExpressResponse;
+  exRes.setHeader = res.headers.set.bind(res.headers);
+
+  cors(req, exRes, emptyFn);
 
   return res;
 };

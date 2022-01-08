@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/worker.ts',
   output: {
     filename: 'worker.js',
     path: path.join(__dirname, 'dist'),
@@ -21,6 +21,17 @@ module.exports = {
           // transpileOnly: true,
         },
       },
+      {
+        test: /\.(css|html)$/,
+        use: 'raw-loader',
+      },
     ],
+  },
+  resolve: {
+    fallback: {
+      // https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285598881
+      // https://webpack.js.org/migrate/5/
+      fs: 'false',
+    },
   },
 }
