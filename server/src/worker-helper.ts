@@ -11,7 +11,7 @@ import url from 'url';
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
 if (!process.env.WEBPACK) {
   // eslint-disable-next-line no-global-assign
-  require = srcPath => {
+  require = (srcPath) => {
     const srcAbsPath = path.resolve(__dirname, srcPath);
     return fs.readFileSync(srcAbsPath, 'utf8');
   };
@@ -19,7 +19,7 @@ if (!process.env.WEBPACK) {
 
 const files = {
   '/': require('./public/index.html'),
-  '/app.css': require('./public/app.css')
+  '/app.css': require('./public/app.css'),
 };
 
 const emptyFn = () => {};
@@ -29,13 +29,13 @@ function getApiUrl(req) {
   return proxyUtil.getApiUrlFromQuery(query);
 }
 
-const proxyReq = async req => {
+const proxyReq = async (req) => {
   const apiUrl = getApiUrl(req);
-  const proxyRes = await proxy(apiUrl, req).catch(err => {
+  const proxyRes = await proxy(apiUrl, req).catch((err) => {
     // network error
     const body = JSON3.stringify({ error: err.message });
     return new Response(body, {
-      status: 502 // bad gateway
+      status: 502, // bad gateway
     });
   });
 
@@ -54,7 +54,7 @@ const proxyReq = async req => {
   const res = new Response(body, {
     status: proxyRes.status,
     statusText: proxyRes.statusText,
-    headers: resHeaders
+    headers: resHeaders,
   });
 
   // make browser Response act like http.ServerResponse
@@ -64,7 +64,7 @@ const proxyReq = async req => {
   return res;
 };
 
-const render = req => {
+const render = (req) => {
   let status = 200;
   let contentType = 'text/html';
 
@@ -84,11 +84,11 @@ const render = req => {
 
   return new Response(contents, {
     status,
-    headers: { 'content-type': contentType }
+    headers: { 'content-type': contentType },
   });
 };
 
-export default req => {
+export default (req) => {
   const apiUrl = getApiUrl(req);
   if (apiUrl) {
     return proxyReq(req);
