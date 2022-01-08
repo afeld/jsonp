@@ -5,8 +5,8 @@ node_modules/
 .nyc_output/
 coverage/
 
-server/public/bower_components/jquery/*
-!server/public/bower_components/jquery/dist/jquery.js
+server/src/public/bower_components/jquery/*
+!server/src/public/bower_components/jquery/dist/jquery.js
 
 .serverless/
 
