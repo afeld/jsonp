@@ -40,7 +40,7 @@ app.get('*', (req, res) => {
 
 app.listen(
   port,
-  () => console.log(`Example app running at http://localhost:${port}`) // eslint-disable-line no-console
+  () => console.log(`Running at http://localhost:${port}`) // eslint-disable-line no-console
 );
 
 // simulate a browser
