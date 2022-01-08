@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.13, < 1.0"
+  required_version = ">= 0.14, < 1.0"
 
   backend "remote" {
     organization = "jsonp"
