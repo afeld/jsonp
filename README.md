@@ -33,7 +33,11 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more info.
 1. Set up CloudFlare.
 
    1. [Sign up for CloudFlare](https://www.cloudflare.com/), and ensure you have a domain pointed there for DNS.
-   1. [Get a CloudFlare API key.](https://api.cloudflare.com/)
+   1. Get a CloudFlare API key.
+      1. Visit the [API Tokens](https://dash.cloudflare.com/profile/api-tokens) page.
+      1. Click `Create Token`.
+      1. `Use template` for `Edit Cloudflare Workers`.
+      1. Add permissions for `DNS` and `Zone`.
    1. Go into the [`terraform/`](terraform) directory.
 
    ```sh
@@ -43,7 +47,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more info.
    1. Create a `terraform/terraform.tfvars` file.
 
    ```hcl
-   cloudflare_email = "..."
+   cloudflare_account_id = "..."
    cloudflare_token = "..."
    ```
 
