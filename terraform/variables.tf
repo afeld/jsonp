@@ -1,4 +1,4 @@
-variable "cloudflare_email" {
+variable "cloudflare_account_id" {
   type = string
 }
 

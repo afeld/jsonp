@@ -1,12 +1,14 @@
 provider "cloudflare" {
-  version = "~> 1.15"
+  account_id = var.cloudflare_account_id
+  api_token  = var.cloudflare_token
+}
 
-  email = var.cloudflare_email
-  token = var.cloudflare_token
+data "cloudflare_zone" "main" {
+  name = var.cloudflare_domain
 }
 
 resource "cloudflare_record" "main" {
-  domain  = var.cloudflare_domain
+  zone_id = data.cloudflare_zone.main.zone_id
   name    = var.cloudflare_subdomain
   proxied = true
 
@@ -16,7 +18,7 @@ resource "cloudflare_record" "main" {
 }
 
 resource "cloudflare_worker_script" "jsonp" {
-  zone    = var.cloudflare_domain
+  name    = "jsonp"
   content = file("../dist/main.js")
 }
 
@@ -25,9 +27,9 @@ locals {
 }
 
 resource "cloudflare_worker_route" "jsonp" {
-  zone    = var.cloudflare_domain
-  pattern = local.url_pattern
-  enabled = true
+  zone_id     = data.cloudflare_zone.main.zone_id
+  pattern     = local.url_pattern
+  script_name = cloudflare_worker_script.jsonp.name
 
   depends_on = [cloudflare_worker_script.jsonp]
 }
