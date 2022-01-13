@@ -1,9 +1,10 @@
+/* eslint-env node, mocha */
 module.exports = {
   env: {
-    browser: true
+    browser: true,
   },
   extends: 'eslint:recommended',
   parserOptions: {
-    ecmaVersion: 9
-  }
+    ecmaVersion: 9,
+  },
 };
