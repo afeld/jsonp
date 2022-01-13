@@ -38,7 +38,7 @@ resource "cloudflare_rate_limit" "main" {
   zone_id = data.cloudflare_zone.main.zone_id
 
   # https://support.cloudflare.com/hc/en-us/articles/115001635128#4gd3s4xzV2xOE4CUbRIEAo
-  threshold = 10
+  threshold = 30
   period    = 60
 
   match {
