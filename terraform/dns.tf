@@ -34,3 +34,22 @@ resource "cloudflare_worker_route" "jsonp" {
   depends_on = [cloudflare_worker_script.jsonp]
 }
 
+resource "cloudflare_rate_limit" "main" {
+  zone_id = data.cloudflare_zone.main.zone_id
+
+  # https://support.cloudflare.com/hc/en-us/articles/115001635128#4gd3s4xzV2xOE4CUbRIEAo
+  threshold = 10
+  period    = 60
+
+  match {
+    request {
+      url_pattern = local.url_pattern
+    }
+  }
+
+  action {
+    # https://support.cloudflare.com/hc/en-us/articles/115001635128#4gd3s4xzV2xOE4CUbRIEAo
+    mode    = "ban"
+    timeout = 60
+  }
+}
