@@ -4,7 +4,7 @@ Code should be formatted using [Prettier](https://prettier.io/).
 
 ## Running tests
 
-Install Node and [PhantomJS](http://phantomjs.org/), then run:
+Install Node.js, then run:
 
 ```
 npm install
