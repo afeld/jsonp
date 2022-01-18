@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TF_CLI_ARGS: '-input=false'
+
     steps:
       - uses: actions/checkout@v2
 
@@ -37,8 +40,10 @@ jobs:
         working-directory: terraform
       - name: Terraform plan
         if: github.event_name == 'pull_request'
-        run: TF_LOG=DEBUG terraform plan
+        run: terraform plan
         working-directory: terraform
+        env:
+          TF_LOG: DEBUG
       - name: Deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
