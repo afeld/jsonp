@@ -12,11 +12,9 @@ describe('CloudFlare Worker', () => {
 
   it('includes the status and headers', async () => {
     const destHost = 'http://localhost:8001';
-    nock(destHost)
-      .get('/')
-      .reply(202, '', {
-        'x-foo': 'bar'
-      });
+    nock(destHost).get('/').reply(202, '', {
+      'x-foo': 'bar',
+    });
 
     const req = new Request(`http://jsonp.test/?url=${destHost}`);
     const res = await handleRequest(req);

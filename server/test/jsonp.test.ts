@@ -5,7 +5,7 @@ import expect from 'expect.js';
 import nock from 'nock';
 import handleRequest from '../worker-helper';
 
-describe('JSONP', function() {
+describe('JSONP', function () {
   afterEach(() => {
     nock.cleanAll();
   });
@@ -15,11 +15,11 @@ describe('JSONP', function() {
       'http://jsonp.test/?url=http://localhost:8001&callback=foo'
     );
     return handleRequest(req)
-      .then(res => {
+      .then((res) => {
         expect(res.ok).to.be(false);
         return res.text();
       })
-      .then(body => {
+      .then((body) => {
         expect(body).to.be(
           'foo({"error":"request to http://localhost:8001/ failed, reason: connect ECONNREFUSED 127.0.0.1:8001"});'
         );
@@ -29,9 +29,7 @@ describe('JSONP', function() {
   it('wraps with callback name', async () => {
     const destHost = 'http://localhost:8001';
     const json = { message: 'test' };
-    nock(destHost)
-      .get('/')
-      .reply(200, json);
+    nock(destHost).get('/').reply(200, json);
 
     const req = new Request(`http://jsonp.test/?url=${destHost}&callback=foo`);
     const res = await handleRequest(req);
@@ -43,9 +41,7 @@ describe('JSONP', function() {
 
   it('escapes non-JSON requests', async () => {
     const destHost = 'http://localhost:8001';
-    nock(destHost)
-      .get('/')
-      .reply(200, 'test " \' " </script> escaping');
+    nock(destHost).get('/').reply(200, 'test " \' " </script> escaping');
 
     const req = new Request(`http://jsonp.test/?url=${destHost}&callback=foo`);
     const res = await handleRequest(req);
