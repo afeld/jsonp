@@ -40,7 +40,11 @@ jobs:
       - name: Terraform plan
         run: terraform plan -out=tfplan
         working-directory: terraform
-      - name: Deploy
+      - name: Terraform apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
         working-directory: terraform
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: npx wrangler publish

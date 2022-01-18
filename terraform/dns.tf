@@ -17,21 +17,8 @@ resource "cloudflare_record" "main" {
   type  = "A"
 }
 
-resource "cloudflare_worker_script" "jsonp" {
-  name    = "jsonp"
-  content = file("../dist/main.js")
-}
-
 locals {
   url_pattern = "${var.cloudflare_subdomain}.${var.cloudflare_domain}/*"
-}
-
-resource "cloudflare_worker_route" "jsonp" {
-  zone_id     = data.cloudflare_zone.main.zone_id
-  pattern     = local.url_pattern
-  script_name = cloudflare_worker_script.jsonp.name
-
-  depends_on = [cloudflare_worker_script.jsonp]
 }
 
 resource "cloudflare_rate_limit" "main" {
