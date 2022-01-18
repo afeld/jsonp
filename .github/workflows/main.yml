@@ -1,17 +1,45 @@
 name: Tests
 
-on: push
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TF_CLI_ARGS: '-input=false'
+      TF_VAR_cloudflare_account_id: ${{ secrets.TF_VAR_CLOUDFLARE_ACCOUNT_ID }}
+      TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_CLOUDFLARE_TOKEN }}
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
           cache: 'npm'
-      - run: npm ci
-      - run: npm test
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          # terraform_version: 0.13.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Terraform init
+        run: terraform init
+        working-directory: terraform
+      - name: Terraform plan
+        run: terraform plan -out=tfplan
+        working-directory: terraform
+      - name: Deploy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+        working-directory: terraform
