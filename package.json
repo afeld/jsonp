@@ -8,7 +8,7 @@
     "json3": "^3.3.2",
     "lodash.omit": "^4.5.0",
     "lodash.omitby": "^4.6.0",
-    "mocha": "^6.1.4",
+    "mocha": "^9.1.4",
     "node-fetch": "^2.3.0",
     "sinon": "^7.2.7"
   },
