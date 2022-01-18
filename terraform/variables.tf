@@ -3,7 +3,8 @@ variable "cloudflare_account_id" {
 }
 
 variable "cloudflare_token" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "cloudflare_domain" {
