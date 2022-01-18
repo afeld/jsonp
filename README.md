@@ -1,4 +1,4 @@
-# JSONProxy [![Build Status](https://travis-ci.org/afeld/jsonp.png?branch=master)](https://travis-ci.org/afeld/jsonp)
+# JSONProxy [![Tests](https://github.com/afeld/jsonp/actions/workflows/main.yml/badge.svg)](https://github.com/afeld/jsonp/actions/workflows/main.yml)
 
 HTTP proxy that enables cross-domain requests to any JSON API. See https://jsonp.afeld.me for documentation. See the [releases](https://github.com/afeld/jsonp/releases) page for the [client library](client/jsonp.js) changelog.
 
