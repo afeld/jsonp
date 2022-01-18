@@ -28,6 +28,7 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # https://learn.hashicorp.com/tutorials/terraform/automate-terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
