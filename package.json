@@ -23,11 +23,13 @@
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.7.0",
     "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.4.7",
     "mocha-chrome": "^2.2.0",
     "nock": "^13.2.2",
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
     "raw-loader": "^1.0.0",
+    "ts-jest": "^27.1.3",
     "ts-loader": "^5.3.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
@@ -50,7 +52,7 @@
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint --ext .js,.ts .",
     "server_coverage": "nyc --reporter=html npm run server_test && open coverage/index.html",
-    "server_test": "mocha -r ts-node/register server/test/",
+    "server_test": "jest",
     "start": "npx wrangler dev --unauthenticated",
     "test": "npm run lint && npm run server_test && npm run build_worker"
   }
