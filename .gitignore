@@ -13,3 +13,4 @@ server/public/bower_components/jquery/*
 .terraform/
 *.tfstate*
 *.tfvars
+tfapply

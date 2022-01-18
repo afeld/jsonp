@@ -12,6 +12,8 @@ jobs:
 
     env:
       TF_CLI_ARGS: '-input=false'
+      TF_VAR_cloudflare_account_id: ${{ secrets.TF_VAR_CLOUDFLARE_ACCOUNT_ID }}
+      TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_CLOUDFLARE_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
@@ -29,22 +31,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          # terraform_version: 0.13.0:
+          # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       - name: Terraform init
         run: terraform init
         working-directory: terraform
       - name: Terraform plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan
+        run: terraform plan -out=tfplan
         working-directory: terraform
-      - name: Terraform plan
-        if: github.event_name == 'pull_request'
-        run: terraform plan
-        working-directory: terraform
-        env:
-          TF_LOG: DEBUG
       - name: Deploy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         working-directory: terraform
