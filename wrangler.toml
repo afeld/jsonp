@@ -1,0 +1,15 @@
+compatibility_date = "2022-01-18"
+
+name = "jsonp"
+type = "javascript"
+
+# While *.workers.dev domain is not actually enabled, this allows `wrangler dev` to be used. Related to:
+# https://github.com/cloudflare/wrangler/issues/1681#issuecomment-1015063138
+workers_dev = true
+
+[build]
+command = "npm run build_worker"
+watch_dir = "server"
+
+[build.upload]
+format = "service-worker"
