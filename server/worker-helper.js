@@ -1,10 +1,21 @@
 import { cors } from './app-helper';
+import fs from 'fs';
+import path from 'path';
 import proxy from './proxy-request';
 import * as jsonp from './jsonp';
 import JSON3 from 'json3';
 import * as contentHelper from './content-helper';
 import * as proxyUtil from './proxy_util';
 import url from 'url';
+
+// can only use loaders when building with webpack, so fall back to normal file reading for tests
+if (!process.env.WEBPACK) {
+  // eslint-disable-next-line no-global-assign
+  require = (srcPath) => {
+    const srcAbsPath = path.resolve(__dirname, srcPath);
+    return fs.readFileSync(srcAbsPath, 'utf8');
+  };
+}
 
 const files = {
   '/': require('./public/index.html'),
