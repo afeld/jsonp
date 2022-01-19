@@ -1,8 +1,6 @@
 'use strict';
-require('./support');
 
 import nock from 'nock';
-import expect from 'expect.js';
 import zlib from 'zlib';
 import handleRequest from '../worker-helper';
 
@@ -11,11 +9,15 @@ describe('CORS', function () {
     nock.cleanAll();
   });
 
-  it('gives a status of 502 for a non-existent page', () => {
+  it('gives a status of 502 for a non-existent page', async () => {
     const req = new Request('http://jsonp.test/?url=http://localhost:8001');
-    return handleRequest(req).catch((err) => {
-      expect(err.code).to.be('ECONNREFUSED');
-    });
+
+    // TODO ensure the expectation is run
+    try {
+      await handleRequest(req);
+    } catch (err) {
+      expect(err.code).toBe('ECONNREFUSED');
+    }
   });
 
   it('passes the JSON and set the CORS headers', async () => {
@@ -26,10 +28,10 @@ describe('CORS', function () {
     const req = new Request(`http://jsonp.test/?url=${destHost}`);
     const res = await handleRequest(req);
 
-    expect(res.status).to.be(200);
-    expect(res.headers.get('access-control-allow-origin')).to.eql('*');
+    expect(res.status).toBe(200);
+    expect(res.headers.get('access-control-allow-origin')).toEqual('*');
     const data = await res.json();
-    expect(data).to.eql(json);
+    expect(data).toEqual(json);
   });
 
   it('handles HEAD requests', async () => {
@@ -41,7 +43,7 @@ describe('CORS', function () {
     });
     const res = await handleRequest(req);
 
-    expect(res.status).to.be(200);
+    expect(res.status).toBe(200);
   });
 
   it('excludes particular headers to the destination', async () => {
@@ -58,9 +60,9 @@ describe('CORS', function () {
     });
     const res = await handleRequest(req);
 
-    expect(res.status).to.be(200);
+    expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).to.eql({
+    expect(body).toEqual({
       // for some reason, nock makes these arrays
       accept: ['application/json'],
       'accept-encoding': ['gzip,deflate'],
@@ -84,16 +86,16 @@ describe('CORS', function () {
 
     const req = new Request(`http://jsonp.test/?url=${host}`);
     const res = await handleRequest(req);
-    expect(res.headers.get('access-control-allow-origin')).to.be('*');
+    expect(res.headers.get('access-control-allow-origin')).toBe('*');
 
-    expect(res.headers.get('access-control-allow-origin')).to.be('*');
-    expect(res.headers.has('cf-foo')).to.be(false);
+    expect(res.headers.get('access-control-allow-origin')).toBe('*');
+    expect(res.headers.has('cf-foo')).toBe(false);
     // TODO figure out why these aren't passing
-    // expect(res.headers.get('connection')).to.be('close');
-    // expect(res.headers.get('content-length')).to.be('18');
-    expect(res.headers.has('server')).to.be(false);
-    expect(res.headers.get('x-foo')).to.be('bar');
-    expect(res.headers.has('x-frame-options')).to.be(false);
+    // expect(res.headers.get('connection')).toBe('close');
+    // expect(res.headers.get('content-length')).toBe('18');
+    expect(res.headers.has('server')).toBe(false);
+    expect(res.headers.get('x-foo')).toBe('bar');
+    expect(res.headers.has('x-frame-options')).toBe(false);
   });
 
   it('passes the unescaped body', async () => {
@@ -105,7 +107,7 @@ describe('CORS', function () {
     const req = new Request(`http://jsonp.test/?url=${host}`);
     const res = await handleRequest(req);
     const resBody = await res.text();
-    expect(resBody).to.be(body);
+    expect(resBody).toBe(body);
   });
 
   it('handles Gzipped responses', async () => {
@@ -114,21 +116,17 @@ describe('CORS', function () {
     var compressedMessage = zlib.gzipSync(body);
     const host = 'http://localhost:8001';
 
-    nock(host)
-      .get('/')
-      .reply(200, compressedMessage, {
-        'X-Transfer-Length': String(compressedMessage.length),
-        'Content-Length': undefined,
-        'Content-Encoding': 'gzip',
-      });
+    nock(host).get('/').reply(200, compressedMessage, {
+      'Content-Encoding': 'gzip',
+    });
 
     const req = new Request(`http://jsonp.test/?url=${host}`);
     const res = await handleRequest(req);
 
     const headers = Array.from(res.headers.keys()).map((h) => h.toLowerCase());
-    expect(headers).to.not.contain('content-encoding');
+    expect(headers).not.toContain('content-encoding');
 
     const resBody = await res.text();
-    expect(resBody).to.be(body);
+    expect(resBody).toBe(body);
   });
 });
