@@ -50,12 +50,12 @@
   },
   "scripts": {
     "build_worker": "webpack",
-    "client_test": "karma start",
+    "client_test": "karma start --single-run --browsers ChromeHeadless",
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint --ext .js,.ts .",
     "server_coverage": "nyc --reporter=html npm run server_test && open coverage/index.html",
     "server_test": "mocha -r ts-node/register server/test/",
     "start": "npx wrangler dev --unauthenticated",
-    "test": "npm run lint && npm run server_test && npm run build_worker"
+    "test": "npm run lint && npm run server_test && npm run client_test && npm run build_worker"
   }
 }
