@@ -8,15 +8,13 @@ describe('jsonproxy', function () {
     sandbox = sinon.createSandbox(),
     server;
 
-  before(function () {
+  beforeEach(function () {
     server = sinon.fakeServer.create();
+    server.autoRespond = true;
   });
 
   afterEach(function () {
     sandbox.restore();
-  });
-
-  after(function () {
     server.restore();
   });
 
@@ -28,7 +26,7 @@ describe('jsonproxy', function () {
         '{ "name": "jsonp" }',
       ]);
 
-      const response = $.jsonp({
+      return $.jsonp({
         url: packagePath,
 
         beforeSend: function (_, settings) {
@@ -37,10 +35,6 @@ describe('jsonproxy', function () {
       }).done(function (data) {
         expect(data.name).to.equal('jsonp');
       });
-
-      server.respond();
-
-      return response;
     });
 
     it('should do standard ajax for the same domain', function () {
@@ -52,7 +46,7 @@ describe('jsonproxy', function () {
         '{ "name": "jsonp" }',
       ]);
 
-      const response = $.jsonp({
+      return $.jsonp({
         url: url,
 
         beforeSend: function (_, settings) {
@@ -61,10 +55,6 @@ describe('jsonproxy', function () {
       }).done(function (data) {
         expect(data.name).to.equal('jsonp');
       });
-
-      server.respond();
-
-      return response;
     });
 
     it('should use the proxy for a mismatched protocol', function (done) {
