@@ -1,48 +1,63 @@
 /* eslint-env mocha */
 /*global $, sinon, expect */
 describe('jsonproxy', function () {
-  // TODO remove
-  /* eslint-disable no-unused-vars */
   var loc = window.location,
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
-    packagePath = loc.pathname.replace(/test.html/, 'package.json'),
-    sandbox = sinon.createSandbox();
-  /* eslint-enable no-unused-vars */
+    sandbox = sinon.createSandbox(),
+    server;
+
+  beforeEach(function () {
+    server = sinon.fakeServer.create();
+    server.autoRespond = true;
+  });
 
   afterEach(function () {
     sandbox.restore();
+    server.restore();
   });
 
   function sharedTests() {
-    // TODO fix
-    // it('should do standard ajax for relative domains', function (done) {
-    //   $.jsonp({
-    //     url: packagePath,
+    it('should do standard ajax for relative domains', function () {
+      const url = '/test.json';
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(packagePath);
-    //     },
-    //   }).done(function (data) {
-    //     expect(data.name).to.equal('jsonp');
-    //     done();
-    //   });
-    // });
-    //
-    // it('should do standard ajax for the same domain', function (done) {
-    //   var url = origin + packagePath;
+      server.respondWith('GET', url, [
+        200,
+        { 'Content-Type': 'application/json' },
+        '{ "name": "jsonp" }',
+      ]);
 
-    //   $.jsonp({
-    //     url: url,
+      return $.jsonp({
+        url: url,
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(url);
-    //     },
-    //   }).done(function (data) {
-    //     expect(data.name).to.equal('jsonp');
-    //     done();
-    //   });
-    // });
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(url);
+        },
+      }).done(function (data) {
+        expect(data.name).to.equal('jsonp');
+      });
+    });
+
+    it('should do standard ajax for the same domain', function () {
+      const packagePath = '/test.json';
+      var url = origin + packagePath;
+
+      server.respondWith('GET', packagePath, [
+        200,
+        { 'Content-Type': 'application/json' },
+        '{ "name": "jsonp" }',
+      ]);
+
+      return $.jsonp({
+        url: url,
+
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(url);
+        },
+      }).done(function (data) {
+        expect(data.name).to.equal('jsonp');
+      });
+    });
 
     it('should use the proxy for a mismatched protocol', function (done) {
       sandbox.stub($.jsonp, 'getLocation').callsFake(function () {
@@ -118,22 +133,26 @@ describe('jsonproxy', function () {
       });
     });
 
-    // TODO fix
-    // it('should handle requests for text to relative path', function (done) {
-    //   var url = loc.pathname.replace(/test.html/, 'client/test/data.txt');
+    it('should handle requests for text to relative path', function () {
+      const url = '/data.txt';
 
-    //   $.jsonp({
-    //     url: url,
-    //     dataType: 'text',
+      server.respondWith('GET', url, [
+        200,
+        { 'Content-Type': 'text/plain' },
+        'hello world',
+      ]);
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(url);
-    //     },
-    //   }).done(function (text) {
-    //     expect(text).to.equal('hello world');
-    //     done();
-    //   });
-    // });
+      return $.jsonp({
+        url: url,
+        dataType: 'text',
+
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(url);
+        },
+      }).done(function (text) {
+        expect(text).to.equal('hello world');
+      });
+    });
 
     it('should handle requests for text across domains', function (done) {
       var url = 'http://foo.com/data.txt';
