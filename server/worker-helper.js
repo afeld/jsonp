@@ -7,6 +7,8 @@ import JSON3 from 'json3';
 import * as contentHelper from './content-helper';
 import * as proxyUtil from './proxy_util';
 import url from 'url';
+import html from './public/index.html';
+import css from './public/app.css';
 
 // can only use loaders when building with webpack, so fall back to normal file reading for tests
 if (!process.env.WEBPACK) {
@@ -18,8 +20,8 @@ if (!process.env.WEBPACK) {
 }
 
 const files = {
-  '/': require('./public/index.html'),
-  '/app.css': require('./public/app.css'),
+  '/': html,
+  '/app.css': css,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
