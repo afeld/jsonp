@@ -17,16 +17,19 @@ module.exports = {
       },
       {
         test: /\.(css|html)$/,
-        use: 'raw-loader',
+        type: 'asset/source',
       },
     ],
   },
-  node: {
-    // https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285598881
-    fs: 'empty',
-  },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: {
+      // https://github.com/webpack-contrib/css-loader/issues/447#issuecomment-285598881
+      fs: false,
+      path: false,
+
+      url: require.resolve('url'),
+    },
   },
   // https://developers.cloudflare.com/workers/writing-workers/using-npm-modules/
   target: 'webworker',
