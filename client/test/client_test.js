@@ -4,7 +4,6 @@ describe('jsonproxy', function () {
   var loc = window.location,
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
-    packagePath = loc.pathname.replace(/test.html/, 'package.json'),
     sandbox = sinon.createSandbox(),
     server;
 
@@ -20,17 +19,19 @@ describe('jsonproxy', function () {
 
   function sharedTests() {
     it('should do standard ajax for relative domains', function () {
-      server.respondWith('GET', packagePath, [
+      const url = '/test.json';
+
+      server.respondWith('GET', url, [
         200,
         { 'Content-Type': 'application/json' },
         '{ "name": "jsonp" }',
       ]);
 
       return $.jsonp({
-        url: packagePath,
+        url: url,
 
         beforeSend: function (_, settings) {
-          expect(settings.url).to.be(packagePath);
+          expect(settings.url).to.be(url);
         },
       }).done(function (data) {
         expect(data.name).to.equal('jsonp');
@@ -38,6 +39,7 @@ describe('jsonproxy', function () {
     });
 
     it('should do standard ajax for the same domain', function () {
+      const packagePath = '/test.json';
       var url = origin + packagePath;
 
       server.respondWith('GET', packagePath, [
@@ -132,8 +134,7 @@ describe('jsonproxy', function () {
     });
 
     it('should handle requests for text to relative path', function () {
-      const txtFile = 'client/test/data.txt';
-      var url = loc.pathname.replace(/test.html/, txtFile);
+      const url = '/data.txt';
 
       server.respondWith('GET', url, [
         200,
