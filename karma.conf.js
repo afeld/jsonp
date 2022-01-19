@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = function (config) {
   config.set({
     // plugins: ['karma-jquery'],
