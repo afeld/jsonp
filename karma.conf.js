@@ -1,15 +1,12 @@
 module.exports = function (config) {
   config.set({
-    frameworks: ['mocha'],
-    files: ['**/*.js', '**/*.ts'],
-    exclude: ['node_modules'],
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
-    // preprocessors: {},
-
-    // start these browsers
-    // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
-    browsers: ['Chrome'], //, 'ChromeHeadless'],
+    // plugins: ['karma-jquery'],
+    frameworks: ['mocha', 'sinon', 'jquery-2.1.3'],
+    files: [
+      'node_modules/expect.js/index.js',
+      'server/public/bower_components/URIjs/src/URI.js',
+      'client/jsonp.js',
+      'client/test/client_test.js',
+    ],
   });
 };
