@@ -131,22 +131,27 @@ describe('jsonproxy', function () {
       });
     });
 
-    // TODO fix
-    // it('should handle requests for text to relative path', function (done) {
-    //   var url = loc.pathname.replace(/test.html/, 'client/test/data.txt');
+    it('should handle requests for text to relative path', function () {
+      const txtFile = 'client/test/data.txt';
+      var url = loc.pathname.replace(/test.html/, txtFile);
 
-    //   $.jsonp({
-    //     url: url,
-    //     dataType: 'text',
+      server.respondWith('GET', url, [
+        200,
+        { 'Content-Type': 'text/plain' },
+        'hello world',
+      ]);
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(url);
-    //     },
-    //   }).done(function (text) {
-    //     expect(text).to.equal('hello world');
-    //     done();
-    //   });
-    // });
+      return $.jsonp({
+        url: url,
+        dataType: 'text',
+
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(url);
+        },
+      }).done(function (text) {
+        expect(text).to.equal('hello world');
+      });
+    });
 
     it('should handle requests for text across domains', function (done) {
       var url = 'http://foo.com/data.txt';
