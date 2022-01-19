@@ -28,7 +28,6 @@
     "karma-jquery": "^0.2.4",
     "karma-mocha": "^2.0.1",
     "karma-sinon": "^1.0.5",
-    "mocha-chrome": "^2.2.0",
     "nock": "^13.2.2",
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
@@ -51,7 +50,7 @@
   },
   "scripts": {
     "build_worker": "webpack",
-    "client_test": "mocha-chrome test.html",
+    "client_test": "karma start",
     "deploy": "npm run build_worker && cd terraform && terraform apply",
     "lint": "eslint --ext .js,.ts .",
     "server_coverage": "nyc --reporter=html npm run server_test && open coverage/index.html",
