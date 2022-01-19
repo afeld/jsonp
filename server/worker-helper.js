@@ -1,6 +1,4 @@
 import { cors } from './app-helper';
-import fs from 'fs';
-import path from 'path';
 import proxy from './proxy-request';
 import * as jsonp from './jsonp';
 import JSON3 from 'json3';
@@ -9,19 +7,13 @@ import * as proxyUtil from './proxy_util';
 import url from 'url';
 import html from './public/index.html';
 import css from './public/app.css';
-
-// can only use loaders when building with webpack, so fall back to normal file reading for tests
-if (!process.env.WEBPACK) {
-  // eslint-disable-next-line no-global-assign
-  require = (srcPath) => {
-    const srcAbsPath = path.resolve(__dirname, srcPath);
-    return fs.readFileSync(srcAbsPath, 'utf8');
-  };
-}
+import svg from './public/forkme.svg';
 
 const files = {
   '/': html,
   '/app.css': css,
+  // https://vshivam.github.io/2016/04/22/github-corner-text/
+  '/forkme.svg': svg,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -67,21 +59,29 @@ const proxyReq = async (req) => {
   return res;
 };
 
-const render = (req) => {
-  let status = 200;
-  let contentType = 'text/html';
-
-  const parsedUrl = new URL(req.url);
-  const path = parsedUrl.pathname;
-  if (path.endsWith('.css')) {
-    contentType = 'text/css';
+const getMimeType = (reqPath) => {
+  if (reqPath.endsWith('.css')) {
+    return 'text/css';
+  } else if (reqPath.endsWith('.svg')) {
+    return 'image/svg+xml';
   }
 
-  const lastSegment = path.substring(path.lastIndexOf('/'));
+  return 'text/html';
+};
+
+const render = (req) => {
+  let status = 200;
+
+  const parsedUrl = new URL(req.url);
+  const reqPath = parsedUrl.pathname;
+  let contentType = getMimeType(reqPath);
+
+  const lastSegment = reqPath.substring(reqPath.lastIndexOf('/'));
   let contents = files[lastSegment];
 
   if (!contents) {
     status = 404;
+    contentType = 'text/plain';
     contents = `${lastSegment} not found`;
   }
 

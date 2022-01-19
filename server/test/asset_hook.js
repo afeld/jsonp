@@ -11,3 +11,4 @@ const resolveTextFile = function (module, path) {
 
 Module._extensions['.html'] = resolveTextFile;
 Module._extensions['.css'] = resolveTextFile;
+Module._extensions['.svg'] = resolveTextFile;
