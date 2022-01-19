@@ -9,19 +9,6 @@ import html from './public/index.html';
 import css from './public/app.css';
 import svg from './public/forkme.svg';
 
-// only use these in the block below
-import fs from 'fs';
-import path from 'path';
-
-// can only use loaders when building with webpack, so fall back to normal file reading for tests
-if (!process.env.WEBPACK) {
-  // eslint-disable-next-line no-global-assign
-  require = (srcPath) => {
-    const srcAbsPath = path.resolve(__dirname, srcPath);
-    return fs.readFileSync(srcAbsPath, 'utf8');
-  };
-}
-
 const files = {
   '/': html,
   '/app.css': css,
