@@ -7,32 +7,50 @@ describe('jsonproxy', function () {
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
-    sandbox = sinon.createSandbox();
+    sandbox = sinon.createSandbox(),
+    server;
   /* eslint-enable no-unused-vars */
+
+  before(function () {
+    server = sinon.fakeServer.create();
+  });
 
   afterEach(function () {
     sandbox.restore();
   });
 
-  function sharedTests() {
-    // TODO fix
-    // it('should do standard ajax for relative domains', function (done) {
-    //   $.jsonp({
-    //     url: packagePath,
+  after(function () {
+    server.restore();
+  });
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(packagePath);
-    //     },
-    //   }).done(function (data) {
-    //     expect(data.name).to.equal('jsonp');
-    //     done();
-    //   });
-    // });
-    //
-    // it('should do standard ajax for the same domain', function (done) {
+  function sharedTests() {
+    it('should do standard ajax for relative domains', function () {
+      server.respondWith('GET', packagePath, [
+        200,
+        { 'Content-Type': 'application/json' },
+        '{ "name": "jsonp" }',
+      ]);
+
+      const response = $.jsonp({
+        url: packagePath,
+
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(packagePath);
+        },
+      }).done(function (data) {
+        expect(data.name).to.equal('jsonp');
+      });
+
+      server.respond();
+
+      return response;
+    });
+
+    // TODO fix
+    // it('should do standard ajax for the same domain', function () {
     //   var url = origin + packagePath;
 
-    //   $.jsonp({
+    //   return $.jsonp({
     //     url: url,
 
     //     beforeSend: function (_, settings) {
@@ -40,7 +58,6 @@ describe('jsonproxy', function () {
     //     },
     //   }).done(function (data) {
     //     expect(data.name).to.equal('jsonp');
-    //     done();
     //   });
     // });
 
