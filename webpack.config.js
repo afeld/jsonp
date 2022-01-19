@@ -16,7 +16,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(css|html)$/,
+        test: /\.(css|html|svg)$/,
         type: 'asset/source',
       },
     ],
