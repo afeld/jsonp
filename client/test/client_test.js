@@ -1,15 +1,12 @@
 /* eslint-env mocha */
 /*global $, sinon, expect */
 describe('jsonproxy', function () {
-  // TODO remove
-  /* eslint-disable no-unused-vars */
   var loc = window.location,
     origin = loc.origin || loc.protocol + '//' + loc.host,
     proxy = 'https://jsonp.afeld.me/',
     packagePath = loc.pathname.replace(/test.html/, 'package.json'),
     sandbox = sinon.createSandbox(),
     server;
-  /* eslint-enable no-unused-vars */
 
   before(function () {
     server = sinon.fakeServer.create();
@@ -46,20 +43,29 @@ describe('jsonproxy', function () {
       return response;
     });
 
-    // TODO fix
-    // it('should do standard ajax for the same domain', function () {
-    //   var url = origin + packagePath;
+    it('should do standard ajax for the same domain', function () {
+      var url = origin + packagePath;
 
-    //   return $.jsonp({
-    //     url: url,
+      server.respondWith('GET', packagePath, [
+        200,
+        { 'Content-Type': 'application/json' },
+        '{ "name": "jsonp" }',
+      ]);
 
-    //     beforeSend: function (_, settings) {
-    //       expect(settings.url).to.be(url);
-    //     },
-    //   }).done(function (data) {
-    //     expect(data.name).to.equal('jsonp');
-    //   });
-    // });
+      const response = $.jsonp({
+        url: url,
+
+        beforeSend: function (_, settings) {
+          expect(settings.url).to.be(url);
+        },
+      }).done(function (data) {
+        expect(data.name).to.equal('jsonp');
+      });
+
+      server.respond();
+
+      return response;
+    });
 
     it('should use the proxy for a mismatched protocol', function (done) {
       sandbox.stub($.jsonp, 'getLocation').callsFake(function () {
