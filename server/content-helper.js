@@ -4,7 +4,7 @@ import JSON3 from 'json3';
 import * as cloudflare from './cloudflare';
 import omit from 'lodash.omit';
 
-export const isValidJson = str => {
+export const isValidJson = (str) => {
   try {
     JSON3.parse(str);
   } catch (e) {
@@ -13,16 +13,7 @@ export const isValidJson = str => {
   return true;
 };
 
-// convert an object with .entries() to a plain object
-export const iteratorToObj = iterable => {
-  const result = {};
-  for (const [key, value] of iterable.entries()) {
-    result[key] = value;
-  }
-  return result;
-};
-
-export const passBackHeaders = incomingHeaders => {
+export const passBackHeaders = (incomingHeaders) => {
   // remove those that node should generate
   const resultHeaders = omit(
     incomingHeaders,
