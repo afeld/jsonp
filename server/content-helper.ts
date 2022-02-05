@@ -1,10 +1,10 @@
 'use strict';
 
 import JSON3 from 'json3';
-import * as cloudflare from './cloudflare';
+import { filterHeaders, SimpleHeaders } from './cloudflare';
 import omit from 'lodash.omit';
 
-export const isValidJson = (str) => {
+export const isValidJson = (str: string) => {
   try {
     JSON3.parse(str);
   } catch (e) {
@@ -13,7 +13,7 @@ export const isValidJson = (str) => {
   return true;
 };
 
-export const passBackHeaders = (incomingHeaders) => {
+export const passBackHeaders = (incomingHeaders: SimpleHeaders) => {
   // remove those that node should generate
   const resultHeaders = omit(
     incomingHeaders,
@@ -24,5 +24,5 @@ export const passBackHeaders = (incomingHeaders) => {
     'x-frame-options'
   );
 
-  return cloudflare.filterHeaders(resultHeaders);
+  return filterHeaders(resultHeaders);
 };

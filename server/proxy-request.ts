@@ -1,9 +1,9 @@
 'use strict';
 
 import omit from 'lodash.omit';
-import * as cloudflare from './cloudflare';
+import { filterHeaders, SimpleHeaders } from './cloudflare';
 
-const passThroughHeaders = (incomingHeaders) => {
+const passThroughHeaders = (incomingHeaders: SimpleHeaders) => {
   // remove those that node should generate
   let externalReqHeaders = omit(
     incomingHeaders,
@@ -14,19 +14,18 @@ const passThroughHeaders = (incomingHeaders) => {
     'user-agent'
   );
 
-  externalReqHeaders = cloudflare.filterHeaders(externalReqHeaders);
+  externalReqHeaders = filterHeaders(externalReqHeaders);
   externalReqHeaders.accept = 'application/json';
   externalReqHeaders.connection = 'close';
 
   return externalReqHeaders;
 };
 
-export default (url, req) => {
+export default (url: string, req: Request) => {
   // support GET or HEAD requests
   const method = req.method === 'HEAD' ? 'HEAD' : 'GET';
-  const externalReqHeaders = passThroughHeaders(
-    Object.fromEntries(req.headers)
-  );
+  const initialHeaders = Object.fromEntries(req.headers);
+  const externalReqHeaders = passThroughHeaders(initialHeaders);
 
   return fetch(url, {
     method: method,
