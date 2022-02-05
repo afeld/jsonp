@@ -1,11 +1,10 @@
 'use strict';
 
-import fetch from 'node-fetch';
 import omit from 'lodash.omit';
 import * as cloudflare from './cloudflare';
 import * as contentHelper from './content-helper';
 
-const passThroughHeaders = incomingHeaders => {
+const passThroughHeaders = (incomingHeaders) => {
   // remove those that node should generate
   let externalReqHeaders = omit(
     incomingHeaders,
@@ -32,6 +31,6 @@ export default (url, req) => {
 
   return fetch(url, {
     method: method,
-    headers: externalReqHeaders
+    headers: externalReqHeaders,
   });
 };
