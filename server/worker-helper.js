@@ -35,9 +35,9 @@ const proxyReq = async (req) => {
   });
 
   const reqUrl = new URL(req.url);
-  const query = contentHelper.iteratorToObj(reqUrl.searchParams);
+  const query = Object.fromEntries(reqUrl.searchParams);
   const resHeaders = new Headers(
-    contentHelper.passBackHeaders(contentHelper.iteratorToObj(proxyRes.headers))
+    contentHelper.passBackHeaders(Object.fromEntries(proxyRes.headers))
   );
   let body = await proxyRes.text();
   if (jsonp.isJsonP(query)) {
