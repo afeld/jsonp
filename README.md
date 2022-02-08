@@ -1,3 +1,7 @@
+***The hosting for jsonp.afeld.me became too expensive to pay out of pocket, so I have decided to shut this down. Glad so many people found it useful over the years!***
+
+---
+
 # JSONProxy [![Tests](https://github.com/afeld/jsonp/actions/workflows/main.yml/badge.svg)](https://github.com/afeld/jsonp/actions/workflows/main.yml)
 
 HTTP proxy that enables cross-domain requests to any JSON API. See https://jsonp.afeld.me for documentation. See the [releases](https://github.com/afeld/jsonp/releases) page for the [client library](client/jsonp.js) changelog.
